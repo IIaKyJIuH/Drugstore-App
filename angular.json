@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "LulKek": {
+    "Drugstore-App": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/LulKek",
+            "outputPath": "dist/Drugstore-App",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -58,18 +58,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "LulKek:build"
+            "browserTarget": "Drugstore-App:build"
       ***REMOVED*****REMOVED*****REMOVED***
           "configurations": {
             "production": {
-              "browserTarget": "LulKek:build:production"
+              "browserTarget": "Drugstore-App:build:production"
             }
           }
     ***REMOVED*****REMOVED*****REMOVED***
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "LulKek:build"
+            "browserTarget": "Drugstore-App:build"
           }
     ***REMOVED*****REMOVED*****REMOVED***
         "test": {
@@ -106,15 +106,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "LulKek:serve"
+            "devServerTarget": "Drugstore-App:serve"
       ***REMOVED*****REMOVED*****REMOVED***
           "configurations": {
             "production": {
-              "devServerTarget": "LulKek:serve:production"
+              "devServerTarget": "Drugstore-App:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "LulKek"
+  "defaultProject": "Drugstore-App"
 }
