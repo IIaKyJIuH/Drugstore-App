@@ -1,0 +1,20 @@
+***REMOVED*** You can add global styles to this file, and also import other style files***REMOVED***/
+
+@import '@angular/material/prebuilt-themes/purple-green.css';
+
+html {
+    color: #f2f2f2;
+    font-size: 18px;
+}
+
+a {
+    color: #FDEE39
+}
+
+body {
+    background: url("./assets/trooper-backgr.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}

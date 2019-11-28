@@ -13,7 +13,7 @@ exports.config = {
     './src***REMOVED*******REMOVED***.e2e-spec.ts'
   ],
   capabilities: {
-    browserName: 'chrome'
+    'browserName': 'chrome'
 ***REMOVED***
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
