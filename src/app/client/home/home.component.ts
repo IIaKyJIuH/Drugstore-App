@@ -10,9 +10,9 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Project title.
- ***REMOVED*****REMOVED***/
-  public title = 'Angular Star Wars project';
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Project title.
+  ***REMOVED***/
+  public title = 'MDS';
 
 }

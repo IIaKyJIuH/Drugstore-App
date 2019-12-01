@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-
-import { AuthenticationService } from '../services/authentication/auth.service';
+import { AuthenticationService } from '../services/authentication/authentication.service';
 
 ***REMOVED****
 ***REMOVED*** Guard for typical user.
@@ -20,7 +19,7 @@ export class AuthGuard implements CanActivate {
  ***REMOVED*****REMOVED*** Implemented method
  ***REMOVED*****REMOVED***/
   public canActivate(): boolean {
-    if (this.authService.isLoggedIn()) {
+    if (this.authService.isAuthenticated()) {
       return true;
     }
     this.router.navigate(['/home']);

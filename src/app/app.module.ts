@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { MatSidenavModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientModule } from './client/client.module';
@@ -20,6 +24,10 @@ import { SharedModule } from './shared/shared.module';
       ClientModule,
       SharedModule,
       AppRoutingModule,
+      AngularFireModule.initializeApp(environment.firebase, 'Drugstore-App'),
+      AngularFireAuthModule,
+      AngularFireDatabaseModule,
+      MatSidenavModule,
    ],
    bootstrap: [AppComponent],
 })

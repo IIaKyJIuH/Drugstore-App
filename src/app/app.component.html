@@ -1,8 +1,12 @@
-<div>
-    <nav class="top-menu">
-      <a class="route" routerLink="/home"> Main page </a>
-      <a class="route" routerLink="/login"> Login </a>
-      <a class="route" routerLink="/admin" (click)="toggleAdminStatus()">Admin</a>
-    </nav>
-    <router-outlet></router-outlet>
-</div>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav role="navigation">
+      <app-sidenav-list (sidenavClose)="sidenav.close()"></app-sidenav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+      <app-header></app-header>
+      <main>
+        <router-outlet></router-outlet>
+      </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
