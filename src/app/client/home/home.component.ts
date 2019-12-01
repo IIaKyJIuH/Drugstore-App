@@ -13,6 +13,6 @@ export class HomeComponent {
   /**
    * Project title.
    */
-  public title = 'Angular Star Wars project';
+  public title = 'MDS';
 
 }

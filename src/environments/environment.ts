@@ -5,23 +5,15 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyDeTMW8OEatIfvUd2t9cLuNhqZd0XOof0o',
-    authDomain: 'proj-0-8c535.firebaseapp.com',
-    databaseURL: 'https://proj-0-8c535.firebaseio.com',
-    projectId: 'proj-0-8c535',
-    storageBucket: '',
-    messagingSenderId: '723491458215',
-    appId: '1:723491458215:web:1d08848d53c81a57',
+    apiKey: "AIzaSyDVJLAGu4ZChpo2nGe0EyVt74kOzxJ7OIA",
+    authDomain: "drugstore-70dae.firebaseapp.com",
+    databaseURL: "https://drugstore-70dae.firebaseio.com",
+    projectId: "drugstore-70dae",
+    storageBucket: "drugstore-70dae.appspot.com",
+    messagingSenderId: "679915126167",
+    appId: "1:679915126167:web:9277d374efe7bad18518d2",
+    measurementId: "G-GX39KW8Q0V"
   },
-  /**
-   * API URL.
-   */
-  API_URL: 'https://www.googleapis.com/identitytoolkit/v3/relyingparty',
-
-  /**
-   * Url for refreshing secure token and thus the access token.
-   */
-  REFRESH_SECURE_TOKEN_URL: 'https://securetoken.googleapis.com/v1/token',
 };
 
 /*

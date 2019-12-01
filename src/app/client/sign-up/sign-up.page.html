@@ -1,0 +1,22 @@
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit(registrationForm.value)">
+  <div text-center>
+    <h3>Create your account!</h3>
+  </div>
+  <div padding>
+    <p>
+      <label [ngStyle]="{ color: formControls.email.errors && formControls.email.dirty ? 'red' : 'pink' }" floating> Email </label>
+      <input type="email" placeholder="your@email.com" formControlName="email" />
+    </p>
+    <p>
+      <label [ngStyle]="{ color: formControls.password.errors && formControls.password.dirty ? 'red' : 'pink' }" floating> Password </label>
+      <input type="password" placeholder="♥♥♥♥♥♥" formControlName="password" />
+    </p>
+    <p>
+      <label [ngStyle]="{ color: formControls.confirmPassword.errors && formControls.confirmPassword.dirty ? 'red' : 'pink' }" floating> Password again </label>
+      <input name="confirm" type="password" placeholder="♥♥♥♥♥♥" formControlName="confirmPassword" />
+    </p>
+  </div>
+  <div padding>
+    <button  size="large" type="submit" [disabled]="registrationForm.invalid" expand="block">Sign-up</button>
+  </div>
+</form>

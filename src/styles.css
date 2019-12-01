@@ -2,19 +2,20 @@
 
 @import '@angular/material/prebuilt-themes/purple-green.css';
 
+html, body { 
+    margin: 0;
+    height: 100%;
+}
+
 html {
     color: #f2f2f2;
     font-size: 18px;
 }
 
 a {
-    color: #FDEE39
+    color: black;
 }
 
 body {
-    background: url("./assets/trooper-backgr.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    background: rgb(212, 123, 91);
 }

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthenticationService } from './core/services/authentication/authentication.service';
 
 /**
  * Main Angular component.
@@ -9,7 +11,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor() {
+  constructor(
+    private fbAuth: AngularFireAuth,
+    private authService: AuthenticationService,
+  ) {
     localStorage.setItem('isAdmin', 'false');
   }
 
@@ -17,6 +22,7 @@ export class AppComponent {
    * For toggling admin status. WILL BE FIXED LATER.
    */
   public toggleAdminStatus(): void {
+    // this.fbAuth.this.authService.USER_UID
     const toggling = localStorage.getItem('isAdmin') === 'false' ? true : false;
     localStorage.setItem('isAdmin', toggling.toString());
   }
