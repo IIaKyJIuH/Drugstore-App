@@ -21,6 +21,12 @@ export class SignUpComponent {
  ***REMOVED*****REMOVED***/
   public registrationForm: FormGroup;
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** .ctor
+ ***REMOVED*****REMOVED*** @param authService - for authentication purposes.
+ ***REMOVED*****REMOVED*** @param formBuilder - includes form data.
+ ***REMOVED*****REMOVED*** @param router - responsible for redirecting user.
+ ***REMOVED*****REMOVED***/
   constructor(
     private authService: AuthenticationService,
     private formBuilder: FormBuilder,

@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
+***REMOVED****
+***REMOVED*** Side navigation for mobile phones.
+***REMOVED***/
 @Component({
   selector: 'app-sidenav-list',
   templateUrl: './sidenav-list.component.html',
@@ -7,11 +10,20 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SidenavListComponent {
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For emmiting close action of the sidenav.
+  ***REMOVED***/
   @Output() sidenavClose = new EventEmitter();
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED***/
   constructor() { }
 
-  public onSidenavClose = () => {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Emits sidenav close action.
+  ***REMOVED***/
+  public onSidenavClose(): void {
     this.sidenavClose.emit();
   }
 
