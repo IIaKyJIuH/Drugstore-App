@@ -34,7 +34,7 @@ export class AuthenticationService {
 ***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** Signs in user with inputed email and password.
  ***REMOVED*****REMOVED*** @param user - interface that includes user email and password.
- ***REMOVED*****REMOVED*** @returns observable user object.
+ ***REMOVED*****REMOVED*** @returns firebase response user data flow.
  ***REMOVED*****REMOVED***/
   public signIn(user: CredentialsModel): Observable<UserCredential> {
     return from(this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)).pipe(
@@ -45,8 +45,9 @@ export class AuthenticationService {
   }
 
 ***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Registrates user in firebase.
+ ***REMOVED*****REMOVED*** Registrates user in firebase and signs him in.
  ***REMOVED*****REMOVED*** @param user - email + password.
+ ***REMOVED*****REMOVED*** @return firebase response user data flow.
  ***REMOVED*****REMOVED***/
   public signUp(user: CredentialsModel): Observable<UserCredential> {
     return from(this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)).pipe(
@@ -56,6 +57,10 @@ export class AuthenticationService {
       );
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** For setting user data to local storage.
+ ***REMOVED*****REMOVED*** @param userData - user data from firebase response.
+ ***REMOVED*****REMOVED***/
   private setUserData(userData: UserCredential): void {
     const UID = userData.user.uid;
     localStorage.setItem(this.USER_EMAIL, userData.user.email);
@@ -79,6 +84,9 @@ export class AuthenticationService {
     );
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** For deleting local storage states.
+ ***REMOVED*****REMOVED***/
   private deleteUserData(): void {
     localStorage.removeItem(this.USER_EMAIL);
     localStorage.removeItem(this.USER_ROLE);
