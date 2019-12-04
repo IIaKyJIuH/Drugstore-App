@@ -1,6 +1,6 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
   <div text-center>
-      <h3>Sign-in to your account</h3>
+    <h3>Sign-in to your account</h3>
   </div>
   <div padding>
     <p>
@@ -9,10 +9,12 @@
     </p>
     <p>
       <label [ngStyle]="{ color: formControls.password.errors && formControls.password.dirty ? 'red' : 'pink' }" floating> Password </label>
-      <input type="password" placeholder="♥♥♥♥♥♥" formControlName="password" />
+      <input type="password" placeholder="password" formControlName="password" />
     </p>
   </div>
-  <div padding>
-    <button  size="large" type="submit" [disabled]="loginForm.invalid" expand="block">Sign-in</button>
+  <div padding fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
+    <button mat-raised-button size="large" type="submit" [disabled]="loginForm.invalid" expand="block">Sign-in</button>
+    <span>OR</span>
+    <button mat-raised-button size="large" color="warn" type="button" [disabled]="loginForm.invalid" expand="block" (click)="goToSignUpComponent()">Sign-up</button>
   </div>
 </form>

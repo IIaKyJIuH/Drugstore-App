@@ -1,30 +1,13 @@
-.top-menu {
-    background-color: rgb(230, 224, 255);
-    overflow: hidden;
+mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+    height: 100%;
 }
-
-.top-menu .route {
-    font-weight: bold;
-    float: left;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 24px;
-}
-
-.top-menu .route:hover {
-    background-color: #ddd;
-    color: black;
-}
-  
-.top-menu .route:active {
-    background-color: #52CC66;
-    color: white;
-}
-
+ 
 mat-sidenav {
     width: 250px;
-    height: 100%;
+}
+ 
+main {
+    padding: 10px;
 }
 
 .active-link {

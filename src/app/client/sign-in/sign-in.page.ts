@@ -32,11 +32,11 @@ export class SignInComponent {
     private formBuilder: FormBuilder,
     ) {
       this.loginForm  =  this.formBuilder.group({
-        email: ['heh@mda.ru', [ Validators.compose([
+        email: ['admin123@po.chta', [ Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         ]) ] ],
-        password: ['lolkek', Validators.compose([
+        password: ['admin123', Validators.compose([
           Validators.required,
           Validators.minLength(4),
           Validators.maxLength(13),
@@ -45,13 +45,23 @@ export class SignInComponent {
     }
 
   /**
-   * Async user login + if successful then redirect him to scanner page.
+   * Async user login + if successful then redirect to main.
    * @param formValues - user email + password.
    */
   public onSubmit(formValues: CredentialsModel): void {
     this.auth
       .signIn(formValues).pipe(take(1))
-      .subscribe(() => this.router.navigate(['/tabs']));
+      .subscribe(
+        () => this.router.navigate(['/main']),
+        (console.error)
+      );
+  }
+
+  /**
+   * Go to sign-up component.
+   */
+  goToSignUpComponent(): void {
+    this.router.navigate(['/sign-up']);
   }
 
   /**

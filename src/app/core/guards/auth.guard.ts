@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication/authentication.service';
 
 /**
@@ -19,11 +20,17 @@ export class AuthGuard implements CanActivate {
    * Implemented method
    */
   public canActivate(): boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
-    }
-    this.router.navigate(['/home']);
-    alert('Firstly you need to login as firebase user');
-    return false;
+    let isAuthenticated = false;
+    this.authService.isAuthenticated().pipe(take(1)).subscribe(
+      (authState: boolean) => {
+        if (authState) {
+          isAuthenticated = true;
+        } else {
+          this.router.navigate(['/home']);
+          alert('Firstly you need to login as firebase user');
+        }    
+      }
+    );
+    return isAuthenticated;
   }
 }

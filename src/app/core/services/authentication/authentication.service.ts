@@ -16,7 +16,7 @@ export class AuthenticationService {
   /**
    * For getting the local storage state of authorized user.
    */
-  public readonly USER_UID = 'userUID';
+  public readonly USER_EMAIL = 'userEmail';
 
   /**
    * .сtor
@@ -33,8 +33,34 @@ export class AuthenticationService {
    */
   public signIn(user: CredentialsModel): Observable<UserCredential> {
     return from(this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)).pipe(
-      tap(userData => localStorage.setItem(this.USER_UID, userData.user.uid)),
+      tap(userData => {
+        this.setUserData(userData);
+      }),
     );
+  }
+
+  /**
+   * Registrates user in firebase.
+   * @param user - email + password.
+   */
+  public signUp(user: CredentialsModel): Observable<UserCredential> {
+    return from(this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)).pipe(
+      tap(userData => {
+        this.setUserData(userData);
+      })
+      );
+  }
+
+  private setUserData(userData: UserCredential): void {
+    const UID = userData.user.uid;
+    localStorage.setItem(this.USER_EMAIL, userData.user.email);
+    if (UID === 'boVXL3ic7bgn2mRWk1mSu5QpUFN2') {
+      localStorage.setItem('ROLE', 'ADMIN');
+    } else if (UID === 'AIcnJji6nRP1sS7iOrErZe8LbPe2') {
+      localStorage.setItem('ROLE', 'STAFF');
+    } else {
+      localStorage.setItem('ROLE', 'USER');
+    }
   }
 
   /**
@@ -42,8 +68,15 @@ export class AuthenticationService {
    */
   public signOut(): Observable<void> {
     return from(this.afAuth.auth.signOut()).pipe(
-      tap(() => localStorage.removeItem(this.USER_UID)),
+      tap(() => {
+        this.deleteUserData();
+      }),
     );
+  }
+
+  private deleteUserData(): void {
+    localStorage.removeItem(this.USER_EMAIL);
+    localStorage.removeItem('ROLE');
   }
 
   /**
@@ -51,7 +84,7 @@ export class AuthenticationService {
    * @returns if the currentUser !== null - true, else - false.
    */
   public isAuthenticated(): Observable<boolean> {
-    return of(localStorage.getItem(this.USER_UID) !== null);
+    return of(localStorage.getItem(this.USER_EMAIL) !== null);
   }
 
 }

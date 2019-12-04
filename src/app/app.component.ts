@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { AuthenticationService } from './core/services/authentication/authentication.service';
 
 /**
@@ -10,20 +11,33 @@ import { AuthenticationService } from './core/services/authentication/authentica
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+
+  
   constructor(
     private fbAuth: AngularFireAuth,
     private authService: AuthenticationService,
+    private ngxPermissionsService: NgxPermissionsService,
+    private ngxRolesService: NgxRolesService,
   ) {
     localStorage.setItem('isAdmin', 'false');
   }
 
-  /**
-   * For toggling admin status. WILL BE FIXED LATER.
-   */
-  public toggleAdminStatus(): void {
-    // this.fbAuth.this.authService.USER_UID
-    const toggling = localStorage.getItem('isAdmin') === 'false' ? true : false;
-    localStorage.setItem('isAdmin', toggling.toString());
+  ngOnInit(): void {
+    const permissions = ['watchStaffList', 'watchMedicines', 'watchArchive', 'watchClientQueries', 'bookMedicines'];
+    this.ngxPermissionsService.loadPermissions(permissions);
+    this.ngxRolesService.addRoles({
+      'ADMIN': permissions,
+      'STAFF': [
+        'watchMedicines',
+        'watchArchive',
+        'watchClientQueries'
+      ],
+      'USER': [
+        'watchMedicines',
+        'bookMedicines'
+      ]
+    });
   }
 }
