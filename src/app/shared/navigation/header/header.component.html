@@ -1,20 +1,27 @@
 <mat-toolbar color="primary">
     <div fxHide.gt-xs>
         <button mat-icon-button (click)="onToggleSidenav()">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+            <mat-icon>menu</mat-icon>
         </button>
     </div>
     <div>
-        <a routerLink="/home">Owner-Account</a>
+        <a routerLink="home" routerLinkActive="active">Home</a>
     </div>
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
         <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-            <li>
-                <a routerLink="/sign-in">Sign-In</a>
-            </li>
-            <li>
-                <a routerLink="/account">Account Actions</a>
-            </li>
+            <ng-container***REMOVED***ngIf="isAuthenticated() | async; else signIn">
+                <li>
+                    <span class="currentUser">{{ currentUser() }}</span>
+                </li>
+                <li>
+                    <a role="button" (click)="signOut()">Sign-out</a>
+                </li>
+            </ng-container>
+            <ng-template #signIn>
+                <li>
+                    <a routerLink="sign-in" routerLinkActive="active">Sign-In</a>
+                </li>
+            </ng-template>
         </ul>
     </div>
 </mat-toolbar>

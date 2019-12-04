@@ -1,4 +1,10 @@
 form {
     display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
     height: 100%;
+}
+
+mat-form-field {
+    text-align: center;
 }

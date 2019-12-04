@@ -1,0 +1,7 @@
+<ng-template [ngxPermissionsOnly]="['ADMIN']">
+    <div>Haha admin loh</div>
+</ng-template>
+
+<ng-template [ngxPermissionsExcept]="['ADMIN']">
+    <div>Haha you are normal guy</div>
+</ng-template>

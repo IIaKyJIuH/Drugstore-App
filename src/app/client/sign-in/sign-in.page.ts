@@ -32,11 +32,11 @@ export class SignInComponent {
     private formBuilder: FormBuilder,
     ) {
       this.loginForm  =  this.formBuilder.group({
-        email: ['heh@mda.ru', [ Validators.compose([
+        email: ['admin123@po.chta', [ Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         ]) ] ],
-        password: ['lolkek', Validators.compose([
+        password: ['admin123', Validators.compose([
           Validators.required,
           Validators.minLength(4),
           Validators.maxLength(13),
@@ -45,13 +45,23 @@ export class SignInComponent {
     }
 
 ***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Async user login + if successful then redirect him to scanner page.
+ ***REMOVED*****REMOVED*** Async user login + if successful then redirect to main.
  ***REMOVED*****REMOVED*** @param formValues - user email + password.
  ***REMOVED*****REMOVED***/
   public onSubmit(formValues: CredentialsModel): void {
     this.auth
       .signIn(formValues).pipe(take(1))
-      .subscribe(() => this.router.navigate(['/tabs']));
+      .subscribe(
+        () => this.router.navigate(['/main']),
+        (console.error)
+      );
+  }
+
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Go to sign-up component.
+ ***REMOVED*****REMOVED***/
+  goToSignUpComponent(): void {
+    this.router.navigate(['/sign-up']);
   }
 
 ***REMOVED*****REMOVED*****REMOVED****
