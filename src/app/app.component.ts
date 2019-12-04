@@ -13,16 +13,12 @@ import { AuthenticationService } from './core/services/authentication/authentica
 })
 export class AppComponent implements OnInit {
 
-
-  
   constructor(
     private fbAuth: AngularFireAuth,
     private authService: AuthenticationService,
     private ngxPermissionsService: NgxPermissionsService,
     private ngxRolesService: NgxRolesService,
-  ) {
-    localStorage.setItem('isAdmin', 'false');
-  }
+  ) {}
 
   ngOnInit(): void {
     const permissions = ['watchStaffList', 'watchMedicines', 'watchArchive', 'watchClientQueries', 'bookMedicines'];

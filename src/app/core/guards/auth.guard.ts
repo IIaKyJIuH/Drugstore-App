@@ -4,13 +4,18 @@ import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication/authentication.service';
 
 /**
- * Guard for typical user.
+ * Guard for user routing through app.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
 
+  /**
+   * .ctor
+   * @param authService - for checking auth status.
+   * @param router - responsible for redirecting user.
+   */
   public constructor(
     private authService: AuthenticationService,
     private router: Router,

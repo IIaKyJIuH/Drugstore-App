@@ -21,6 +21,12 @@ export class SignUpComponent {
    */
   public registrationForm: FormGroup;
 
+  /**
+   * .ctor
+   * @param authService - for authentication purposes.
+   * @param formBuilder - includes form data.
+   * @param router - responsible for redirecting user.
+   */
   constructor(
     private authService: AuthenticationService,
     private formBuilder: FormBuilder,

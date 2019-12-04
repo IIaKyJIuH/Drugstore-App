@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 
+/**
+ * Header for tablets and desktops.
+ */
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -11,17 +14,31 @@ import { AuthenticationService } from 'src/app/core/services/authentication/auth
 })
 export class HeaderComponent {
 
-  @Output() public sidenavToggle = new EventEmitter();
+  /**
+   * For opening sidenav-list component according to the window list.
+   */
+  @Output() public sidenavOpen = new EventEmitter();
 
+  /**
+   * .ctor
+   * @param authService - for authentication purposes. 
+   * @param router - responsible for redirecting user.
+   */
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-  ) { }
+  ) {}
 
-  public onToggleSidenav = () => {
-    this.sidenavToggle.emit();
+  /**
+   * Emits sidenav component opener.
+   */
+  public onSidenavOpen(): void {
+    this.sidenavOpen.emit();
   }
 
+  /**
+   * For reactive sign out of the user.
+   */
   public signOut(): void {
     this.authService.signOut().pipe(take(1)).subscribe(
       () => {
@@ -30,10 +47,18 @@ export class HeaderComponent {
     );
   }
 
-  public currentUser(): string {
+  /**
+   * For getting current email.
+   * @return authorized user email.
+   */
+  public getCurrentUserEmail(): string {
     return localStorage.getItem(this.authService.USER_EMAIL);
   }
 
+  /**
+   * Checks if the user has signed in already.
+   * @return auth state flow.
+   */
   public isAuthenticated(): Observable<boolean> {
     return this.authService.isAuthenticated();
   }

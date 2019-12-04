@@ -52,8 +52,7 @@ export class SignInComponent {
     this.auth
       .signIn(formValues).pipe(take(1))
       .subscribe(
-        () => this.router.navigate(['/main']),
-        (console.error)
+        () => this.router.navigate(['/main'])
       );
   }
 

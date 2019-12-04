@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
     <div fxHide.gt-xs>
-        <button mat-icon-button (click)="onToggleSidenav()">
+        <button mat-icon-button (click)="onSidenavOpen()">
             <mat-icon>menu</mat-icon>
         </button>
     </div>
@@ -11,7 +11,7 @@
         <ul fxLayout fxLayoutGap="15px" class="navigation-items">
             <ng-container *ngIf="isAuthenticated() | async; else signIn">
                 <li>
-                    <span class="currentUser">{{ currentUser() }}</span>
+                    <span class="currentUser">{{ getCurrentUserEmail() }}</span>
                 </li>
                 <li>
                     <a role="button" (click)="signOut()">Sign-out</a>
