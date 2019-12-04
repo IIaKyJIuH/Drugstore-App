@@ -34,7 +34,7 @@ export class AuthenticationService {
   /**
    * Signs in user with inputed email and password.
    * @param user - interface that includes user email and password.
-   * @returns observable user object.
+   * @returns firebase response user data flow.
    */
   public signIn(user: CredentialsModel): Observable<UserCredential> {
     return from(this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)).pipe(
@@ -45,8 +45,9 @@ export class AuthenticationService {
   }
 
   /**
-   * Registrates user in firebase.
+   * Registrates user in firebase and signs him in.
    * @param user - email + password.
+   * @return firebase response user data flow.
    */
   public signUp(user: CredentialsModel): Observable<UserCredential> {
     return from(this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)).pipe(
@@ -56,6 +57,10 @@ export class AuthenticationService {
       );
   }
 
+  /**
+   * For setting user data to local storage.
+   * @param userData - user data from firebase response.
+   */
   private setUserData(userData: UserCredential): void {
     const UID = userData.user.uid;
     localStorage.setItem(this.USER_EMAIL, userData.user.email);
@@ -79,6 +84,9 @@ export class AuthenticationService {
     );
   }
 
+  /**
+   * For deleting local storage states.
+   */
   private deleteUserData(): void {
     localStorage.removeItem(this.USER_EMAIL);
     localStorage.removeItem(this.USER_ROLE);
