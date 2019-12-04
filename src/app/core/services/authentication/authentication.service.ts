@@ -14,9 +14,14 @@ import { CredentialsModel } from '../models/credentials-model';
 export class AuthenticationService {
 
 ***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** For getting the local storage state of authorized user.
+ ***REMOVED*****REMOVED*** For getting the local storage state of authorized user email.
  ***REMOVED*****REMOVED***/
   public readonly USER_EMAIL = 'userEmail';
+
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** For getting the locacl storage state of authorized user role.
+ ***REMOVED*****REMOVED***/
+  public readonly USER_ROLE;
 
 ***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** .сtor
@@ -55,11 +60,11 @@ export class AuthenticationService {
     const UID = userData.user.uid;
     localStorage.setItem(this.USER_EMAIL, userData.user.email);
     if (UID === 'boVXL3ic7bgn2mRWk1mSu5QpUFN2') {
-      localStorage.setItem('ROLE', 'ADMIN');
+      localStorage.setItem(this.USER_ROLE, 'ADMIN');
     } else if (UID === 'AIcnJji6nRP1sS7iOrErZe8LbPe2') {
-      localStorage.setItem('ROLE', 'STAFF');
+      localStorage.setItem(this.USER_ROLE, 'STAFF');
     } else {
-      localStorage.setItem('ROLE', 'USER');
+      localStorage.setItem(this.USER_ROLE, 'USER');
     }
   }
 
@@ -76,7 +81,7 @@ export class AuthenticationService {
 
   private deleteUserData(): void {
     localStorage.removeItem(this.USER_EMAIL);
-    localStorage.removeItem('ROLE');
+    localStorage.removeItem(this.USER_ROLE);
   }
 
 ***REMOVED*****REMOVED*****REMOVED****
