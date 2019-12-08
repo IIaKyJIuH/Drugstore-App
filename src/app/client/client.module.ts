@@ -1,15 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material';
-import { RouterModule } from '@angular/router';
-import { NgxPermissionsModule } from 'ngx-permissions';
-import { MaterialModule } from '../material.module';
+import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
-import { SignInComponent } from './sign-in/sign-in.page';
-import { SignUpComponent } from './sign-up/sign-up.page';
+import { UserFormComponent } from './user-form/user-form';
 import { WrongPathComponent } from './wrong-path/wrong-path.component';
 
 
@@ -19,20 +13,14 @@ import { WrongPathComponent } from './wrong-path/wrong-path.component';
 @NgModule({
   declarations: [
     HomeComponent,
-    SignInComponent,
-    SignUpComponent,
+    UserFormComponent,
     WrongPathComponent,
     MainComponent,
   ],
   imports: [
-    CommonModule,
-    MatButtonModule,
+    SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
-    FlexLayoutModule,
-    MaterialModule,
-    NgxPermissionsModule.forChild(),
   ],
 })
 export class ClientModule { }

@@ -1,0 +1,11 @@
+h3 {
+    margin-bottom: 30px;
+}
+
+mat-form-field {
+    text-align: center;
+}
+
+div:last-child {
+    margin-top: 30px;
+}

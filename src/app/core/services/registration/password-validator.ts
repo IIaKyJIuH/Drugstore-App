@@ -12,7 +12,7 @@ export class PasswordValidator {
   public static areEqual(group: FormGroup): {[key: string]: boolean} {
     const password = group.value.password;
     const confirmPassword = group.value.confirmPassword;
-    if (!password || !confirmPassword) { return { nomatch: true }; }
+    if (confirmPassword === '' || password === '') { return null; }
     return password.localeCompare(confirmPassword) === 0
       ? null
       : { nomatch: true };
