@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientModule } from './client/client.module';
 import { CoreModule } from './core/core.module';
-import { MaterialModule } from './material.module';
 import { SharedModule } from './shared/shared.module';
 
 ***REMOVED****
@@ -29,7 +28,6 @@ import { SharedModule } from './shared/shared.module';
       AngularFireModule.initializeApp(environment.firebase, 'Drugstore-App'),
       AngularFireAuthModule,
       AngularFireDatabaseModule,
-      MaterialModule,
       NgxPermissionsModule.forRoot(),
       ToastrModule.forRoot()
    ],
