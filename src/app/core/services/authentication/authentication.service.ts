@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UserCredential } from '@firebase/auth-types';
-import { NgxRolesService } from 'ngx-permissions';
+import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { from, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CredentialsModel } from '../models/credentials-model';
@@ -30,6 +30,7 @@ export class AuthenticationService {
    */
   constructor(
     private afAuth: AngularFireAuth,
+    private ngxPermissions: NgxPermissionsService,
     private ngxRoles: NgxRolesService,
   ) { }
 
@@ -65,16 +66,18 @@ export class AuthenticationService {
    */
   private setUserData(userData: UserCredential): void {
     const UID = userData.user.uid;
+    const permissions = ['watchStaffList', 'editStaffList', 'watchMedicines', 'bookMedicines', 'editMedicines', 'watchArchive', 'editArchive', 'doClientQueries', 'watchEmailList', 'editEmailList'];
+    this.ngxPermissions.loadPermissions(permissions);
     localStorage.setItem(this.USER_EMAIL, userData.user.email);
     if (UID === 'boVXL3ic7bgn2mRWk1mSu5QpUFN2') {
       localStorage.setItem(this.USER_ROLE, 'ADMIN');
+      this.ngxRoles.addRole('ADMIN', permissions);
     } else if (UID === 'AIcnJji6nRP1sS7iOrErZe8LbPe2') {
       localStorage.setItem(this.USER_ROLE, 'STAFF');
+      this.ngxRoles.addRole('STAFF', ['watchArchive', 'doClientQueries']);
     } else {
       localStorage.setItem(this.USER_ROLE, 'USER');
-      this.ngxRoles.addRole('USER', () => {
-        return true;
-      })
+      this.ngxRoles.addRole('USER', ['watchMedicines', 'bookMedicines']);
     }
   }
 
@@ -85,6 +88,7 @@ export class AuthenticationService {
     return from(this.afAuth.auth.signOut()).pipe(
       tap(() => {
         this.deleteUserData();
+        this.ngxRoles.flushRoles();
       }),
     );
   }

@@ -21,18 +21,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const permissions = ['watchStaffList', 'watchMedicines', 'watchArchive', 'watchClientQueries', 'bookMedicines', 'editEmail', 'modifyMedicines'];
-    this.ngxPermissionsService.loadPermissions(permissions);
-    this.ngxRolesService.addRoles({
-      'ADMIN': permissions,
-      'STAFF': [
-        'watchArchive',
-        'watchClientQueries'
-      ],
-      'USER': [
-        'watchMedicines',
-        'bookMedicines'
-      ]
-    });
+
   }
 }
