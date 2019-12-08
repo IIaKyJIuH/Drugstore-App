@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { ToastrModule } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ import { SharedModule } from './shared/shared.module';
       AngularFireDatabaseModule,
       MaterialModule,
       NgxPermissionsModule.forRoot(),
+      ToastrModule.forRoot()
    ],
    bootstrap: [AppComponent],
 })

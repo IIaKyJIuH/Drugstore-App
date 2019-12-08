@@ -1,0 +1,76 @@
+<form 
+[formGroup]="formData"
+(ngSubmit)="onSubmit(formData.value)"
+fxFlex
+fxLayout="column"
+fxLayoutAlign="center center"
+fxLayoutGap="20px">
+  <ng-container***REMOVED***ngIf="!isSigningUp; else signUpHeader">
+    <div text-center>
+      <h3>Sign-in to your account</h3>
+    </div>
+  </ng-container>
+  <ng-template #signUpHeader>
+    <div text-center>
+      <h3>Create your account!</h3>
+    </div>
+  </ng-template>
+
+  <div padding fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+    <mat-form-field>
+      <input
+        matInput
+        type="email" 
+        placeholder="your@email.com"
+        [ngStyle]="{ color: formControls.email.errors && formControls.email.dirty ? 'red' : 'green' }"
+        formControlName="email" />
+      <mat-error***REMOVED***ngIf="formControls.email.hasError('pattern')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error***REMOVED***ngIf="formControls.email.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="password"
+        placeholder="password"
+        [ngStyle]="{ color: formControls.password.errors && formControls.password.dirty ? 'red' : 'green' }"
+        (input)="onPasswordInput()"
+        formControlName="password" />
+      <mat-error***REMOVED***ngIf="formControls.password.hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <ng-container***REMOVED***ngIf="isSigningUp">
+      <mat-form-field>
+        <input
+          matInput 
+          name="confirm" 
+          type="password" 
+          placeholder="Confirm password"
+          [ngStyle]="{ color: formControls.confirmPassword.errors && formControls.confirmPassword.dirty ? 'red' : 'green' }"
+          (input)="onPasswordInput()"
+          formControlName="confirmPassword" />
+        <mat-error***REMOVED***ngIf="formControls.confirmPassword.errors && formControls.confirmPassword.dirty">
+          Passwords <strong>mismatch</strong>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+  </div>
+
+  <ng-container***REMOVED***ngIf="!isSigningUp; else signUp">
+    <div padding fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+      <button mat-raised-button size="large" type="submit" [disabled]="formData.invalid" expand="block">Sign-in</button>
+      <span>OR</span>
+      <button mat-raised-button size="large" color="warn" type="button" expand="block" (click)="isSigningUp = !isSigningUp">Sign-up</button>
+    </div>
+  </ng-container>
+  <ng-template #signUp>
+    <div padding fxFlex fxLayoutAlign="space-between center" fxLayoutGap="10px">
+      <button mat-raised-button size="large" type="submit" [disabled]="formData.invalid" expand="block">Sign-up</button>
+      <button mat-flat-button size="large" color="warn" (click)="switchToSignIn()"> Back to sign-in </button>
+    </div>
+  </ng-template>
+</form>

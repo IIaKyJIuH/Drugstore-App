@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UserCredential } from '@firebase/auth-types';
+import { NgxRolesService } from 'ngx-permissions';
 import { from, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CredentialsModel } from '../models/credentials-model';
@@ -21,7 +22,7 @@ export class AuthenticationService {
 ***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** For getting the locacl storage state of authorized user role.
  ***REMOVED*****REMOVED***/
-  public readonly USER_ROLE;
+  public readonly USER_ROLE = 'userRole';
 
 ***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** .сtor
@@ -29,6 +30,7 @@ export class AuthenticationService {
  ***REMOVED*****REMOVED***/
   constructor(
     private afAuth: AngularFireAuth,
+    private ngxRoles: NgxRolesService,
   ) { }
 
 ***REMOVED*****REMOVED*****REMOVED****
@@ -70,6 +72,9 @@ export class AuthenticationService {
       localStorage.setItem(this.USER_ROLE, 'STAFF');
     } else {
       localStorage.setItem(this.USER_ROLE, 'USER');
+      this.ngxRoles.addRole('USER', () => {
+        return true;
+      })
     }
   }
 
@@ -90,6 +95,13 @@ export class AuthenticationService {
   private deleteUserData(): void {
     localStorage.removeItem(this.USER_EMAIL);
     localStorage.removeItem(this.USER_ROLE);
+  }
+
+  getUserData(): string[] {
+    const list = [];
+    list['email'] = localStorage.getItem(this.USER_EMAIL);
+    list['role'] = localStorage.getItem(this.USER_ROLE);
+    return list;
   }
 
 ***REMOVED*****REMOVED*****REMOVED****

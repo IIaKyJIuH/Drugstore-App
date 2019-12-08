@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { NgxPermissionsService } from 'ngx-permissions';
+import { DataService } from 'src/app/core/services/data/data.service';
 
 ***REMOVED****
 ***REMOVED*** Main app page.
@@ -10,6 +13,16 @@ import { Component } from '@angular/core';
 })
 export class MainComponent {
 
-  constructor() { }
+  medicines$: AngularFireList<any>;
+
+  constructor(
+    private ngxPermissions: NgxPermissionsService,
+    private dataService: DataService,
+    private database: AngularFireDatabase,
+  ) { }
+
+  getAllMedicines(): void {
+    this.medicines$ = this.database.list('medicines');
+  }
 
 }

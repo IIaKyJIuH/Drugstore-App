@@ -21,12 +21,11 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const permissions = ['watchStaffList', 'watchMedicines', 'watchArchive', 'watchClientQueries', 'bookMedicines'];
+    const permissions = ['watchStaffList', 'watchMedicines', 'watchArchive', 'watchClientQueries', 'bookMedicines', 'editEmail', 'modifyMedicines'];
     this.ngxPermissionsService.loadPermissions(permissions);
     this.ngxRolesService.addRoles({
       'ADMIN': permissions,
       'STAFF': [
-        'watchMedicines',
         'watchArchive',
         'watchClientQueries'
       ],
