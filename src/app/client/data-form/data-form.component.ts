@@ -13,10 +13,10 @@ import { PasswordValidator } from 'src/app/core/services/registration/password-v
 ***REMOVED***/
 @Component({
   selector: 'app-user-form',
-  templateUrl: 'user-form.html',
-  styleUrls: ['user-form.css'],
+  templateUrl: 'data-form.component.html',
+  styleUrls: ['data-form.component.css'],
 })
-export class UserFormComponent {
+export class DataFormComponent {
 
 ***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** Form data: email + password.
