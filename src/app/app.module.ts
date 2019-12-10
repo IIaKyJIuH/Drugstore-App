@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -19,7 +18,6 @@ import { SharedModule } from './shared/shared.module';
 @NgModule({
    declarations: [AppComponent],
    imports: [
-      BrowserModule,
       BrowserAnimationsModule,
       CoreModule.forRoot(),
       ClientModule,
