@@ -5,3 +5,7 @@ table {
 mat-spinner {
     margin: auto;
 }
+
+th.mat-sort-header-sorted {
+    color: black;
+}
