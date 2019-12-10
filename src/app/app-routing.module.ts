@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DataFormComponent } from './client/data-form/data-form.component';
 import { HomeComponent } from './client/home/home.component';
 import { MainComponent } from './client/main/main.component';
-import { UserFormComponent } from './client/user-form/user-form';
 import { WrongPathComponent } from './client/wrong-path/wrong-path.component';
 import { AdminGuard } from './core/guards/admin.guard';
 import { AuthGuard } from './core/guards/auth.guard';
@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'authentication',
-    component: UserFormComponent,
+    component: DataFormComponent,
   },
   {
     path: 'main',
