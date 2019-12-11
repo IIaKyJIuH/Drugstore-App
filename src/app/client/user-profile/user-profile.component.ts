@@ -35,13 +35,11 @@ export class UserProfileComponent {
     });
     this.passwordChangeForm = this.formBuilder.group({
       password: ['', Validators.compose([
+        Validators.required,
         Validators.minLength(6),
         Validators.maxLength(12),
       ])],
-      confirmPassword: ['', Validators.compose([
-        Validators.minLength(6),
-        Validators.maxLength(12),
-      ])],
+      confirmPassword: [''],
 ***REMOVED*****REMOVED*****REMOVED*** 
     { validator: PasswordValidator.areEqual });
   }
@@ -58,6 +56,21 @@ export class UserProfileComponent {
   ***REMOVED*****REMOVED*****REMOVED***
       (err: Error) => {
         this.notifications.showError('Something went wrong', err.message);
+      }
+    );
+  }
+
+  onPasswordChangeSubmit(passwordFormValues: any): void {
+    const newPassword = passwordFormValues.password;
+    this.authService.changeUserPassword(newPassword).pipe(take(1)).subscribe(
+      () => {
+        this.notifications.showSuccess('Your password was successfully changed', 'Success');
+  ***REMOVED*****REMOVED*****REMOVED***
+      (err: Error) => {
+        this.notifications.showError('Something went wrong', err.message);
+  ***REMOVED*****REMOVED*****REMOVED***
+      () => {
+        this.passwordChangeForm.reset();
       }
     )
   }
