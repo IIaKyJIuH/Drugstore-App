@@ -94,6 +94,24 @@ export class AuthenticationService {
   }
 
   /**
+   * For changing user if he wants to.
+   */
+  changeUserEmail(newEmail: string): Observable<void> {
+    return from(this.afAuth.auth.currentUser.updateEmail(newEmail)).pipe(
+      tap(() => {
+        localStorage.setItem(this.USER_EMAIL, newEmail);
+      })
+    );
+  }
+
+  /**
+   * For changing user password after password confirmation, if he wants to.
+   */
+  changeUserPassword(newPassword: string): Observable<void> {
+    return from(this.afAuth.auth.currentUser.updatePassword(newPassword));
+  }
+
+  /**
    * For deleting local storage states.
    */
   private deleteUserData(): void {
