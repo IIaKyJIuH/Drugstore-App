@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UserCredential } from '@firebase/auth-types';
+import { auth } from 'firebase';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { from, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -58,7 +59,7 @@ export class AuthenticationService {
       tap(userData => {
         this.setUserData(userData);
       })
-      );
+    );
   }
 
   /**
@@ -110,6 +111,16 @@ export class AuthenticationService {
    */
   changeUserPassword(newPassword: string): Observable<void> {
     return from(this.afAuth.auth.currentUser.updatePassword(newPassword));
+  }
+
+  isCurrentPassword(password: string): Observable<UserCredential> {
+    const user = this.afAuth.auth.currentUser;
+    const credential = auth.EmailAuthProvider.credential(
+      this.getUserData().email,
+      password
+    );
+  
+    return from(user.reauthenticateWithCredential(credential));
   }
 
   /**

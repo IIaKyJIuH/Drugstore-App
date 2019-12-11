@@ -9,31 +9,79 @@
         </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <form
-            (ngSubmit)="onEmailChangeSubmit(emailChangeForm.value)"
-            [formGroup]="emailChangeForm">
+        <ng-template matExpansionPanelContent>
 
-            <p> Current email is <strong>{{ currentUserEmail }}</strong> </p>
+            <section fxFlex fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="20px">
 
-            <mat-form-field>
-                <input 
-                    matInput 
-                    placeholder="Email"
-                    [ngStyle]="{ color: emailChangeForm.controls.email.errors && emailChangeForm.controls.email.dirty ? 'red' : 'green' }"
-                    formControlName="email">
-                <mat-error *ngIf="emailChangeForm.controls.email.hasError('pattern')">
-                    Please enter a valid email address
-                </mat-error>
-            </mat-form-field>
+                <form
+                    (ngSubmit)="onEmailChangeSubmit(emailChangeForm.value)"
+                    [formGroup]="emailChangeForm">
 
-            
-            <button mat-raised-button size="large" type="submit" [disabled]="emailChangeForm.invalid" expand="block">Submit changing</button>
+                    <p> Current email is <strong>{{ currentUserEmail }}</strong> </p>
 
-        </form>
+                    <mat-form-field>
+                        <input 
+                            matInput 
+                            placeholder="Email"
+                            [ngStyle]="{ color: emailChangeForm.controls.email.errors && emailChangeForm.controls.email.dirty ? 'red' : 'green' }"
+                            formControlName="email">
+                        <mat-error *ngIf="emailChangeForm.controls.email.hasError('pattern')">
+                            Please enter a valid email address
+                        </mat-error>
+                    </mat-form-field>
 
-        <mat-form-field>
-            <input matInput placeholder="Age">
-        </mat-form-field>
+                    
+                    <button mat-raised-button size="large" type="submit" [disabled]="emailChangeForm.invalid" expand="block">Submit changing</button>
+
+                </form>
+
+                <mat-form-field appearance="outline">
+                    <input
+                        (focusout)="checkIfItIsCurrentPassword($event.target.value)"
+                        matInput
+                        
+                        type="password"
+                        placeholder="Current password"
+                        [ngStyle]="{ color: isCurrentPasswordRight ? 'green' : 'red' }" />
+                    <mat-hint>
+                        trust but check
+                    </mat-hint>
+                </mat-form-field>
+
+                <form
+                    (ngSubmit)="onPasswordChangeSubmit(passwordChangeForm.value)"
+                    [formGroup]="passwordChangeForm"
+                    *ngIf="isCurrentPasswordRight"
+                    fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+
+                    <mat-form-field>
+                        <input
+                            matInput 
+                            placeholder="New password"
+                            type="password"
+                            [ngStyle]="{ color: passwordControls.password.errors && passwordControls.password.dirty ? 'red' : 'green' }"
+                            formControlName="password">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <input
+                            matInput 
+                            placeholder="Confirm new password"
+                            type="password"
+                            [ngStyle]="{ color: passwordControls.confirmPassword.errors && passwordControls.confirmPassword.dirty ? 'red' : 'green' }"
+                            formControlName="confirmPassword">
+                        <mat-error *ngIf="passwordChangeForm.hasError('nomatch')">
+                            Passwords do not match
+                        </mat-error> 
+                    </mat-form-field>
+
+                    <button mat-raised-button size="large" type="submit" [disabled]="passwordChangeForm.invalid" expand="block">Change password</button>
+
+                </form>
+
+            </section>
+        </ng-template>
+
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>

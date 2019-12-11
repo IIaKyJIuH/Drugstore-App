@@ -23,6 +23,8 @@ export class UserProfileComponent {
    */
   passwordChangeForm: FormGroup;
 
+  isCurrentPasswordRight: boolean;
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
@@ -63,6 +65,28 @@ export class UserProfileComponent {
   get currentUserEmail(): string {
     return this.authService.getUserData().email;
   }
+
+  checkIfItIsCurrentPassword(password: string): void {
+    this.authService.isCurrentPassword(password).pipe(
+      take(1)
+    ).subscribe(
+      () => {
+        this.isCurrentPasswordRight = true;
+      },
+      (err) => {
+        this.notifications.showError('Ooops', 'Wrong password');
+        this.isCurrentPasswordRight = false;
+      });
+  }
+
+  onPasswordInput(): void {
+    if (this.passwordChangeForm.hasError('nomatch')) {
+      this.passwordControls.confirmPassword.setErrors([{'nomatch': true}]);
+    }
+    else {
+      this.passwordControls.confirmPassword.setErrors(null);
+    }
+}
 
   /**
    * All password controls.
