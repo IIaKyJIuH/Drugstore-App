@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { PasswordValidator } from 'src/app/core/services/registration/password-validator';
 
@@ -39,5 +39,15 @@ export class UserProfileComponent {
 ***REMOVED*****REMOVED*****REMOVED*** 
     { validator: PasswordValidator.areEqual });
    }
+
+  get currentUserEmail(): string {
+    return this.authService.getUserData().email;
+  }
+
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** All password controls.
+ ***REMOVED*****REMOVED*** @returns FormGroup.controls.
+ ***REMOVED*****REMOVED***/
+  get passwordControls(): { [key: string]: AbstractControl; } { return this.passwordChangeForm.controls; }
 
 }

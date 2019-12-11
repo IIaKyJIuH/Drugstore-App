@@ -52,7 +52,7 @@ export class HeaderComponent {
  ***REMOVED*****REMOVED*** @return authorized user email.
  ***REMOVED*****REMOVED***/
   get currentUserEmail(): string {
-    return this.authService.getUserData()['email'];
+    return this.authService.getUserData().email;
   }
 
 ***REMOVED*****REMOVED*****REMOVED****
