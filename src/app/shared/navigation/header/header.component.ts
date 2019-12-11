@@ -51,8 +51,8 @@ export class HeaderComponent {
  ***REMOVED*****REMOVED*** For getting current email.
  ***REMOVED*****REMOVED*** @return authorized user email.
  ***REMOVED*****REMOVED***/
-  public getCurrentUserEmail(): string {
-    return localStorage.getItem(this.authService.USER_EMAIL);
+  get currentUserEmail(): string {
+    return this.authService.getUserData()['email'];
   }
 
 ***REMOVED*****REMOVED*****REMOVED****

@@ -11,7 +11,7 @@
         <ul fxLayout fxLayoutGap="15px" class="navigation-items">
             <ng-container***REMOVED***ngIf="isAuthenticated() | async; else signIn">
                 <li>
-                    <span class="currentUser">{{ getCurrentUserEmail() }}</span>
+                    <span class="currentUser">{{ currentUserEmail }}</span>
                 </li>
                 <li>
                     <a role="button" (click)="signOut()">Sign-out</a>
