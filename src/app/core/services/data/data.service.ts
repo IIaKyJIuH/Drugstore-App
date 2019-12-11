@@ -11,7 +11,7 @@ export class DataService {
   ) { }
 
   hasRole(appropriateRoles: string[]): boolean {
-    return appropriateRoles.includes(this.authService.getUserData['role']);
+    return appropriateRoles.includes(this.authService.getUserData().role);
   }
 
   

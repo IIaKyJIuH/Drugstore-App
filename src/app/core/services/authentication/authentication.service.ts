@@ -5,6 +5,7 @@ import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { from, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CredentialsModel } from '../models/credentials-model';
+import { UserModel } from '../models/user-model';
 
 /**
  * Service that authorizes user at FireBase.
@@ -66,7 +67,7 @@ export class AuthenticationService {
    */
   private setUserData(userData: UserCredential): void {
     const UID = userData.user.uid;
-    const permissions = ['watchStaffList', 'editStaffList', 'watchMedicines', 'bookMedicines', 'editMedicines', 'watchArchive', 'editArchive', 'doClientQueries', 'watchEmailList', 'editEmailList'];
+    const permissions = ['watchStaffuser', 'editStaffuser', 'watchMedicines', 'bookMedicines', 'editMedicines', 'watchArchive', 'editArchive', 'doClientQueries', 'watchEmailuser', 'editEmailuser'];
     this.ngxPermissions.loadPermissions(permissions);
     localStorage.setItem(this.USER_EMAIL, userData.user.email);
     if (UID === 'boVXL3ic7bgn2mRWk1mSu5QpUFN2') {
@@ -119,11 +120,15 @@ export class AuthenticationService {
     localStorage.removeItem(this.USER_ROLE);
   }
 
-  getUserData(): string[] {
-    const list = [];
-    list['email'] = localStorage.getItem(this.USER_EMAIL);
-    list['role'] = localStorage.getItem(this.USER_ROLE);
-    return list;
+  /**
+   * For getting user email and role.
+   */
+  getUserData(): UserModel {
+    const user = new UserModel({
+      email: localStorage.getItem(this.USER_EMAIL),
+      role: localStorage.getItem(this.USER_ROLE)
+    });
+    return user;
   }
 
   /**

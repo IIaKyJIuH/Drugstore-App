@@ -10,6 +10,11 @@ export class UserModel extends UserTokens {
      */
     public email: string;
 
+    /**
+     * user role in app.
+     */
+    public role: string;
+
     constructor(data: Partial<UserModel>) {
         super(
           new UserTokens({
@@ -18,5 +23,6 @@ export class UserModel extends UserTokens {
           }),
         );
         this.email = data.email;
+        this.role = data.role;
     }
 }

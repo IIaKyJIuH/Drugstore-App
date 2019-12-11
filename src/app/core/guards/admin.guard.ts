@@ -21,7 +21,7 @@ export class AdminGuard {
    * Guard function to choose allow access or not.
    */
   public canLoad(): boolean {
-    if (this.authService.getUserData()['role'] === 'ADMIN') {
+    if (this.authService.getUserData().role === 'ADMIN') {
       return true;
     }
     this.notifications.showError('You don`t have admin privilegies', 'Authentication error');
