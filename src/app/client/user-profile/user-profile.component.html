@@ -9,12 +9,30 @@
         </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <mat-form-field>
-        <input matInput placeholder="First name">
-        </mat-form-field>
+        <form
+            (ngSubmit)="onEmailChangeSubmit(emailChangeForm.value)"
+            [formGroup]="emailChangeForm">
+
+            <p> Current email is <strong>{{ currentUserEmail }}</strong> </p>
+
+            <mat-form-field>
+                <input 
+                    matInput 
+                    placeholder="Email"
+                    [ngStyle]="{ color: emailChangeForm.controls.email.errors && emailChangeForm.controls.email.dirty ? 'red' : 'green' }"
+                    formControlName="email">
+                <mat-error *ngIf="emailChangeForm.controls.email.hasError('pattern')">
+                    Please enter a valid email address
+                </mat-error>
+            </mat-form-field>
+
+            
+            <button mat-raised-button size="large" type="submit" [disabled]="emailChangeForm.invalid" expand="block">Submit changing</button>
+
+        </form>
 
         <mat-form-field>
-        <input matInput placeholder="Age">
+            <input matInput placeholder="Age">
         </mat-form-field>
     </mat-expansion-panel>
     <mat-expansion-panel>
