@@ -51,8 +51,8 @@ export class HeaderComponent {
    * For getting current email.
    * @return authorized user email.
    */
-  public getCurrentUserEmail(): string {
-    return localStorage.getItem(this.authService.USER_EMAIL);
+  get currentUserEmail(): string {
+    return this.authService.getUserData()['email'];
   }
 
   /**
