@@ -11,7 +11,7 @@
 
         <ng-template matExpansionPanelContent>
 
-            <section fxFlex fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="20px">
+            <section fxFlex fxLayout="column wrap" fxLayoutAlign="center start" fxLayoutGap="20px">
 
                 <form
                     (ngSubmit)="onEmailChangeSubmit(emailChangeForm.value)"
@@ -36,12 +36,12 @@
                 </form>
 
                 <mat-form-field appearance="outline">
+                    <mat-label>Current password</mat-label>
                     <input
                         (focusout)="checkIfItIsCurrentPassword($event.target.value)"
                         matInput
-                        
                         type="password"
-                        placeholder="Current password"
+                        placeholder="Your current password"
                         [ngStyle]="{ color: isCurrentPasswordRight ? 'green' : 'red' }" />
                     <mat-hint>
                         trust but check
@@ -60,6 +60,7 @@
                             placeholder="New password"
                             type="password"
                             [ngStyle]="{ color: passwordControls.password.errors && passwordControls.password.dirty ? 'red' : 'green' }"
+                            (input)="onPasswordInput()"
                             formControlName="password">
                     </mat-form-field>
 
@@ -69,9 +70,10 @@
                             placeholder="Confirm new password"
                             type="password"
                             [ngStyle]="{ color: passwordControls.confirmPassword.errors && passwordControls.confirmPassword.dirty ? 'red' : 'green' }"
+                            (input)="onPasswordInput()"
                             formControlName="confirmPassword">
-                        <mat-error *ngIf="passwordChangeForm.hasError('nomatch')">
-                            Passwords do not match
+                        <mat-error *ngIf="passwordControls.confirmPassword.errors && passwordControls.confirmPassword.dirty">
+                            Passwords <strong>mismatch</strong>
                         </mat-error> 
                     </mat-form-field>
 
