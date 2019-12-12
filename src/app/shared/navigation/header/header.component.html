@@ -5,13 +5,21 @@
         </button>
     </div>
     <div>
-        <a routerLink="home" routerLinkActive="active">Home</a>
+        <a routerLink="home" routerLinkActive="active">
+            <mat-icon fxHide.lt-sm>home</mat-icon>
+            <span fxHide.gt-xs>Home</span>
+        </a>
     </div>
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
         <ul fxLayout fxLayoutGap="15px" class="navigation-items">
             <ng-container *ngIf="isAuthenticated() | async; else signIn">
                 <li>
                     <span class="currentUser">{{ currentUserEmail }}</span>
+                    <ng-template [ngxPermissionsExcept]="['ADMIN']">
+                        <a routerLink="user-profile" routerLinkActive="active">
+                            <mat-icon>build</mat-icon>
+                        </a>
+                    </ng-template>
                 </li>
                 <li>
                     <a role="button" (click)="signOut()">Sign-out</a>
