@@ -39,8 +39,8 @@ export class UserProfileComponent {
         Validators.minLength(6),
         Validators.maxLength(12),
       ])],
-      confirmPassword: [''],
-    }, 
+      confirmPassword: ['', Validators.required],
+    },
     { validator: PasswordValidator.areEqual });
   }
 
