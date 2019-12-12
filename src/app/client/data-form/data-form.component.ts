@@ -38,11 +38,11 @@ export class DataFormComponent {
     private notifications: NotificationService,
   ) {
       this.formData  =  this.formBuilder.group({
-        email: ['user123@po.chta', [ Validators.compose([
+        email: ['pakylin3@mail.ru', [ Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         ]) ] ],
-        password: ['user123', Validators.compose([
+        password: ['lolkek', Validators.compose([
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(12),
@@ -61,8 +61,8 @@ export class DataFormComponent {
       .signUp(formValues).pipe(take(1))
       .subscribe(
         () => {
-          this.notifications.showSuccess('You`ve registered and signed-in', 'Success');
-          this.router.navigate(['/main']);
+          this.notifications.showSuccess('You`ve registered your account', 'Success');
+          this.router.navigate(['/store']);
     ***REMOVED*****REMOVED*****REMOVED***
         (error: FirebaseError) => {
           switch(error.code){
@@ -81,15 +81,15 @@ export class DataFormComponent {
         .subscribe(
           () => {
             this.notifications.showSuccess('You`ve signed-in', 'Success');
-            this.router.navigate(['/main']);
+            this.router.navigate(['/store']);
       ***REMOVED*****REMOVED*****REMOVED***
           (error: FirebaseError) => {
             switch(error.code) {
               case 'auth/wrong-password': 
-                this.notifications.showError('Please, input password correctly', 'Wrong password');
+                this.notifications.showError('Please, input password correctly', error.message);
                 break;
               case 'auth/user-not-found':
-                this.notifications.showError('Please, input login correctly', 'User doesn`t exists');
+                this.notifications.showError('Please, input login correctly', error.message);
                 break;
               default:
                 alert(error);

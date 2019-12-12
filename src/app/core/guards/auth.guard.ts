@@ -32,8 +32,8 @@ export class AuthGuard implements CanActivate {
           isAuthenticated = true;
         } else {
           this.router.navigate(['/home']);
-          alert('Firstly you need to login as firebase user');
-        }    
+          alert('Firstly you need to login to firebase');
+        }
       }
     );
     return isAuthenticated;
