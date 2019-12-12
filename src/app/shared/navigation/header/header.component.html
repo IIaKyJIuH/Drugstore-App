@@ -10,6 +10,14 @@
             <span fxHide.gt-xs>Home</span>
         </a>
     </div>
+    <mat-divider style="height: 100%; margin: 0 15px;" [vertical]="true"></mat-divider>
+    <ng-container *ngIf="isAuthenticated() | async">
+        <div>
+            <a routerLink="main" routerLinkActive="active">
+                <mat-icon fxHide.lt-sm>store</mat-icon>
+            </a>
+        </div>
+    </ng-container>
     <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
         <ul fxLayout fxLayoutGap="15px" class="navigation-items">
             <ng-container *ngIf="isAuthenticated() | async; else signIn">
@@ -17,7 +25,7 @@
                     <span class="currentUser">{{ currentUserEmail }}</span>
                     <ng-template [ngxPermissionsExcept]="['ADMIN']">
                         <a routerLink="user-profile" routerLinkActive="active">
-                            <mat-icon>build</mat-icon>
+                            <mat-icon style="margin: 0 10px">build</mat-icon>
                         </a>
                     </ng-template>
                 </li>
