@@ -12,14 +12,14 @@ import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.se
 ***REMOVED***/
 @Component({
   selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  templateUrl: './store.component.html',
+  styleUrls: ['./store.component.css']
 })
-export class MainComponent implements AfterViewChecked {
+export class StoreComponent implements AfterViewChecked {
 
   medicines$: Observable<Array<{}>>;
 
-  displayedColumns: string[] = ['pharmacy', 'term', 'count'];
+  displayedColumns: string[] = ['pharmacy', 'term', 'count', 'controls'];
   setMatSortFlag = new BehaviorSubject<boolean>(false);
 
   dataSource = new MatTableDataSource<any>();
@@ -60,6 +60,14 @@ export class MainComponent implements AfterViewChecked {
 
   onItemClicked(id: number) {
     
+  }
+
+  bookItem(element): void {
+
+  }
+
+  goToDetailedInfo(row): void {
+    console.log(row);
   }
 
   ngAfterViewChecked(): void {

@@ -13,5 +13,4 @@ th.mat-sort-header-sorted {
 tr.mat-row:hover {
     opacity: .7;
     background-color: coral;
-    cursor: pointer;
 }

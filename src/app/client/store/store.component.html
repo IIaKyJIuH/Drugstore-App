@@ -19,9 +19,17 @@
                 <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Count </th>
                 <td mat-cell***REMOVED***matCellDef="let element"> {{ element.count }} </td>
             </ng-container>
+
+            <ng-container matColumnDef="controls">
+                <th mat-header-cell***REMOVED***matHeaderCellDef> Controls </th>
+                <td mat-cell***REMOVED***matCellDef="let element">
+                    <button mat-flat-button color="warn" (click)="bookItem(element)">book</button>
+                    <button mat-flat-button color="accent" (click)="goToDetailedInfo(element)">details</button>
+                </td>
+            </ng-container>
             
             <tr mat-header-row***REMOVED***matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row***REMOVED***matRowDef="let row; columns: displayedColumns;" (click)="onItemClicked(row)"></tr>
+            <tr mat-row***REMOVED***matRowDef="let row; columns: displayedColumns" (click)="onItemClicked(row)"></tr>
         </table>
     </ng-container>
     <ng-template #loading>
