@@ -11,11 +11,13 @@ export class ShoppingCartService {
   constructor() { }
 
   addItem(obj: any): void {
-
+    const currentList = this.collection$.getValue();
+    this.collection$.next([...currentList, obj]);
   }
 
   removeItem(obj: any): void {
     const filtered = this.collection$.getValue();
-    filtered = filtered.splice(f,)
+    const objIndex = filtered.indexOf(obj);
+    // filtered = filtered.splice(f,)
   }
 }
