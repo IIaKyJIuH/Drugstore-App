@@ -64,7 +64,7 @@ fxLayoutGap="20px">
     <div padding fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
       <button mat-raised-button size="large" type="submit" [disabled]="formData.invalid" expand="block">Sign-in</button>
       <span>OR</span>
-      <button mat-raised-button size="large" color="warn" type="button" expand="block" (click)="isSigningUp = !isSigningUp">Sign-up</button>
+      <button mat-raised-button size="large" color="warn" type="button" expand="block" (click)="switchToSignUp()">Sign-up</button>
     </div>
   </ng-container>
   <ng-template #signUp>

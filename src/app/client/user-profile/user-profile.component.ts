@@ -39,8 +39,8 @@ export class UserProfileComponent {
         Validators.minLength(6),
         Validators.maxLength(12),
       ])],
-      confirmPassword: [''],
-***REMOVED*****REMOVED*****REMOVED*** 
+      confirmPassword: ['', Validators.required],
+***REMOVED*****REMOVED*****REMOVED***
     { validator: PasswordValidator.areEqual });
   }
 

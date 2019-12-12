@@ -102,6 +102,13 @@ export class DataFormComponent {
 
   switchToSignIn(): void {
     this.formControls.confirmPassword.setValue('');
+    this.formControls.confirmPassword.clearValidators();
+    this.formControls.confirmPassword.updateValueAndValidity();
+    this.isSigningUp = !this.isSigningUp;
+  }
+
+  switchToSignUp(): void {
+    this.formControls.confirmPassword.setValidators(Validators.required);
     this.isSigningUp = !this.isSigningUp;
   }
 
