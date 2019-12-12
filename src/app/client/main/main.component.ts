@@ -5,6 +5,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DataService } from 'src/app/core/services/data/data.service';
+import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
 
 /**
  * Main app page.
@@ -30,7 +31,7 @@ export class MainComponent implements AfterViewChecked {
     private ngxPermissions: NgxPermissionsService,
     private dataService: DataService,
     private database: AngularFireDatabase,
-    private 
+    private shoppingCart: ShoppingCartService,
   ) {
     this.getAllMedicines();
   }
@@ -58,7 +59,7 @@ export class MainComponent implements AfterViewChecked {
   }
 
   onItemClicked(id: number) {
-    console.log(id);
+    
   }
 
   ngAfterViewChecked(): void {
