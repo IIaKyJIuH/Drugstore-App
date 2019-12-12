@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DataFormComponent } from './client/data-form/data-form.component';
 import { HomeComponent } from './client/home/home.component';
-import { MainComponent } from './client/main/main.component';
+import { StoreComponent } from './client/store/store.component';
 import { UserProfileComponent } from './client/user-profile/user-profile.component';
 import { WrongPathComponent } from './client/wrong-path/wrong-path.component';
 import { AdminGuard } from './core/guards/admin.guard';
@@ -24,10 +24,16 @@ const routes: Routes = [
     component: DataFormComponent,
   },
   {
-    path: 'main',
-    component: MainComponent,
+    path: 'store',
+    component: StoreComponent,
     canActivate: [
       AuthGuard,
+    ],
+    children: [
+      {
+        path: ':id',
+        component: DetailedItemComponent
+      }
     ]
   },
   {
