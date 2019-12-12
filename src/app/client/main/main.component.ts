@@ -30,6 +30,7 @@ export class MainComponent implements AfterViewChecked {
     private ngxPermissions: NgxPermissionsService,
     private dataService: DataService,
     private database: AngularFireDatabase,
+    private 
   ) {
     this.getAllMedicines();
   }
@@ -38,9 +39,10 @@ export class MainComponent implements AfterViewChecked {
     this.medicines$ = this.database.list('/medicines').valueChanges().pipe(
       tap(data => {
         for (const [index, pharmacy] of (data[0] as Array<[]>).entries()) { // Прибавляем название аптеки к каждому объекту
-          this.dataSource.data.push(pharmacy.map(object => {
+          this.dataSource.data.push(pharmacy.map((object, id) => {
             return Object.assign(object, {
-              pharmacy: index+1
+              pharmacy: index+1,
+              id
             });
           }));
         }
@@ -53,6 +55,10 @@ export class MainComponent implements AfterViewChecked {
         this.setMatSortFlag.next(true);
       })
     );
+  }
+
+  onItemClicked(id: number) {
+    console.log(id);
   }
 
   ngAfterViewChecked(): void {
