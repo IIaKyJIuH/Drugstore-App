@@ -9,3 +9,9 @@ mat-spinner {
 th.mat-sort-header-sorted {
     color: black;
 }
+
+tr.mat-row:hover {
+    opacity: .7;
+    background-color: coral;
+    cursor: pointer;
+}
