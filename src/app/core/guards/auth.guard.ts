@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication/authentication.service';
+import { NotificationService } from '../services/notification/notification.service';
 
 ***REMOVED****
 ***REMOVED*** Guard for user routing through app.
@@ -18,6 +19,7 @@ export class AuthGuard implements CanActivate {
  ***REMOVED*****REMOVED***/
   public constructor(
     private authService: AuthenticationService,
+    private notifications: NotificationService,
     private router: Router,
   ) {}
 
@@ -32,7 +34,7 @@ export class AuthGuard implements CanActivate {
           isAuthenticated = true;
         } else {
           this.router.navigate(['/home']);
-          alert('Firstly you need to login to firebase');
+          this.notifications.showWarning('Firstly you need to login to firebase', 'Warning');
         }
       }
     );
