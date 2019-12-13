@@ -60,7 +60,7 @@ export class HeaderComponent {
    * @return auth state flow.
    */
   public isAuthenticated(): Observable<boolean> {
-    return this.authService.isAuthenticated();
+    return this.authService.isAuthenticated;
   }
 
 }

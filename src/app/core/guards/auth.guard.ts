@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
    */
   public canActivate(): boolean {
     let isAuthenticated = false;
-    this.authService.isAuthenticated().pipe(take(1)).subscribe(
+    this.authService.isAuthenticated.pipe(take(1)).subscribe(
       (authState: boolean) => {
         if (authState) {
           isAuthenticated = true;

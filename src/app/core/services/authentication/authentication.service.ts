@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { UserCredential } from '@firebase/auth-types';
 import { auth } from 'firebase';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
-import { from, Observable, of } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CredentialsModel } from '../models/credentials-model';
 import { UserModel } from '../models/user-model';
@@ -26,6 +26,8 @@ export class AuthenticationService {
    */
   public readonly USER_ROLE = 'userRole';
 
+  public authStatus = new BehaviorSubject<boolean>(false);
+
   /**
    * .сtor
    * @param afAuth - angular fire authentication service.
@@ -34,7 +36,15 @@ export class AuthenticationService {
     private afAuth: AngularFireAuth,
     private ngxPermissions: NgxPermissionsService,
     private ngxRoles: NgxRolesService,
-  ) { }
+  ) { 
+    this.afAuth.auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.authStatus.next(true);
+      } else {
+        this.authStatus.next(false);
+      }
+    })
+  }
 
   /**
    * Signs in user with inputed email and password.
@@ -58,6 +68,7 @@ export class AuthenticationService {
     return from(this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)).pipe(
       tap(userData => {
         this.setUserData(userData);
+        userData.user.sendEmailVerification();
       })
     );
   }
@@ -146,8 +157,8 @@ export class AuthenticationService {
    * Checks if the user is logged in.
    * @returns if the currentUser !== null - true, else - false.
    */
-  public isAuthenticated(): Observable<boolean> {
-    return of(localStorage.getItem(this.USER_EMAIL) !== null);
+  get isAuthenticated(): Observable<boolean> {
+    return this.authStatus.asObservable();
   }
 
 }
