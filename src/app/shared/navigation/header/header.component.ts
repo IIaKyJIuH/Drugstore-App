@@ -60,7 +60,7 @@ export class HeaderComponent {
  ***REMOVED*****REMOVED*** @return auth state flow.
  ***REMOVED*****REMOVED***/
   public isAuthenticated(): Observable<boolean> {
-    return this.authService.isAuthenticated();
+    return this.authService.isAuthenticated;
   }
 
 }
