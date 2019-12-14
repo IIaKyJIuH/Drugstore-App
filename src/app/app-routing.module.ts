@@ -36,18 +36,16 @@ const routes: Routes = [
       permissions: {
         only: ['ADMIN', 'USER']
       }
-***REMOVED*****REMOVED*****REMOVED***
-    children: [
-      {
-        path: ':id',
-        component: DetailedMedicineComponent,
-        data: {
-          permissions: {
-            only: 'USER'
-          }
-        }
+    }
+***REMOVED***
+  {
+    path: 'store/:pharmacy/:medicineId',
+    component: DetailedMedicineComponent,
+    data: {
+      permissions: {
+        only: 'USER'
       }
-    ]
+    }
 ***REMOVED***
   {
     path: 'user-profile',

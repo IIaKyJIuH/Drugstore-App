@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DataService } from 'src/app/core/services/data/data.service';
@@ -27,8 +27,7 @@ export class StoreComponent implements AfterViewChecked {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(
-    private ngxPermissions: NgxPermissionsService,
-    private ngxRoles: NgxRolesService,
+    private router: Router,
     private dataService: DataService,
     private shoppingCart: ShoppingCartService,
   ) {
@@ -38,10 +37,10 @@ export class StoreComponent implements AfterViewChecked {
   getAllMedicines(): void {
     this.medicines$ = this.dataService.getAllMedicines().pipe(
       tap(data => {
-        for (const [pharmacyIndex, pharmacy] of Object.keys(data.pharmacies).entries()) { // Прибавляем новые поля к каждому элементу из аптек
+        for (const pharmacy of Object.keys(data.pharmacies)) { // Прибавляем новые поля к каждому элементу из аптек
           this.dataSource.data.push(data.pharmacies[pharmacy].map((object, id) => {
             return Object.assign(object, {
-              pharmacyIndex,
+              pharmacy,
               id
             });
           }));
@@ -66,7 +65,7 @@ export class StoreComponent implements AfterViewChecked {
   }
 
   goToDetailedInfo(row): void {
-    console.log(row);
+    this.router.navigate(['/store', row.pharmacy, row.id]);
   }
 
   ngAfterViewChecked(): void {
