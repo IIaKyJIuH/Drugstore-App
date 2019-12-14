@@ -1,7 +1,7 @@
 a {
     text-decoration: none;
     cursor: pointer;
-    color: white;
+    color: black;
 }
  
 a:hover {
@@ -9,7 +9,7 @@ a:hover {
 }
 
 a.active {
-    color: yellow;
+    color: floralwhite;
 }
  
 .navigation-items{
@@ -19,7 +19,7 @@ a.active {
 }
 
 .currentUser {
-    color: red;
+    color: blue;
 }
  
 mat-toolbar{
