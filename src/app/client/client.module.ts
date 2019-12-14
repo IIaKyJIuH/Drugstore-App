@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { StoreComponent } from './store/store.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { WrongPathComponent } from './wrong-path/wrong-path.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 
 ***REMOVED****
@@ -20,6 +21,7 @@ import { WrongPathComponent } from './wrong-path/wrong-path.component';
     StoreComponent,
     UserProfileComponent,
     DetailedMedicineComponent,
+    ShoppingCartComponent,
   ],
   imports: [
     SharedModule,

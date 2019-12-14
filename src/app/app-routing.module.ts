@@ -4,6 +4,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { DataFormComponent } from './client/data-form/data-form.component';
 import { DetailedMedicineComponent } from './client/detailed-medicine/detailed-medicine.component';
 import { HomeComponent } from './client/home/home.component';
+import { ShoppingCartComponent } from './client/shopping-cart/shopping-cart.component';
 import { StoreComponent } from './client/store/store.component';
 import { UserProfileComponent } from './client/user-profile/user-profile.component';
 import { WrongPathComponent } from './client/wrong-path/wrong-path.component';
@@ -41,6 +42,16 @@ const routes: Routes = [
   {
     path: 'store/:pharmacy/:medicineId',
     component: DetailedMedicineComponent,
+    data: {
+      permissions: {
+        only: 'USER'
+      }
+    }
+***REMOVED***
+  {
+    path: 'cart',
+    component: ShoppingCartComponent,
+    canActivate: [NgxPermissionsGuard],
     data: {
       permissions: {
         only: 'USER'
