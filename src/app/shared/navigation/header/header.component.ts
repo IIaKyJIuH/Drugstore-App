@@ -19,15 +19,19 @@ export class HeaderComponent {
  ***REMOVED*****REMOVED***/
   @Output() public sidenavOpen = new EventEmitter();
 
+  isAuthenticated$: Observable<boolean>;
+
 ***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** .ctor
  ***REMOVED*****REMOVED*** @param authService - for authentication purposes. 
  ***REMOVED*****REMOVED*** @param router - responsible for redirecting user.
  ***REMOVED*****REMOVED***/
   constructor(
-    private authService: AuthenticationService,
+    public authService: AuthenticationService,
     private router: Router,
-  ) {}
+  ) {
+    this.isAuthenticated$ = this.authService.getAuthStatus();
+  }
 
 ***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** Emits sidenav component opener.
@@ -51,16 +55,8 @@ export class HeaderComponent {
  ***REMOVED*****REMOVED*** For getting current email.
  ***REMOVED*****REMOVED*** @return authorized user email.
  ***REMOVED*****REMOVED***/
-  get currentUserEmail(): string {
+  currentUserEmail(): string {
     return this.authService.getUserData().email;
-  }
-
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Checks if the user has signed in already.
- ***REMOVED*****REMOVED*** @return auth state flow.
- ***REMOVED*****REMOVED***/
-  public isAuthenticated(): Observable<boolean> {
-    return this.authService.isAuthenticated;
   }
 
 }

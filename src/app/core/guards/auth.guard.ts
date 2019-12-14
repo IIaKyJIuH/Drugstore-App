@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication/authentication.service';
 import { NotificationService } from '../services/notification/notification.service';
 
@@ -26,18 +27,17 @@ export class AuthGuard implements CanActivate {
 ***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** Implemented method
  ***REMOVED*****REMOVED***/
-  public canActivate(): boolean {
-    let isAuthenticated = false;
-    this.authService.isAuthenticated.pipe(take(1)).subscribe(
-      (authState: boolean) => {
-        if (authState) {
-          isAuthenticated = true;
+  public canActivate(): Observable<boolean> {
+    return this.authService.getAuthStatus().pipe(
+      map(authStatus => {
+        if (authStatus) {
+          return true;
         } else {
           this.router.navigate(['/home']);
           this.notifications.showWarning('Firstly you need to login to firebase', 'Warning');
+          return false;
         }
-      }
+      })
     );
-    return isAuthenticated;
   }
 }
