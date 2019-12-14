@@ -7,7 +7,7 @@
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="pharmacy">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Pharmacy </th>
-                <td mat-cell *matCellDef="let element"> {{ element.pharmacy }} </td>
+                <td mat-cell *matCellDef="let element"> {{ element.pharmacyIndex + 1 }} </td>
             </ng-container>
             
             <ng-container matColumnDef="term">

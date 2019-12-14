@@ -1,7 +1,6 @@
 import { AfterViewChecked, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DataService } from 'src/app/core/services/data/data.service';
@@ -29,20 +28,20 @@ export class StoreComponent implements AfterViewChecked {
 
   constructor(
     private ngxPermissions: NgxPermissionsService,
+    private ngxRoles: NgxRolesService,
     private dataService: DataService,
-    private database: AngularFireDatabase,
     private shoppingCart: ShoppingCartService,
   ) {
     this.getAllMedicines();
   }
 
   getAllMedicines(): void {
-    this.medicines$ = this.database.list('/medicines').valueChanges().pipe(
+    this.medicines$ = this.dataService.getAllMedicines().pipe(
       tap(data => {
-        for (const [index, pharmacy] of (data[0] as Array<[]>).entries()) { // Прибавляем название аптеки к каждому объекту
-          this.dataSource.data.push(pharmacy.map((object, id) => {
+        for (const [pharmacyIndex, pharmacy] of Object.keys(data.pharmacies).entries()) { // Прибавляем новые поля к каждому элементу из аптек
+          this.dataSource.data.push(data.pharmacies[pharmacy].map((object, id) => {
             return Object.assign(object, {
-              pharmacy: index+1,
+              pharmacyIndex,
               id
             });
           }));
@@ -63,7 +62,7 @@ export class StoreComponent implements AfterViewChecked {
   }
 
   bookItem(element): void {
-
+    this.shoppingCart.addItem(element);
   }
 
   goToDetailedInfo(row): void {
