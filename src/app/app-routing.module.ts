@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 import { DataFormComponent } from './client/data-form/data-form.component';
+import { DetailedMedicineComponent } from './client/detailed-medicine/detailed-medicine.component';
 import { HomeComponent } from './client/home/home.component';
 import { StoreComponent } from './client/store/store.component';
 import { UserProfileComponent } from './client/user-profile/user-profile.component';
@@ -28,17 +30,31 @@ const routes: Routes = [
     component: StoreComponent,
     canActivate: [
       AuthGuard,
+      NgxPermissionsGuard
     ],
+    data: {
+      permissions: {
+        only: ['ADMIN', 'USER']
+      }
+    },
     children: [
       {
         path: ':id',
-        component: DetailedItemComponent
+        component: DetailedMedicineComponent,
+        data: {
+          permissions: {
+            only: 'USER'
+          }
+        }
       }
     ]
   },
   {
     path: 'user-profile',
     component: UserProfileComponent,
+    canActivate: [
+      NgxPermissionsGuard
+    ],
     data: {
       permissions: {
         only: 'USER'
