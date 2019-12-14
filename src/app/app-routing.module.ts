@@ -36,18 +36,16 @@ const routes: Routes = [
       permissions: {
         only: ['ADMIN', 'USER']
       }
-    },
-    children: [
-      {
-        path: ':id',
-        component: DetailedMedicineComponent,
-        data: {
-          permissions: {
-            only: 'USER'
-          }
-        }
+    }
+  },
+  {
+    path: 'store/:pharmacy/:medicineId',
+    component: DetailedMedicineComponent,
+    data: {
+      permissions: {
+        only: 'USER'
       }
-    ]
+    }
   },
   {
     path: 'user-profile',
