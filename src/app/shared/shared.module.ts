@@ -20,7 +20,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     MaterialModule,
     RouterModule,
     FlexLayoutModule,
-    NgxPermissionsModule,
+    NgxPermissionsModule.forChild(),
   ],
   exports: [
     CommonModule,
