@@ -47,11 +47,6 @@ export class StoreComponent implements AfterViewChecked {
             }));
           }
         }
-        let concatArray = [];
-        for (const eachArr of this.dataSource.data) { // Сводим массивы всех аптек в один
-          concatArray = concatArray.concat(eachArr);
-        }
-        this.dataSource.data = concatArray;
         this.dataSource.paginator = this.paginator;
         this.setMatSortFlag.next(true);
       })
