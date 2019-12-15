@@ -59,11 +59,7 @@ export class AuthenticationService {
    * @returns firebase response user data flow.
    */
   public signIn(user: CredentialsModel): Observable<UserCredential> {
-    return from(this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)).pipe(
-      tap(userData => {
-        this.setUserData(userData.user);
-      })
-    );
+    return from(this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password));
   }
 
   /**
@@ -73,9 +69,6 @@ export class AuthenticationService {
    */
   public signUp(user: CredentialsModel): Observable<UserCredential> {
     return from(this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)).pipe(
-      tap(userData => {
-        this.setUserData(userData.user);
-      }),
       switchMap(userData => {
         return of(userData.user.sendEmailVerification()).pipe(
           map(() => userData)
