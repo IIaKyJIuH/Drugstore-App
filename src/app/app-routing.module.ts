@@ -30,13 +30,23 @@ const routes: Routes = [
     path: 'store',
     component: StoreComponent,
     canActivate: [
-      AuthGuard,
+      AuthGuard
     ],
-    data: {
-      permissions: {
-        only: ['ADMIN', 'USER']
+    children: [
+      {
+        path: '',
+        component: StoreComponent,
+        canActivate: [
+          NgxPermissionsGuard
+        ],
+        data: {
+          permissions: {
+            only: ['ADMIN', 'USER'],
+            redirectTo: 'home'
+          }
+        }
       }
-    }
+    ]
   },
   {
     path: 'store/:pharmacy/:medicineId',

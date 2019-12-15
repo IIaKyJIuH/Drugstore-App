@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
+import { NgxRolesService } from 'ngx-permissions';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication/authentication.service';
@@ -20,6 +21,7 @@ export class AuthGuard implements CanActivate {
    */
   public constructor(
     private authService: AuthenticationService,
+    private ngxRoles: NgxRolesService,
     private notifications: NotificationService,
     private router: Router,
   ) {}
@@ -32,6 +34,7 @@ export class AuthGuard implements CanActivate {
       take(1),
       map(isAuthenticated => {
         if (isAuthenticated) {
+          this.setRole();
           return true;
         } else {
           this.router.navigate(['/home']);
@@ -40,5 +43,9 @@ export class AuthGuard implements CanActivate {
         }
       })
     );
+  }
+
+  public setRole(): void {
+    this.ngxRoles.addRole(this.authService.getUserData().role, () => true);
   }
 }
