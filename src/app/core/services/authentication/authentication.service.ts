@@ -44,7 +44,7 @@ export class AuthenticationService {
           this.setUserData(user);
         } else {
           observer.next(false);
-          this.setUserData(user);
+          this.deleteUserData();
         }
       });
     });
@@ -56,7 +56,11 @@ export class AuthenticationService {
  ***REMOVED*****REMOVED*** @returns firebase response user data flow.
  ***REMOVED*****REMOVED***/
   public signIn(user: CredentialsModel): Observable<UserCredential> {
-    return from(this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password));
+    return from(this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)).pipe(
+      tap(userData => {
+        this.setUserData(userData.user);
+      })
+    );
   }
 
 ***REMOVED*****REMOVED*****REMOVED****
@@ -66,6 +70,9 @@ export class AuthenticationService {
  ***REMOVED*****REMOVED***/
   public signUp(user: CredentialsModel): Observable<UserCredential> {
     return from(this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)).pipe(
+      tap(userData => {
+        this.setUserData(userData.user);
+      }),
       switchMap(userData => {
         return of(userData.user.sendEmailVerification()).pipe(
           map(() => userData)
@@ -83,7 +90,7 @@ export class AuthenticationService {
     const permissions = ['watchStaffuser', 'editStaffuser', 'watchMedicines', 'bookMedicines', 'editMedicines', 'watchArchive', 'editArchive', 'doClientQueries', 'watchEmailuser', 'editEmailuser'];
     this.ngxPermissions.loadPermissions(permissions);
     localStorage.setItem(this.USER_EMAIL, user.email);
-    if (UID === 'boVXL3ic7bgn2mRWk1mSu5QpUFN2') {
+    if (UID === 'jvJiZZZ8WnUizGfLyBr8AIQOU6Z2') {
       localStorage.setItem(this.USER_ROLE, 'ADMIN');
       this.ngxRoles.addRole('ADMIN', permissions);
     } else if (UID === '1UepQikTzlMzzXVvK6tX8jAEGHI3') {
