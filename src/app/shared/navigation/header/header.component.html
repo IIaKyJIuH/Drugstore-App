@@ -25,7 +25,7 @@
                 <mat-menu
                     #settingsOptions="matMenu"
                     xPosition="before">
-                    <ng-template [ngxPermissionsExcept]="['ADMIN']">
+                    <ng-template [ngxPermissionsOnly]="['USER']">
                         <a mat-menu-item routerLink="user-profile" routerLinkActive="active">settings
                             <mat-icon>settings_application</mat-icon>
                         </a>
