@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth, User } from 'firebase';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
@@ -26,7 +26,7 @@ export class AuthenticationService {
    */
   public readonly USER_ROLE = 'USER_ROLE';
 
-  private authStatus: Observable<boolean>;
+  private authStatus$: Observable<boolean>;
 
   /**
    * .сtor
@@ -35,17 +35,20 @@ export class AuthenticationService {
   constructor(
     private afAuth: AngularFireAuth,
     private ngxPermissions: NgxPermissionsService,
-    private ngxRoles: NgxRolesService
+    private ngxRoles: NgxRolesService,
+    private ngZone: NgZone
   ) {
-    this.authStatus = new Observable(observer => {
+    this.authStatus$ = new Observable(observer => {
       return this.afAuth.auth.onAuthStateChanged((user) => {
-        if (user) {
-          observer.next(true);
-          this.setUserData(user);
-        } else {
-          observer.next(false);
-          this.deleteUserData();
-        }
+        this.ngZone.run(() => {
+          if (user) {
+            observer.next(true);
+            this.setUserData(user);
+          } else {
+            observer.next(false);
+            this.deleteUserData();
+          }
+        });
       });
     });
   }
@@ -166,7 +169,7 @@ export class AuthenticationService {
    * @returns if the currentUser !== null - isAuthenticated - true, else - false.
    */
   getAuthStatus(): Observable<boolean> {
-    return this.authStatus;
+    return this.authStatus$;
   }
 
 }
