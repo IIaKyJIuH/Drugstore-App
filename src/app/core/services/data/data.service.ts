@@ -21,8 +21,25 @@ export class DataService {
     return this.database.object('/medicines').valueChanges();
   }
 
-  editMedicine(pharmacy: number, medicine: number): void {
-    const item = this.database.list(`/medicines/list/${pharmacy}/${medicine}`);
+  moveToAnotherPharmacy(pharmacy: string, medicine: object): void {
+    this.addMedicineToDb(pharmacy, medicine);
+    this.deleteMedicineFromDb(medicine);
+  }
+
+  private addMedicineToDb(to: string, medicine: any): void {
+    const newObj: any = Object.assign({}, {
+      count: medicine.count,
+      term: medicine.term
+    });
+    this.database.list(`medicines/pharmacies/${to}`).push(newObj);
+  }
+
+  deleteMedicineFromDb(medicine: any): void {
+    this.database.list(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}`).remove();
+  }
+
+  editMedicine(pharmacy: string, medicine: string): void {
+    const item = this.database.list(`/medicines/pharmacies/${pharmacy}/${medicine}`);
   }
   
 }

@@ -20,21 +20,21 @@
         <ul class="navigation-items">
             <li***REMOVED***ngIf="isAuthenticated$ | async; else authentication">
                 <span class="currentUser">{{ currentUserEmail() }}</span>
-                <ng-template [ngxPermissionsExcept]="['ADMIN']">
-                    <button mat-icon-button [matMenuTriggerFor]="settingsOptions">
-                        <mat-icon style="margin: 0 10px">build</mat-icon>
-                    </button>
-                    <mat-menu
-                        #settingsOptions="matMenu"
-                        xPosition="before">
+                <button mat-icon-button [matMenuTriggerFor]="settingsOptions">
+                    <mat-icon style="margin: 0 10px">build</mat-icon>
+                </button>
+                <mat-menu
+                    #settingsOptions="matMenu"
+                    xPosition="before">
+                    <ng-template [ngxPermissionsExcept]="['ADMIN']">
                         <a mat-menu-item routerLink="user-profile" routerLinkActive="active">settings
                             <mat-icon>settings_application</mat-icon>
                         </a>
-                        <a mat-menu-item role="button" (click)="signOut()">sign-out
-                            <mat-icon>exit_to_app</mat-icon>
-                        </a>
-                    </mat-menu>
-                </ng-template>
+                    </ng-template>
+                    <a mat-menu-item role="button" (click)="signOut()">sign-out
+                        <mat-icon>exit_to_app</mat-icon>
+                    </a>
+                </mat-menu>
             </li>
             <ng-template #authentication>
                 <li>

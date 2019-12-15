@@ -19,6 +19,7 @@ export class StoreComponent implements AfterViewChecked {
   medicines$: Observable<Array<{}>>;
 
   displayedColumns: string[] = ['pharmacy', 'term', 'count', 'controls'];
+  pharmaciesList: string[] = [];
   setMatSortFlag = new BehaviorSubject<boolean>(false);
 
   dataSource = new MatTableDataSource<any>();
@@ -36,14 +37,15 @@ export class StoreComponent implements AfterViewChecked {
 
   getAllMedicines(): void {
     this.medicines$ = this.dataService.getAllMedicines().pipe(
-      tap(data => {
+      tap((data: any) => {
         for (const pharmacy of Object.keys(data.pharmacies)) { // Прибавляем новые поля к каждому элементу из аптек
-          this.dataSource.data.push(data.pharmacies[pharmacy].map((object, id) => {
-            return Object.assign(object, {
+          this.pharmaciesList.push(pharmacy);
+          for (const key of Object.keys(data.pharmacies[pharmacy])) {
+            this.dataSource.data.push(Object.assign(data.pharmacies[pharmacy][key], {
               pharmacy,
-              id
-            });
-          }));
+              key
+            }));
+          }
         }
         let concatArray = [];
         for (const eachArr of this.dataSource.data) { // Сводим массивы всех аптек в один
@@ -66,6 +68,21 @@ export class StoreComponent implements AfterViewChecked {
 
   goToDetailedInfo(row): void {
     this.router.navigate(['/store', row.pharmacy, row.id]);
+  }
+
+  moveToPharmacy(element, option: string): void {
+    if (element.pharmacy === option) {
+      alert('select appropriate option')
+      return;
+    }
+    if (option === undefined) {
+      return;
+    }
+    this.dataService.moveToAnotherPharmacy(option, element);
+  }
+
+  deleteFromDb(element): void {
+    this.dataService.deleteMedicineFromDb(element);
   }
 
   ngAfterViewChecked(): void {
