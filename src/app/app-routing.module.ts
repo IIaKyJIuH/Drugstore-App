@@ -31,7 +31,6 @@ const routes: Routes = [
     component: StoreComponent,
     canActivate: [
       AuthGuard,
-      NgxPermissionsGuard
     ],
     data: {
       permissions: {
