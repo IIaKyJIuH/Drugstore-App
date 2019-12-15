@@ -1,0 +1,40 @@
+
+@hovering-color: lightgray;
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+
+    &:hover {
+        color: @hovering-color;
+    }
+
+    .active {
+        color: floralwhite;
+    }
+}
+
+.currentUser {
+    color: blue;
+}
+
+.mat-icon:hover {
+    color: @hovering-color;
+}
+ 
+mat-toolbar{
+    border-radius: 3px;
+}
+
+.mat-menu-item {
+    .mat-icon {
+        margin-left: 16px;
+    }
+}
+ 
+@media(max-width: 959px){
+    mat-toolbar{
+        border-radius: 0px;
+    }
+}
