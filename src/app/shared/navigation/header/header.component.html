@@ -1,24 +1,23 @@
 <mat-toolbar color="accent">
-    <div fxHide.gt-xs>
-        <button mat-icon-button (click)="onSidenavOpen()">
-            <mat-icon>menu</mat-icon>
-        </button>
-    </div>
-    <div>
-        <a routerLink="home" routerLinkActive="active">
-            <mat-icon fxHide.lt-sm>home</mat-icon>
-            <span fxHide.gt-xs>Home</span>
-        </a>
-    </div>
+    <button 
+        mat-icon-button
+        fxHide.gt-xs
+        (click)="onSidenavOpen()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <a routerLink="home" routerLinkActive="active">
+        <mat-icon fxHide.lt-sm>home</mat-icon>
+        <span fxHide.gt-xs>Home</span>
+    </a>
     <mat-divider fxHide.lt-sm style="height: 100%; margin: 0 15px;" [vertical]="true"></mat-divider>
-    <div***REMOVED***ngIf="isAuthenticated$ | async">
-        <a routerLink="store" routerLinkActive="active">
-            <mat-icon fxHide.lt-sm>store</mat-icon>
-        </a>
-    </div>
-    <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-        <ul class="navigation-items">
-            <li***REMOVED***ngIf="isAuthenticated$ | async; else authentication">
+    <ng-container***REMOVED***ngIf="isAuthenticated$ | async; else authentication">
+        <ng-template [ngxPermissionsExcept]="['STAFF']">
+            <a routerLink="store" routerLinkActive="active">
+                <mat-icon fxHide.lt-sm>store</mat-icon>
+            </a>
+        </ng-template>
+        <ul class="navigation-items" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+            <li>
                 <span class="currentUser">{{ currentUserEmail() }}</span>
                 <button mat-icon-button [matMenuTriggerFor]="settingsOptions">
                     <mat-icon style="margin: 0 10px">build</mat-icon>
@@ -36,11 +35,11 @@
                     </a>
                 </mat-menu>
             </li>
-            <ng-template #authentication>
-                <li>
-                    <a routerLink="authentication" routerLinkActive="active">Authentication</a>
-                </li>
-            </ng-template>
         </ul>
-    </div>
+    </ng-container>
+    <ng-template #authentication>
+        <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+            <a routerLink="authentication" routerLinkActive="active">Authentication</a>
+        </div>
+    </ng-template>
 </mat-toolbar>
