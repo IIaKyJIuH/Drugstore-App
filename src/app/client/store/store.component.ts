@@ -1,8 +1,8 @@
-import { AfterViewChecked, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { DataService } from 'src/app/core/services/data/data.service';
 import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
 
@@ -14,15 +14,12 @@ import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.se
   templateUrl: './store.component.html',
   styleUrls: ['./store.component.css']
 })
-export class StoreComponent implements AfterViewChecked {
+export class StoreComponent {
 
-  medicines$: Observable<Array<{}>>;
+  medicines$: Observable<MatTableDataSource<any>>;
 
   displayedColumns: string[] = ['pharmacy', 'term', 'count', 'controls'];
   pharmaciesList: string[] = [];
-  setMatSortFlag = new BehaviorSubject<boolean>(false);
-
-  dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -37,18 +34,22 @@ export class StoreComponent implements AfterViewChecked {
 
   getAllMedicines(): void {
     this.medicines$ = this.dataService.getAllMedicines().pipe(
-      tap((data: any) => {
+      map((data: any) => {
+        const dataArr = new MatTableDataSource<any>();
         for (const pharmacy of Object.keys(data.pharmacies)) { // Прибавляем новые поля к каждому элементу из аптек
-          this.pharmaciesList.push(pharmacy);
+          if (!this.pharmaciesList.includes(pharmacy)) {
+            this.pharmaciesList.push(pharmacy);
+          }
           for (const key of Object.keys(data.pharmacies[pharmacy])) {
-            this.dataSource.data.push(Object.assign(data.pharmacies[pharmacy][key], {
+            dataArr.data.push(Object.assign(data.pharmacies[pharmacy][key], {
               pharmacy,
               key
             }));
           }
         }
-        this.dataSource.paginator = this.paginator;
-        this.setMatSortFlag.next(true);
+        dataArr.paginator = this.paginator;
+        dataArr.sort = this.sort;
+        return dataArr;
       })
     );
   }
@@ -59,6 +60,10 @@ export class StoreComponent implements AfterViewChecked {
 
   bookItem(element): void {
     this.shoppingCart.addItem(element);
+  }
+
+  unBookItem(element): void {
+    this.shoppingCart.removeItem(element);
   }
 
   goToDetailedInfo(row): void {
@@ -78,14 +83,6 @@ export class StoreComponent implements AfterViewChecked {
 
   deleteFromDb(element): void {
     this.dataService.deleteMedicineFromDb(element);
-  }
-
-  ngAfterViewChecked(): void {
-    if (this.setMatSortFlag.getValue()) { // Для решения проблемы с matSort в *ngIf
-      this.dataSource.sort = this.sort;
-      this.setMatSortFlag.next(false);
-      this.setMatSortFlag.complete();
-    }
   }
 
 }
