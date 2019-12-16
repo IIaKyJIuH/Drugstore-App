@@ -16,26 +16,27 @@
                 <mat-icon fxHide.lt-sm>store</mat-icon>
             </a>
         </ng-template>
-        <ul class="navigation-items" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-            <li>
-                <span class="currentUser">{{ currentUserEmail() }}</span>
-                <button mat-icon-button [matMenuTriggerFor]="settingsOptions">
-                    <mat-icon style="margin: 0 10px">build</mat-icon>
+        <main fxFlex fxLayout fxLayoutAlign="end center" fxHide.xs>
+            <button mat-icon-button routerLink="cart" routerLinkActive="active">
+                <mat-icon>add_shopping_cart</mat-icon>
+            </button>
+            <span class="currentUser">{{ currentUserEmail() }}</span>
+            <button mat-icon-button [matMenuTriggerFor]="settingsOptions">
+                <mat-icon style="margin: 0 10px">build</mat-icon>
+            </button>
+            <mat-menu
+                #settingsOptions="matMenu"
+                xPosition="before">
+                <ng-template [ngxPermissionsOnly]="['USER']">
+                    <button mat-menu-item routerLink="user-profile" routerLinkActive="active">settings
+                        <mat-icon>settings_application</mat-icon>
+                    </button>
+                </ng-template>
+                <button mat-menu-item (click)="signOut()">sign-out
+                    <mat-icon>exit_to_app</mat-icon>
                 </button>
-                <mat-menu
-                    #settingsOptions="matMenu"
-                    xPosition="before">
-                    <ng-template [ngxPermissionsOnly]="['USER']">
-                        <a mat-menu-item routerLink="user-profile" routerLinkActive="active">settings
-                            <mat-icon>settings_application</mat-icon>
-                        </a>
-                    </ng-template>
-                    <a mat-menu-item role="button" (click)="signOut()">sign-out
-                        <mat-icon>exit_to_app</mat-icon>
-                    </a>
-                </mat-menu>
-            </li>
-        </ul>
+            </mat-menu>
+        </main>
     </ng-container>
     <ng-template #authentication>
         <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>

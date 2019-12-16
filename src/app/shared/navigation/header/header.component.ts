@@ -10,7 +10,7 @@ import { AuthenticationService } from 'src/app/core/services/authentication/auth
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.less']
 })
 export class HeaderComponent {
 
