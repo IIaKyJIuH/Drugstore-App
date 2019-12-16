@@ -58,12 +58,16 @@ export class StoreComponent {
     
   }
 
-  bookItem(element): void {
+  addToCart(element): void {
     this.shoppingCart.addItem(element);
   }
 
-  unBookItem(element): void {
+  subFromCart(element): void {
     this.shoppingCart.removeItem(element);
+  }
+
+  isInCart(element): boolean {
+    return this.shoppingCart.isInCart(element);
   }
 
   goToDetailedInfo(row): void {

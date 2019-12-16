@@ -3,7 +3,7 @@
 </ng-template>
 
 <ng-container***REMOVED***ngIf="medicines$ | async as medicines; else loading">
-    <ng-template [ngxPermissionsOnly]="['USER']" [ngxPermissionsOnlyElse]="elseBlock"> <!-- code duplicate for killing error bubbling in console  -->
+    <ng-template [ngxPermissionsOnly]="['USER']" [ngxPermissionsOnlyElse]="adminTable"> <!-- code duplicate for killing error bubbling in console  -->
         <table mat-table [dataSource]="medicines" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="pharmacy">
                 <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Pharmacy </th>
@@ -40,7 +40,7 @@
             <tr mat-row***REMOVED***matRowDef="let row; columns: displayedColumns" (click)="onItemClicked(row)"></tr>
         </table>
     </ng-template>
-    <ng-template #elseBlock>
+    <ng-template #adminTable>
         <table mat-table [dataSource]="medicines" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="pharmacy">
                 <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Pharmacy </th>
