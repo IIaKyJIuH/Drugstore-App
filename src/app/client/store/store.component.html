@@ -2,6 +2,11 @@
     <div>Haha admin loh</div>
 </ng-template>
 
+<div fxLayout fxLayoutAlign="center center">
+    <mat-form-field fxFlex="75%">
+        <input matInput type="text" placeholder="Filter" #filter>
+    </mat-form-field>
+</div>
 <ng-container***REMOVED***ngIf="medicines$ | async as medicines; else loading">
     <ng-template [ngxPermissionsOnly]="['USER']" [ngxPermissionsOnlyElse]="adminTable"> <!-- code duplicate for killing error bubbling in console  -->
         <table mat-table [dataSource]="medicines" matSort class="mat-elevation-z8">
