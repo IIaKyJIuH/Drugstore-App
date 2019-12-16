@@ -1,8 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { fromEvent, Observable } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { DataService } from 'src/app/core/services/data/data.service';
 import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
 
@@ -14,7 +14,7 @@ import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.se
   templateUrl: './store.component.html',
   styleUrls: ['./store.component.css']
 })
-export class StoreComponent {
+export class StoreComponent implements AfterViewInit {
 
   medicines$: Observable<MatTableDataSource<any>>;
 
@@ -23,17 +23,16 @@ export class StoreComponent {
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild('filter', { static: false}) filter: ElementRef;
 
   constructor(
     private router: Router,
     private dataService: DataService,
     private shoppingCart: ShoppingCartService,
-  ) {
-    this.getAllMedicines();
-  }
+  ) {}
 
-  getAllMedicines(): void {
-    this.medicines$ = this.dataService.getAllMedicines().pipe(
+  getAllMedicines(): Observable<MatTableDataSource<any>> {
+    return this.dataService.getAllMedicines().pipe(
       map((data: any) => {
         const dataArr = new MatTableDataSource<any>();
         for (const pharmacy of Object.keys(data.pharmacies)) { // Прибавляем новые поля к каждому элементу из аптек
@@ -49,13 +48,10 @@ export class StoreComponent {
         }
         dataArr.paginator = this.paginator;
         dataArr.sort = this.sort;
+        dataArr.filterPredicate = (element: any, filter: string) => element.term.startsWith(filter);
         return dataArr;
       })
     );
-  }
-
-  onItemClicked(id: number) {
-    
   }
 
   addToCart(element): void {
@@ -87,6 +83,27 @@ export class StoreComponent {
 
   deleteFromDb(element): void {
     this.dataService.deleteMedicineFromDb(element);
+  }
+
+  ngAfterViewInit(): void {
+    const startingKeyboardEvent = new KeyboardEvent("keyup", {
+      bubbles : true,
+      cancelable : true,
+      key : "just for activating fromEvent",
+      shiftKey : true,
+    }); 
+    this.filter.nativeElement.dispatchEvent(startingKeyboardEvent); // For setting target to this event
+    this.medicines$ = fromEvent(this.filter.nativeElement, 'keyup').pipe(
+      startWith(startingKeyboardEvent),
+      switchMap((event: any) => {
+        return this.getAllMedicines().pipe(
+          map((data: any) => {
+            data.filter = event.target.value;
+            return data;
+          })
+        );
+      })
+    )
   }
 
 }
