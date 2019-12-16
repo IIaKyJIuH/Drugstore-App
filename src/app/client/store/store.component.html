@@ -3,30 +3,30 @@
 </ng-template>
 
 <ng-container *ngIf="medicines$ | async as medicines; else loading">
-    <table mat-table [dataSource]="medicines" matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="pharmacy">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Pharmacy </th>
-            <td mat-cell *matCellDef="let element"> {{ element.pharmacy }} </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="term">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Medicine name </th>
-            <td mat-cell *matCellDef="let element"> {{ element.term }} </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="count">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Count </th>
-            <td mat-cell *matCellDef="let element"> {{ element.count }} </td>
-        </ng-container>
+    <ng-template [ngxPermissionsOnly]="['USER']" [ngxPermissionsOnlyElse]="elseBlock"> <!-- code duplicate for killing error bubbling in console  -->
+        <table mat-table [dataSource]="medicines" matSort class="mat-elevation-z8">
+            <ng-container matColumnDef="pharmacy">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Pharmacy </th>
+                <td mat-cell *matCellDef="let element"> {{ element.pharmacy }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="term">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Medicine name </th>
+                <td mat-cell *matCellDef="let element"> {{ element.term }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="count">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Count </th>
+                <td mat-cell *matCellDef="let element"> {{ element.count }} </td>
+            </ng-container>
 
-        <ng-container matColumnDef="controls">
-            <ng-template [ngxPermissionsOnly]="['USER']" [ngxPermissionsOnlyElse]="elseBlock">
+            <ng-container matColumnDef="controls"> <!-- THE ONLY THING THAT DIFFERS FROM BELOW BECAUSE OF THE NgxPermissions -->
                 <th mat-header-cell *matHeaderCellDef> Controls </th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-flat-button color="warn" (click)="unBookItem(element)">
+                    <button mat-mini-fab color="warn" (click)="subFromCart(element)" *ngIf="isInCart(element)">
                         <mat-icon>exposure_neg_1</mat-icon>
                     </button>
-                    <button mat-flat-button color="warn" (click)="bookItem(element)">
+                    <button mat-mini-fab color="warn" (click)="addToCart(element)">
                         <mat-icon>exposure_plus_1</mat-icon>
                     </button>
                     <a
@@ -34,8 +34,30 @@
                         color="accent"
                         [href]="'https://en.wikipedia.org/wiki/' + element.term">wiki page</a>
                 </td>
-            </ng-template>
-            <ng-template #elseBlock>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="onItemClicked(row)"></tr>
+        </table>
+    </ng-template>
+    <ng-template #elseBlock>
+        <table mat-table [dataSource]="medicines" matSort class="mat-elevation-z8">
+            <ng-container matColumnDef="pharmacy">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Pharmacy </th>
+                <td mat-cell *matCellDef="let element"> {{ element.pharmacy }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="term">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Medicine name </th>
+                <td mat-cell *matCellDef="let element"> {{ element.term }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="count">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Count </th>
+                <td mat-cell *matCellDef="let element"> {{ element.count }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="controls">  <!-- THE ONLY THING THAT DIFFERS FROM ABOVE BECAUSE OF THE NgxPermissions -->
                 <th mat-header-cell *matHeaderCellDef>ADMIN controls</th>
                 <td mat-cell *matCellDef="let element">
                     <button 
@@ -50,12 +72,12 @@
                         </mat-select>
                     </mat-form-field>
                 </td>
-            </ng-template>
-        </ng-container>
-        
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="onItemClicked(row)"></tr>
-    </table>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="onItemClicked(row)"></tr>
+        </table>
+    </ng-template>
 </ng-container>
 <mat-paginator
     [pageSize]="10"
