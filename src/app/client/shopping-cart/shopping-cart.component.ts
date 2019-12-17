@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { BookingsService } from 'src/app/core/services/data/bookings.service';
 import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
@@ -20,6 +21,7 @@ export class ShoppingCartComponent {
   constructor(
     private cartService: ShoppingCartService,
     private notifications: NotificationService,
+    private bookingsService: BookingsService,
     private dialog: MatDialog
   ) { 
     this.myItems$ = this.cartService.getCurrentCart();
@@ -34,6 +36,7 @@ export class ShoppingCartComponent {
             this.cartService.bookItems(items);
             this.removeAll(items);
             this.notifications.showSuccess('Alright, your medicine products will be prepared as soon as possible', 'Booked');
+            this.bookingsService.subMedicinesFromDb(items);
           }
         }
       );
