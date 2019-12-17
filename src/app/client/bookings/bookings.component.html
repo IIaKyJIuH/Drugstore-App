@@ -1,0 +1,62 @@
+<ng-container***REMOVED***ngIf="allBookings$ | async as bookings">
+    <div***REMOVED***ngIf="bookings.length === 0; else nonEmpty">
+        There aren`t any booked items
+    </div>
+    <ng-template #nonEmpty>
+        <mat-list>
+            <mat-list-item***REMOVED***ngFor="let booking of bookings" style="margin-bottom: 20px">
+                <ng-template
+                    [ngxPermissionsOnly]="['STAFF']"
+                    [ngxPermissionsOnlyElse]="userBlock">
+                    <h2 matLine style="font-size: 1.25em; color: orangered"><strong>{{ booking.email }}</strong></h2>
+                    <main
+                        fxFlex fxLayoutWrap fxLayout="column" fxLayoutAlign="start center"
+                        matLine
+                      ***REMOVED*****REMOVED***ngFor="let item of booking.items"
+                        style="text-align: justify; font-size: 1.15em">
+                        <span>Medicine: <i><strong>{{ item.term }}</strong></i></span>
+                        <span>Amount: <u>{{ item.count }}</u></span>
+                    </main>
+                    <button
+                        mat-flat-button
+                        color="primary"
+                      ***REMOVED*****REMOVED***ngIf="!booking.isReady; else checkIfBought"
+                        (click)="setToPrepared(booking)">
+                        SET TO PREPARED
+                    </button>
+                    <ng-template #checkIfBought>
+                        <main
+                            fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="10px">
+                            <button
+                                mat-flat-button
+                                (click)="setToSuccessfulTransaction(booking)">
+                                Success
+                            </button>
+                            <button
+                                mat-flat-button
+                                (click)="setToFailedTransaction(booking)">
+                                Fail
+                            </button>
+                        </main>
+                    </ng-template>
+                </ng-template>
+                <ng-template #userBlock>
+                    <main
+                        fxFlex fxLayout="column" fxLayoutAlign="start center"
+                        matLine
+                      ***REMOVED*****REMOVED***ngFor="let item of booking.items"
+                        style="text-align: justify; font-size: 1.15em">
+                        <span>Medicine: <i><strong>{{ item.term }}</strong></i></span>
+                        <span>Amount: <u>{{ item.count }}</u></span>
+                    </main>
+                    <button mat-raised-button color="warn" (click)="unBookTransaction(booking.items)">
+                        Unbook items
+                    </button>
+                </ng-template>
+            </mat-list-item>
+        </mat-list>
+    </ng-template>
+</ng-container>    
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>
