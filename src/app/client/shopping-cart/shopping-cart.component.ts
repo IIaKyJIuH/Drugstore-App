@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
+import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -12,21 +15,39 @@ export class ShoppingCartComponent {
 
   myItems$: Observable<any>;
 
-  objectObj = Object;
-
   displayedColumns = ['Name', 'Count', 'Pharmacy', 'Controls'];
 
   constructor(
     private cartService: ShoppingCartService,
-    private notifications: NotificationService
+    private notifications: NotificationService,
+    private dialog: MatDialog
   ) { 
     this.myItems$ = this.cartService.getCurrentCart();
   }
 
   bookItems(items): void {
-    this.cartService.bookItems(items);
-    this.removeAll(items);
-    this.notifications.showSuccess('Alright, your medicine products will be prepared as soon as possible', 'Booked');
+    this.openConfirmationDialog()
+      .pipe(take(1))
+      .subscribe(
+        (isConfirmed) => {
+          if (isConfirmed) {
+            this.cartService.bookItems(items);
+            this.removeAll(items);
+            this.notifications.showSuccess('Alright, your medicine products will be prepared as soon as possible', 'Booked');
+          }
+        }
+      );
+  }
+
+  openConfirmationDialog(): Observable<any> {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '50vw',
+      data: {
+        message: 'Click "Yes" button if you want to book selected items'
+      }
+    });
+
+    return dialogRef.afterClosed();
   }
 
   removeAll(items): void {
