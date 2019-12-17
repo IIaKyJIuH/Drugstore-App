@@ -5,25 +5,37 @@
         (click)="onSidenavOpen()">
         <mat-icon>menu</mat-icon>
     </button>
-    <a routerLink="home" routerLinkActive="active">
+    <a
+        routerLink="home"
+        routerLinkActive="active">
         <mat-icon fxHide.lt-sm>home</mat-icon>
         <span fxHide.gt-xs>Home</span>
     </a>
     <mat-divider fxHide.lt-sm style="height: 100%; margin: 0 15px;" [vertical]="true"></mat-divider>
     <ng-container***REMOVED***ngIf="isAuthenticated$ | async; else authentication">
         <ng-template [ngxPermissionsExcept]="['STAFF']">
-            <a routerLink="store" routerLinkActive="active">
+            <a
+                routerLink="store"
+                routerLinkActive="active"
+                matTooltip="Go to store">
                 <mat-icon fxHide.lt-sm>store</mat-icon>
             </a>
         </ng-template>
         <main fxFlex fxLayout fxLayoutAlign="end center" fxHide.xs>
             <ng-template [ngxPermissionsOnly]="['USER']">
-                <button mat-icon-button routerLink="cart" routerLinkActive="active">
+                <button
+                    mat-icon-button
+                    routerLink="cart"
+                    routerLinkActive="active">
                     <mat-icon>shopping_cart</mat-icon>
                 </button>
             </ng-template>
-            <ng-template [ngxPermissionsOnly]="['STAFF']">
-                <button mat-icon-button routerLink="bookings" routerLinkActive="active">
+            <ng-template [ngxPermissionsExcept]="['ADMIN']">
+                <button
+                    mat-icon-button
+                    routerLink="bookings"
+                    routerLinkActive="active"
+                    matTooltip="Bookings">
                     <mat-icon>storage</mat-icon>
                 </button>
             </ng-template>
