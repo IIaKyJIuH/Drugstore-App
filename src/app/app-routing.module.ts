@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { BookingsComponent } from './client/bookings/bookings.component';
 import { DataFormComponent } from './client/data-form/data-form.component';
 import { DetailedMedicineComponent } from './client/detailed-medicine/detailed-medicine.component';
 import { HomeComponent } from './client/home/home.component';
@@ -60,12 +61,38 @@ const routes: Routes = [
   {
     path: 'cart',
     component: ShoppingCartComponent,
-    canActivate: [NgxPermissionsGuard],
-    data: {
-      permissions: {
-        only: 'USER'
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: ShoppingCartComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: 'USER',
+            redirectTo: 'home'
+          }
+        }
       }
-    }
+    ]
+***REMOVED***
+  {
+    path: 'bookings',
+    component: BookingsComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: BookingsComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: 'STAFF',
+            redirectTo: 'home'
+          }
+        }
+      }
+    ]
 ***REMOVED***
   {
     path: 'user-profile',
