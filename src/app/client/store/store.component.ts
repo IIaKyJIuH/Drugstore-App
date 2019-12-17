@@ -47,7 +47,7 @@ export class StoreComponent implements AfterViewInit {
           }
         }
         dataArr.paginator = this.paginator;
-        dataArr.sort = this.sort;
+        setTimeout(() => {dataArr.sort = this.sort;}, 0); // For dealing with ngIf problem
         dataArr.filterPredicate = (element: any, filter: string) => element.term.startsWith(filter);
         return dataArr;
       })
@@ -59,7 +59,7 @@ export class StoreComponent implements AfterViewInit {
   }
 
   subFromCart(element): void {
-    this.shoppingCart.removeItem(element);
+    this.shoppingCart.minusItem(element);
   }
 
   isInCart(element): boolean {
