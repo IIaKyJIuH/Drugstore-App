@@ -1,12 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth, User } from 'firebase';
+import { User, UserCredential } from '@firebase/auth-types';
+import { auth } from 'firebase';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { from, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CredentialsModel } from '../models/credentials-model';
 import { UserModel } from '../models/user-model';
-import UserCredential = firebase.auth.UserCredential;
 
 /**
  * Service that authorizes user at FireBase.
