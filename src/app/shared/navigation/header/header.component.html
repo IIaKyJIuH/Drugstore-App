@@ -19,10 +19,18 @@
         <main fxFlex fxLayout fxLayoutAlign="end center" fxHide.xs>
             <ng-template [ngxPermissionsOnly]="['USER']">
                 <button mat-icon-button routerLink="cart" routerLinkActive="active">
-                    <mat-icon>add_shopping_cart</mat-icon>
+                    <mat-icon>shopping_cart</mat-icon>
                 </button>
             </ng-template>
-            <span class="currentUser">{{ currentUserEmail() }}</span>
+            <ng-template [ngxPermissionsOnly]="['STAFF']">
+                <button mat-icon-button routerLink="bookings" routerLinkActive="active">
+                    <mat-icon>storage</mat-icon>
+                </button>
+            </ng-template>
+            <div class="currentUser" fxLayout="column" fxLayoutAlign="space-between center">
+                <span>{{ currentUserData().email }}</span>
+                <span>{{ currentUserData().role }}</span>
+            </div>
             <button mat-icon-button [matMenuTriggerFor]="settingsOptions">
                 <mat-icon style="margin: 0 10px">build</mat-icon>
             </button>

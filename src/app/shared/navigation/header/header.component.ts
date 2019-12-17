@@ -52,11 +52,11 @@ export class HeaderComponent {
   }
 
 ***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** For getting current email.
- ***REMOVED*****REMOVED*** @return authorized user email.
+ ***REMOVED*****REMOVED*** For getting current user profile data.
+ ***REMOVED*****REMOVED*** @return authorized user email and his role.
  ***REMOVED*****REMOVED***/
-  currentUserEmail(): string {
-    return this.authService.getUserData().email;
+  currentUserData(): any {
+    return this.authService.getUserData();
   }
 
 }
