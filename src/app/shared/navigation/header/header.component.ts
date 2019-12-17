@@ -52,11 +52,11 @@ export class HeaderComponent {
   }
 
   /**
-   * For getting current email.
-   * @return authorized user email.
+   * For getting current user profile data.
+   * @return authorized user email and his role.
    */
-  currentUserEmail(): string {
-    return this.authService.getUserData().email;
+  currentUserData(): any {
+    return this.authService.getUserData();
   }
 
 }
