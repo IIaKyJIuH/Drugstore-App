@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { MaterialModule } from '../material.module';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 
@@ -14,7 +15,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
  * @inheritdoc
  */
 @NgModule({
-  declarations: [SidenavListComponent, HeaderComponent],
+  declarations: [SidenavListComponent, HeaderComponent, ConfirmationDialogComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -32,6 +33,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     NgxPermissionsModule,
     SidenavListComponent,
     HeaderComponent,
-  ]
+  ],
+  entryComponents: [ ConfirmationDialogComponent ]
 })
 export class SharedModule { }
