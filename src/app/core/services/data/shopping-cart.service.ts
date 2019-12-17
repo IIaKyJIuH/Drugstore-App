@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { AuthenticationService } from '../authentication/authentication.service';
 
 @Injectable({
@@ -41,6 +42,34 @@ export class ShoppingCartService {
     }
   }
 
+  bookItems(items): void {
+    this.database.object('/bookings/users').valueChanges()
+      .pipe(
+        take(1),
+        map(recordings => {
+          const currentEmail = this.authService.getUserData().email;
+          let returnedUser = {};
+          let isFound = false;
+          for (const recordKey of Object.keys(recordings)) {
+            const curUser = recordings[recordKey];
+            if (curUser.email === currentEmail) {
+              returnedUser = Object.assign({}, {
+                items: curUser.items,
+                recordKey
+              });
+              isFound = true;
+              break;
+            }
+          }
+          console.log('isFound', isFound);
+          if (!isFound) {
+            this.database.list('/bookings/users/').push({ email: currentEmail, items});
+          }
+          return returnedUser;
+        }),
+      ).subscribe();
+  }
+
   private plusItem(obj: any): void {
     const currentCart = this.currentCart$.getValue();
     const existingObjIndex = currentCart.findIndex(x => x.term === obj.term);
@@ -68,29 +97,33 @@ export class ShoppingCartService {
     }
   }
 
-  private minusItem(obj: any): void {
+  minusItem(obj: any): void {
     // this.database.list('/cart/users');
     const currentCart = JSON.parse(localStorage.getItem('cart'));
-    const existingObjIndex = currentCart.findIndex(x => x.term === obj.term);
-    if (existingObjIndex === -1) {
-      return;
-    }
-    if (currentCart[existingObjIndex].count === 1) {
-      currentCart.splice(existingObjIndex, 1);
-      localStorage.setItem('cart', JSON.stringify(currentCart));
-      this.currentCart$.next(currentCart);
-    } else {
-      currentCart[existingObjIndex].count--;
-      localStorage.setItem('cart', JSON.stringify(currentCart));
-      this.currentCart$.next(currentCart);
+    if (currentCart) {
+      const existingObjIndex = currentCart.findIndex(x => x.term === obj.term);
+      if (existingObjIndex === -1) {
+        return;
+      }
+      if (currentCart[existingObjIndex].count === 1) {
+        currentCart.splice(existingObjIndex, 1);
+        localStorage.setItem('cart', JSON.stringify(currentCart));
+        this.currentCart$.next(currentCart);
+      } else {
+        currentCart[existingObjIndex].count--;
+        localStorage.setItem('cart', JSON.stringify(currentCart));
+        this.currentCart$.next(currentCart);
+      }
     }
   }
 
   removeItem(obj: any): void {
     // this.database.list('/cart/users');
-    const currentCart = localStorage.getItem('cart');
+    const currentCart = JSON.parse(localStorage.getItem('cart'));
     if (currentCart) {
-      this.minusItem(obj);
+      for (let i = 0; i < obj.count; i++) {
+        this.minusItem(obj);
+      }
     }
   }
 
