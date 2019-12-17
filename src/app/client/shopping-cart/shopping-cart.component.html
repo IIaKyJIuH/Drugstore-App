@@ -1,6 +1,6 @@
 <ng-container *ngIf="myItems$ | async as items">
     <div *ngIf="items.length === 0; else nonEmpty">
-        Sorry, but for now there is now items in your shopping cart
+        Sorry, but for now there are no items in your shopping cart
     </div>
     <ng-template #nonEmpty>
         <table mat-table [dataSource]="items" matSort class="mat-elevation-z8">
