@@ -87,7 +87,7 @@ const routes: Routes = [
         canActivate: [NgxPermissionsGuard],
         data: {
           permissions: {
-            only: 'STAFF',
+            except: 'ADMIN',
             redirectTo: 'home'
           }
         }
