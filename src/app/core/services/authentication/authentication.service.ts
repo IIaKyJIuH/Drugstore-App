@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { auth, User } from 'firebase';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { from, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CredentialsModel } from '../models/credentials-model';
 import { UserModel } from '../models/user-model';
 import UserCredential = firebase.auth.UserCredential;
@@ -51,6 +51,15 @@ export class AuthenticationService {
         });
       });
     });
+    const uids = {
+      admin: [
+        'jvJiZZZ8WnUizGfLyBr8AIQOU6Z2'
+      ],
+      staff: [
+        '1UepQikTzlMzzXVvK6tX8jAEGHI3'
+      ]
+    };
+    localStorage.setItem('uids', JSON.stringify(uids));
   }
 
   /**
@@ -86,16 +95,33 @@ export class AuthenticationService {
     const permissions = ['watchStaffuser', 'editStaffuser', 'watchMedicines', 'bookMedicines', 'editMedicines', 'watchArchive', 'editArchive', 'doClientQueries', 'watchEmailuser', 'editEmailuser'];
     this.ngxPermissions.loadPermissions(permissions);
     localStorage.setItem(this.USER_EMAIL, user.email);
-    if (UID === 'jvJiZZZ8WnUizGfLyBr8AIQOU6Z2') {
+    const uids = JSON.parse(localStorage.getItem('uids'));
+    if (uids.admin.includes(UID)) {
       localStorage.setItem(this.USER_ROLE, 'ADMIN');
       this.ngxRoles.addRole('ADMIN', permissions);
-    } else if (UID === '1UepQikTzlMzzXVvK6tX8jAEGHI3') {
+    } else if (uids.staff.includes(UID)) {
       localStorage.setItem(this.USER_ROLE, 'STAFF');
       this.ngxRoles.addRole('STAFF', ['watchArchive', 'doClientQueries']);
     } else {
       localStorage.setItem(this.USER_ROLE, 'USER');
       this.ngxRoles.addRole('USER', ['watchMedicines', 'bookMedicines']);
     }
+  }
+
+  addNewStaff(staff: CredentialsModel): void {
+    from(this.afAuth.auth.createUserWithEmailAndPassword(staff.email, staff.password)).pipe(
+      take(1),
+      switchMap(userData => {
+        const uids = JSON.parse(localStorage.getItem('uids'));
+        if (!uids.staff.includes(userData.user.uid)) {
+          uids.staff.push(userData.user.uid);
+        }
+        localStorage.setItem('uids', uids);
+        return of(userData.user.sendEmailVerification()).pipe(
+          map(() => userData)
+        )
+      })
+    ).subscribe();
   }
 
   /**
