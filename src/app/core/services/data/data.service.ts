@@ -18,7 +18,7 @@ export class DataService {
   }
 
   getAllMedicines(): Observable<any> {
-    return this.database.object('/medicines').valueChanges();
+    return this.database.object('/medicines/pharmacies').valueChanges();
   }
 
   moveToAnotherPharmacy(pharmacy: string, medicine: object): void {

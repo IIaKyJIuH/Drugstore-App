@@ -33,14 +33,14 @@ export class StoreComponent implements AfterViewInit {
 
   getAllMedicines(): Observable<MatTableDataSource<any>> {
     return this.dataService.getAllMedicines().pipe(
-      map((data: any) => {
+      map((pharmacies: any) => {
         const dataArr = new MatTableDataSource<any>();
-        for (const pharmacy of Object.keys(data.pharmacies)) { // Прибавляем новые поля к каждому элементу из аптек
+        for (const pharmacy of Object.keys(pharmacies)) { // Прибавляем новые поля к каждому элементу из аптек
           if (!this.pharmaciesList.includes(pharmacy)) {
             this.pharmaciesList.push(pharmacy);
           }
-          for (const key of Object.keys(data.pharmacies[pharmacy])) {
-            dataArr.data.push(Object.assign(data.pharmacies[pharmacy][key], {
+          for (const key of Object.keys(pharmacies[pharmacy])) {
+            dataArr.data.push(Object.assign(pharmacies[pharmacy][key], {
               pharmacy,
               key
             }));
