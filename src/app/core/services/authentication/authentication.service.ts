@@ -144,6 +144,7 @@ export class AuthenticationService {
   private deleteUserData(): void {
     localStorage.removeItem(this.USER_EMAIL);
     localStorage.removeItem(this.USER_ROLE);
+    localStorage.removeItem('cart');
   }
 
   /**
