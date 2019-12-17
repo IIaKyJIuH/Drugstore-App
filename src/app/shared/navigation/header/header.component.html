@@ -17,9 +17,11 @@
             </a>
         </ng-template>
         <main fxFlex fxLayout fxLayoutAlign="end center" fxHide.xs>
-            <button mat-icon-button routerLink="cart" routerLinkActive="active">
-                <mat-icon>add_shopping_cart</mat-icon>
-            </button>
+            <ng-template [ngxPermissionsOnly]="['USER']">
+                <button mat-icon-button routerLink="cart" routerLinkActive="active">
+                    <mat-icon>add_shopping_cart</mat-icon>
+                </button>
+            </ng-template>
             <span class="currentUser">{{ currentUserEmail() }}</span>
             <button mat-icon-button [matMenuTriggerFor]="settingsOptions">
                 <mat-icon style="margin: 0 10px">build</mat-icon>
