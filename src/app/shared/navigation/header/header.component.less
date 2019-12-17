@@ -15,8 +15,13 @@ a {
     }
 }
 
-.currentUser {
+.currentUser > span:first-child {
     color: blue;
+}
+
+.currentUser > span:not(:first-child) {
+    font-weight: bold;
+    color: black;
 }
 
 .mat-icon:hover {
