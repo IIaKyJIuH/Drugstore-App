@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
 import { AuthenticationService } from '../authentication/authentication.service';
 
 @Injectable({
@@ -43,31 +42,34 @@ export class ShoppingCartService {
   }
 
   bookItems(items): void {
-    this.database.object('/bookings/users').valueChanges()
-      .pipe(
-        take(1),
-        map(recordings => {
-          const currentEmail = this.authService.getUserData().email;
-          let returnedUser = {***REMOVED***
-          let isFound = false;
-          for (const recordKey of Object.keys(recordings)) {
-            const curUser = recordings[recordKey];
-            if (curUser.email === currentEmail) {
-              returnedUser = Object.assign({}, {
-                items: curUser.items,
-                recordKey
-              });
-              isFound = true;
-              break;
-            }
-          }
-          console.log('isFound', isFound);
-          if (!isFound) {
-            this.database.list('/bookings/users/').push({ email: currentEmail, items});
-          }
-          return returnedUser;
-        }),
-      ).subscribe();
+    // this.database.object('/bookings/users').valueChanges()
+    //   .pipe(
+    //     take(1),
+    //     map(recordings => {
+    //       const currentEmail = this.authService.getUserData().email;
+    //       let returnedUser = {***REMOVED***
+    //       let isFound = false;
+    //       for (const recordKey of Object.keys(recordings)) {
+    //         const curUser = recordings[recordKey];
+    //         if (curUser.email === currentEmail) {
+    //           returnedUser = Object.assign({}, {
+    //             items: curUser.items,
+    //             recordKey
+    //           });
+    //           isFound = true;
+    //           break;
+    //         }
+    //       }
+    //       if (!isFound) {
+    //         this.database.list('/bookings/users/').push({ email: currentEmail, items});
+    //       } else {
+    //         this.database.list('/bookings/users/').push(items);
+    //       }
+    //       return returnedUser;
+    //     }),
+    //   ).subscribe();
+    const currentEmail = this.authService.getUserData().email;
+    this.database.list('/bookings/users/').push({ email: currentEmail, items });
   }
 
   private plusItem(obj: any): void {
