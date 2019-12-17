@@ -42,7 +42,7 @@ export class ShoppingCartComponent {
       );
   }
 
-  openConfirmationDialog(): Observable<any> {
+  private openConfirmationDialog(): Observable<any> {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '50vw',
       data: {
