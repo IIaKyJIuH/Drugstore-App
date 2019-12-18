@@ -4,16 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
-import { UserStatiscticsComponent } from './user-statisctics/user-statisctics.component';
-import { StaffStatiscticsComponent } from './staff-statisctics/staff-statisctics.component';
-import { MedicinesStatiscticsComponent } from './medicines-statisctics/medicines-statisctics.component';
+import { MedicinesStatisticsComponent } from './medicines-statistics/medicines-statistics.component';
+import { StaffStatisticsComponent } from './staff-statistics/staff-statistics.component';
+import { UsersStatisticsComponent } from './users-statistics/users-statistics.component';
 
 
 ***REMOVED****
 ***REMOVED*** Admin main module.
 ***REMOVED***/
 @NgModule({
-  declarations: [AdminComponent, UserStatiscticsComponent, StaffStatiscticsComponent, MedicinesStatiscticsComponent],
+  declarations: [AdminComponent, UsersStatisticsComponent, StaffStatisticsComponent, MedicinesStatisticsComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
