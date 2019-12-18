@@ -9,6 +9,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { StoreComponent } from './store/store.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { WrongPathComponent } from './wrong-path/wrong-path.component';
+import { ArchiveComponent } from './archive/archive.component';
 
 
 ***REMOVED****
@@ -24,6 +25,7 @@ import { WrongPathComponent } from './wrong-path/wrong-path.component';
     DetailedMedicineComponent,
     ShoppingCartComponent,
     BookingsComponent,
+    ArchiveComponent,
   ],
   imports: [
     SharedModule,
