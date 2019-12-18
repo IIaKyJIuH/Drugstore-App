@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { BookingsService } from 'src/app/core/services/data/bookings.service';
+import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
@@ -18,6 +19,7 @@ export class BookingsComponent {
   constructor(
     private bookingsService: BookingsService,
     private database: AngularFireDatabase,
+    private notifications: NotificationService,
     private dialog: MatDialog
   ) {
     this.allBookings$ = this.getAllBookings();
@@ -42,7 +44,7 @@ export class BookingsComponent {
   setToPrepared(booking): void {
     booking.isReady = true;
     this.saveToLocalStorage(booking);
-    // TODO: send email notification
+    // TODO: send sms notification
   }
 
   private saveToLocalStorage(booking): void {
@@ -93,6 +95,7 @@ export class BookingsComponent {
         (isConfirmed) => {
           if (isConfirmed) {
             this.bookingsService.unBookTransactionFrom(transaction);
+            this.notifications.showWarning('Transaction was cancelled', 'Unbooked');
           }
         }
       );
