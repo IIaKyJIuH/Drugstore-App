@@ -4,7 +4,7 @@
             <h3> {{ employee.email }} </h3>
         </mat-card-header>
         <mat-card-content fxFlex fxLayout="row" fxLayoutWrap fxLayoutAlign="center center" fxLayoutGap="10px">
-            <article [style.border]="doEmailChange ? '2px solid hotpink' : ''">
+            <!-- <article [style.border]="doEmailChange ? '2px solid hotpink' : ''">
                 <button mat-stroked-button (click)="doEmailChange = !doEmailChange">CHANGE EMAIL</button>
                 <ng-container***REMOVED***ngIf="doEmailChange">
                     <form
@@ -44,7 +44,7 @@
                         <button mat-raised-button type="submit" [disabled]="changePasswordForm.invalid" color="accent">APPLY NEW STAFF PASSWORD</button>
                     </form>
                 </ng-container>
-            </article>
+            </article> -->
             <button mat-stroked-button color="primary" (click)="resetPassword(employee.email)">RESET PASSWORD</button>
         </mat-card-content>
     </mat-card>
