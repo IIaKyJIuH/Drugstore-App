@@ -19,7 +19,7 @@ export class StaffStatisticsComponent {
       .pipe(
         map(staffList => {
           const filtered = staffList
-            .sort((a, b) => b.purchased - a.purchased)
+            .sort((a, b) => b.purchasedItems - a.purchasedItems)
             .slice(0, 1);
           return filtered;
         })
