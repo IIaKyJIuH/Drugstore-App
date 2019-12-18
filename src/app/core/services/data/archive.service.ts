@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthenticationService } from '../authentication/authentication.service';
 
 @Injectable({
@@ -11,6 +13,19 @@ export class ArchiveService {
     private database: AngularFireDatabase,
     private authService: AuthenticationService
   ) {}
+
+  getAllTransactions(): Observable<any> {
+    return this.database.list('/archive/transactions/').valueChanges()
+      .pipe(
+        map(recordings => {
+          const transactionsArr = [];
+          for (const recordKey of Object.keys(recordings)) {
+            transactionsArr.push(recordings[recordKey]);
+          }
+          return transactionsArr;
+        })
+      )
+  }
 
   writeCancelledBooking(booking): void {
     const currentDate = new Date();
