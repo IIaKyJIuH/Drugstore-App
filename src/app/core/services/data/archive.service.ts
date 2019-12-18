@@ -15,9 +15,10 @@ export class ArchiveService {
   writeCancelledBooking(booking): void {
     const currentDate = new Date();
     const currentTime = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}, ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+    const itemsCount = booking.items.reduce((temp, {count}) => temp + count, 0);
     this.database.list('/archive/transactions/').push({
       date: currentTime,
-      purchases: booking.items.length,
+      purchases: itemsCount,
       userEmail: booking.email,
       status: 'cancelled'
     });
@@ -27,9 +28,10 @@ export class ArchiveService {
     const currentDate = new Date();
     const currentTime = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}, ${currentDate.getHours()}:${currentDate.getMinutes()}`;
     const currentUser = this.authService.getUserData();
+    const itemsCount = transaction.items.reduce((temp, {count}) => temp + count, 0);
     this.database.list('/archive/transactions/').push({
       date: currentTime,
-      purchases: transaction.items.length,
+      purchases: itemsCount,
       staffEmail: currentUser.email,
       userEmail: transaction.email,
       status: 'success'
@@ -40,9 +42,10 @@ export class ArchiveService {
     const currentDate = new Date();
     const currentTime = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}, ${currentDate.getHours()}:${currentDate.getMinutes()}`;
     const currentUser = this.authService.getUserData();
+    const itemsCount = transaction.items.reduce((temp, {count}) => temp + count, 0);
     this.database.list('/archive/transactions/').push({
       date: currentTime,
-      purchases: transaction.items.length,
+      purchases: itemsCount,
       staffEmail: currentUser.email,
       userEmail: transaction.email,
       status: 'failure'
