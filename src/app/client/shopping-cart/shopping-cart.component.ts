@@ -44,7 +44,7 @@ export class ShoppingCartComponent {
 
   private openConfirmationDialog(): Observable<any> {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '50vw',
+      width: '400px',
       data: {
         message: 'Click "Yes" button if you want to book selected items'
       }
