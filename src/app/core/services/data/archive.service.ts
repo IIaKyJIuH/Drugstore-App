@@ -7,14 +7,10 @@ import { AuthenticationService } from '../authentication/authentication.service'
 })
 export class ArchiveService {
 
-  currentUser: any;
-
   constructor(
     private database: AngularFireDatabase,
     private authService: AuthenticationService
-  ) {
-    this.currentUser = this.authService.getUserData();
-   }
+  ) {}
 
   writeCancelledBooking(booking): void {
     const currentDate = new Date();
@@ -30,10 +26,11 @@ export class ArchiveService {
   writeSuccessfulTransaction(transaction): void {
     const currentDate = new Date();
     const currentTime = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}, ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+    const currentUser = this.authService.getUserData();
     this.database.list('/archive/transactions/').push({
       date: currentTime,
       purchases: transaction.items.length,
-      staffEmail: this.currentUser.email,
+      staffEmail: currentUser.email,
       userEmail: transaction.email,
       status: 'success'
     });
@@ -42,10 +39,11 @@ export class ArchiveService {
   writeFailedTransaction(transaction): void {
     const currentDate = new Date();
     const currentTime = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}, ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+    const currentUser = this.authService.getUserData();
     this.database.list('/archive/transactions/').push({
       date: currentTime,
       purchases: transaction.items.length,
-      staffEmail: this.currentUser.email,
+      staffEmail: currentUser.email,
       userEmail: transaction.email,
       status: 'failure'
     });
