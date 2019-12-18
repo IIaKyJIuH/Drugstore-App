@@ -8,13 +8,13 @@ import { AuthenticationService } from '../authentication/authentication.service'
 })
 export class StatisticsService {
 
-  staffEmail: string;
+  currentUser: any;
 
   constructor(
     private database: AngularFireDatabase,
     private authService: AuthenticationService
   ) { 
-    this.staffEmail = this.authService.getUserData().email;
+    this.currentUser = this.authService.getUserData();
   }
 
   getMedicinesStatistics(): Observable<any> {
@@ -33,7 +33,7 @@ export class StatisticsService {
     
   }
 
-  writeUnBookedTransaction(element): void {
+  writeCancelledTransaction(element): void {
 
   }
 

@@ -88,7 +88,7 @@ export class BookingsService {
     ).subscribe();
   }
 
-  unBookTransactionFrom(booking): void {
+  cancellTransaction(booking): void {
     const bookingAsStr = JSON.stringify(booking.items);
     this.database.object('/bookings/users/').valueChanges()
       .pipe(
@@ -98,8 +98,8 @@ export class BookingsService {
             const transaction = recordings[recordKey];
             if (transaction.email === booking.email) {
               if (JSON.stringify(transaction.items) === bookingAsStr) {
-                this.archiveService.writeUnBookedTransaction(transaction);
-                this.statisticsService.writeUnBookedTransaction(transaction);
+                this.archiveService.writeCancelledTransaction(transaction);
+                this.statisticsService.writeCancelledTransaction(transaction);
                 this.database.object(`/bookings/users/${recordKey}`).remove();
                 this.restoreMedicinesToDb(transaction.items);
                 return;
