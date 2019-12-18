@@ -1,1 +1,10 @@
-<p>archive works!</p>
+<ng-container *ngIf="allTransactions$ | async as transactions; else loading">
+    <mat-list>
+        <mat-list-item *ngFor="let transaction of transactions">
+            {{ transaction | json }}
+        </mat-list-item>
+    </mat-list>
+</ng-container>
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>
