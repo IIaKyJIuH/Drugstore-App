@@ -129,6 +129,19 @@ export class ShoppingCartService {
     }
   }
 
+  isEnough(element): boolean {
+    const currentCart = this.currentCart$.getValue();
+    if (currentCart) {
+      const currentBookedElement = currentCart.find(x => x.term === element.term);
+      if (currentBookedElement) {
+        if (element.count === currentBookedElement.count) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   isInCart(element): boolean {
     const currentCart = this.currentCart$.getValue();
     if (currentCart) {

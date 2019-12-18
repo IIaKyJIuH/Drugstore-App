@@ -40,10 +40,12 @@ export class StoreComponent implements AfterViewInit {
             this.pharmaciesList.push(pharmacy);
           }
           for (const key of Object.keys(pharmacies[pharmacy])) {
-            dataArr.data.push(Object.assign(pharmacies[pharmacy][key], {
-              pharmacy,
-              key
-            }));
+            if (pharmacies[pharmacy][key].count !== 0) {
+              dataArr.data.push(Object.assign(pharmacies[pharmacy][key], {
+                pharmacy,
+                key
+              }));
+            }
           }
         }
         dataArr.paginator = this.paginator;
@@ -60,6 +62,10 @@ export class StoreComponent implements AfterViewInit {
 
   subFromCart(element): void {
     this.shoppingCart.minusItem(element);
+  }
+
+  isEnough(element): boolean {
+    return this.shoppingCart.isEnough(element);
   }
 
   isInCart(element): boolean {
