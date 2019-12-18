@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { StatisticsService } from 'src/app/core/services/data/statistics.service';
 
 @Component({
   selector: 'app-staff-statistics',
   templateUrl: './staff-statistics.component.html',
   styleUrls: ['./staff-statistics.component.css']
 })
-export class StaffStatisticsComponent implements OnInit {
+export class StaffStatisticsComponent {
 
-  constructor() { }
+  staffStatistics$: Observable<any>
 
-  ngOnInit() {
+  constructor(
+    private statisticsService: StatisticsService
+  ) { 
+    this.staffStatistics$ = statisticsService.getStaffStatistics();
   }
 
 }

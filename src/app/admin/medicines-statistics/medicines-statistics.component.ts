@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { StatisticsService } from 'src/app/core/services/data/statistics.service';
 
 @Component({
   selector: 'app-medicines-statistics',
   templateUrl: './medicines-statistics.component.html',
   styleUrls: ['./medicines-statistics.component.css']
 })
-export class MedicinesStatisticsComponent implements OnInit {
+export class MedicinesStatisticsComponent {
 
-  constructor() { }
+  medicinesStatistics$: Observable<any>
 
-  ngOnInit() {
+  constructor(
+    private statisticsService: StatisticsService
+  ) { 
+    this.medicinesStatistics$ = statisticsService.getMedicinesStatistics();
   }
 
 }
