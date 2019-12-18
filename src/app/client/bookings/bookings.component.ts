@@ -87,13 +87,13 @@ export class BookingsComponent {
     return this.bookingsService.getMyBookings();
   }
 
-  unBookTransaction(transaction): void {
+  cancellTransaction(transaction): void {
     this.openConfirmationDialog()
       .pipe(take(1))
       .subscribe(
         (isConfirmed) => {
           if (isConfirmed) {
-            this.bookingsService.unBookTransactionFrom(transaction);
+            this.bookingsService.cancellTransaction(transaction);
             this.notifications.showWarning('Transaction was cancelled', 'Unbooked');
           }
         }

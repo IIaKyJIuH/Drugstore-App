@@ -16,15 +16,14 @@ export class ArchiveService {
     this.currentUser = this.authService.getUserData();
    }
 
-  writeUnBookedTransaction(transaction): void {
+  writeCancelledTransaction(transaction): void {
     const currentDate = new Date();
     const currentTime = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}, ${currentDate.getHours()}:${currentDate.getMinutes()}`;
     this.database.list('/archive/transactions/').push({
       date: currentTime,
       purchases: transaction.items.length,
-      staffEmail: this.currentUser.email,
       userEmail: transaction.email,
-      status: 'unbooked'
+      status: 'cancelled'
     });
   }
 
