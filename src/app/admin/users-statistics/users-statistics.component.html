@@ -1,22 +1,30 @@
 <ng-container***REMOVED***ngIf="usersStatistics$ | async as users; else loading">
-    <main fxFlex fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="30px">
-        <h2>TOP 5 users</h2>
-        <mat-card
-          ***REMOVED*****REMOVED***ngFor="let user of users">
-            <mat-card-header>
-                <h3> {{ user.email }} </h3>
-            </mat-card-header>
-            <mat-card-content>
-                <article
-                    fxFlex fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="15px">
-                    <span>Purchased <strong>{{ user.purchasedItems }}</strong> items for all time</span>
-                    <span>Cancelled <strong>{{ user.cancelledBookings }}</strong> bookings</span>
-                    <span>and</span>
-                    <span>Failed to pay his transaction <strong>{{ user.failures }}</strong> times</span>
-                </article>
-            </mat-card-content>
-        </mat-card>
-    </main>
+    <ng-container***REMOVED***ngIf="users.length !== 0; else emptyCase">
+        <main fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px">
+            <h2>TOP 5 users</h2>
+            <section
+                fxFlex fxLayoutAlign="start center" fxLayoutGap="15px">
+                <mat-card
+                  ***REMOVED*****REMOVED***ngFor="let user of users">
+                    <mat-card-header>
+                        <h3> {{ user.email }} </h3>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <article
+                            fxFlex fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="15px">
+                            <span>Purchased <strong>{{ user.purchasedItems }}</strong> items for in general</span>
+                            <span>Cancelled <strong>{{ user.cancelledBookings }}</strong> bookings</span>
+                            <span>and</span>
+                            <span>Failed to pay his transaction <strong>{{ user.failures }}</strong> times</span>
+                        </article>
+                    </mat-card-content>
+                </mat-card>
+            </section>
+        </main>
+    </ng-container>
+    <ng-template #emptyCase>
+        <h2>Unfortunately, there aren`t any user who booked something</h2>
+    </ng-template>
 </ng-container>
 <ng-template #loading>
     <mat-spinner></mat-spinner>
