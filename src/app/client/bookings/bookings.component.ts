@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { BookingsService } from 'src/app/core/services/data/bookings.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
@@ -37,7 +37,6 @@ export class BookingsComponent {
           }
           return bookingsArr;
         }),
-        tap(console.log)
       );
   }
 
@@ -77,11 +76,11 @@ export class BookingsComponent {
   }
 
   setToSuccessfulTransaction(booking): void {
-
+    this.bookingsService.setToSuccessfulTransaction(booking);
   }
 
   setToFailedTransaction(booking): void {
-    
+    this.bookingsService.setToFailedTransaction(booking);
   }
 
   getMyBookings(): Observable<any> {
