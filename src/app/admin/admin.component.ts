@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StatisticsService } from '../core/services/data/statistics.service';
 
 ***REMOVED****
 ***REMOVED*** Admin`s place.
@@ -10,4 +11,7 @@ import { Component } from '@angular/core';
 })
 export class AdminComponent {
 
+  constructor(
+    private statisticsService: StatisticsService
+  ) {}
 }
