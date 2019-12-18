@@ -44,11 +44,8 @@ export class HeaderComponent {
  ***REMOVED*****REMOVED*** For reactive sign out of the user.
  ***REMOVED*****REMOVED***/
   public signOut(): void {
-    this.authService.signOut().pipe(take(1)).subscribe(
-      () => {
-        this.router.navigate(['/home']);
-      }
-    );
+    this.router.navigate(['/home']);
+    this.authService.signOut().pipe(take(1)).subscribe();
   }
 
 ***REMOVED*****REMOVED*****REMOVED****
