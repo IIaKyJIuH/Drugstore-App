@@ -136,7 +136,7 @@ export class BookingsComponent {
 
   private openConfirmationDialog(): Observable<any> {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '50vw',
+      width: '400px',
       data: {
         message: 'Your booking will be cancelled'
       }
