@@ -116,7 +116,7 @@ export class AuthenticationService {
         if (!uids.staff.includes(userData.user.uid)) {
           uids.staff.push(userData.user.uid);
         }
-        localStorage.setItem('uids', uids);
+        localStorage.setItem('uids', JSON.stringify(uids));
         return of(userData.user.sendEmailVerification()).pipe(
           map(() => userData)
         )
