@@ -1,16 +1,21 @@
 <ng-container *ngIf="medicinesStatistics$ | async as medicines; else loading">
-    <main fxFlex fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="30px">
-        <h2>TOP 3 items</h2>
-        <mat-card
-            *ngFor="let medicine of medicines">
-            <mat-card-header>
-                <h3> {{ medicine.term }} </h3>
-            </mat-card-header>
-            <mat-card-content>
-                Was purchased <strong>{{ medicine.purchased }}</strong> times
-            </mat-card-content>
-        </mat-card>
-    </main>
+    <ng-container *ngIf="medicines.length !== 0; else emptyCase">
+        <main fxFlex fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="30px">
+            <h2>TOP 3 items</h2>
+            <mat-card
+                *ngFor="let medicine of medicines">
+                <mat-card-header>
+                    <h3> {{ medicine.term }} </h3>
+                </mat-card-header>
+                <mat-card-content>
+                    Was purchased <strong>{{ medicine.purchased }}</strong> times
+                </mat-card-content>
+            </mat-card>
+        </main>
+    </ng-container>
+    <ng-template #emptyCase>
+        <h2>Unfortunately, there aren`t any booked medicines to show</h2>
+    </ng-template>
 </ng-container>
 <ng-template #loading>
     <mat-spinner></mat-spinner>
