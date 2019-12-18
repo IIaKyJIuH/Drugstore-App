@@ -16,13 +16,13 @@ export class ArchiveService {
     this.currentUser = this.authService.getUserData();
    }
 
-  writeCancelledTransaction(transaction): void {
+  writeCancelledBooking(booking): void {
     const currentDate = new Date();
     const currentTime = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}, ${currentDate.getHours()}:${currentDate.getMinutes()}`;
     this.database.list('/archive/transactions/').push({
       date: currentTime,
-      purchases: transaction.items.length,
-      userEmail: transaction.email,
+      purchases: booking.items.length,
+      userEmail: booking.email,
       status: 'cancelled'
     });
   }
