@@ -19,8 +19,9 @@ export class UsersStatisticsComponent {
       .pipe(
         map(users => {
           const filtered = users
-            .sort((a, b) => b.purchased - a.purchased)
-            .slice(0, 1);
+            .filter(x => x.purchasedItems !== 0)
+            .sort((a, b) => b.purchasedItems - a.purchasedItems)
+            .slice(0, 5);
           return filtered;
         })
       );
