@@ -1,1 +1,31 @@
-<p>staff-edit works!</p>
+<ng-container***REMOVED***ngIf="staffList$ | async as staff">
+
+</ng-container>
+<form
+    [formGroup]="addStaffForm"
+    (ngSubmit)="addStaff(addStaffForm.value)">
+
+    <mat-form-field>
+        <input
+            matInput 
+            placeholder="Email"
+            [ngStyle]="{ color: addStaffForm.controls.email.errors && addStaffForm.controls.email.dirty ? 'red' : 'green' }"
+            formControlName="email">
+        <mat-error***REMOVED***ngIf="addStaffForm.controls.email.hasError('pattern')">
+            Please enter a valid email address
+        </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <input
+            matInput 
+            placeholder="Password"
+            [ngStyle]="{ color: addStaffForm.controls.password.errors && addStaffForm.controls.password.dirty ? 'red' : 'green' }"
+            formControlName="password">
+        <mat-error***REMOVED***ngIf="addStaffForm.controls.password.hasError('pattern')">
+            Please enter a valid password
+        </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button type="submit" [disabled]="addStaffForm.invalid" color="accent">CREATE NEW STAFF</button>
+</form>
