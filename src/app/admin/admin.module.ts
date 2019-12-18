@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule } from '@angular/material';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatListModule } from '@angular/material/list';
+import { MaterialModule } from '../material.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 
@@ -17,12 +15,7 @@ import { AdminComponent } from './admin.component';
     CommonModule,
     AdminRoutingModule,
     FormsModule,
-    MatListModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDividerModule,
+    MaterialModule
   ],
 })
 export class AdminModule { }
