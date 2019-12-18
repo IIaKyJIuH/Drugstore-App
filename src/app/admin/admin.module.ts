@@ -9,13 +9,14 @@ import { AdminComponent } from './admin.component';
 import { MedicinesStatisticsComponent } from './medicines-statistics/medicines-statistics.component';
 import { StaffStatisticsComponent } from './staff-statistics/staff-statistics.component';
 import { UsersStatisticsComponent } from './users-statistics/users-statistics.component';
+import { StaffEditComponent } from './staff-edit/staff-edit.component';
 
 
 ***REMOVED****
 ***REMOVED*** Admin main module.
 ***REMOVED***/
 @NgModule({
-  declarations: [AdminComponent, UsersStatisticsComponent, StaffStatisticsComponent, MedicinesStatisticsComponent],
+  declarations: [AdminComponent, UsersStatisticsComponent, StaffStatisticsComponent, MedicinesStatisticsComponent, StaffEditComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
