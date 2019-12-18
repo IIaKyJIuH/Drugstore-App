@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
+import { UserStatiscticsComponent } from './user-statisctics/user-statisctics.component';
 
 
 ***REMOVED****
 ***REMOVED*** Admin main module.
 ***REMOVED***/
 @NgModule({
-  declarations: [AdminComponent],
+  declarations: [AdminComponent, UserStatiscticsComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
