@@ -29,15 +29,23 @@ export class BookingsComponent {
    }
 
   getAllBookings(): Observable<any> {
-    const savedSpike = JSON.parse(localStorage.getItem('savedSpike'));
+    const savedSpike = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
     return this.bookingsService.getAllBookings()
       .pipe(
         map(bookingsArr => {
-          for(const item of bookingsArr) {
+          for(const [index, item] of bookingsArr.entries()) {
             Object.assign(item, {
-              isReady: this.tryGetLocalStorageValue(item)
+              key: index
             });
+            const isFound = this.findObjInLocalStorage(item)
+            Object.assign(item, {
+              isReady: this.tryGetLocalStorageValue(item),
+            });
+            if (!isFound) {
+              savedSpike.push(item);
+            }
           }
+          localStorage.setItem('savedSpike', JSON.stringify(savedSpike));
           return bookingsArr;
         }),
       );
@@ -45,45 +53,68 @@ export class BookingsComponent {
 
   setToPrepared(transaction): void {
     transaction.isReady = true;
-    this.saveToLocalStorage(transaction);
+    this.updateLocalStorage(transaction);
     // TODO: send sms notification
   }
 
-  private saveToLocalStorage(transaction): void {
+  private updateLocalStorage(transaction): void {
     const savedSpike = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
-    let found = false;
+    const copiedTransaction = Object.assign({}, transaction);
+    delete copiedTransaction.isReady;
     for(const each of savedSpike) {
-      if (JSON.stringify(each) === JSON.stringify(transaction)) {
-        found = true;
+      const copiedObj = Object.assign({}, each);
+      delete copiedObj.isReady;
+      if (JSON.stringify(copiedObj) === JSON.stringify(copiedTransaction)) {
+        each.isReady = true;
+        localStorage.setItem('savedSpike', JSON.stringify(savedSpike));
         break;
       }
     }
-    if (!found) {
-      savedSpike.push(transaction);
-      localStorage.setItem('savedSpike', JSON.stringify(savedSpike));
-    }
   }
 
-  private tryGetLocalStorageValue(item): boolean {
+  private tryGetLocalStorageValue(itemWithKey): boolean {
     const savedSpike = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
     for(const each of savedSpike) {
-      const reducedObj = Object.assign({}, {
-        email: each.email,
-        items: each.items
-      });
-      if (JSON.stringify(item) === JSON.stringify(reducedObj)) {
+      const reducedObj = Object.assign({}, each);
+      delete reducedObj.isReady;
+      if (JSON.stringify(itemWithKey) === JSON.stringify(reducedObj)) {
         return each.isReady;
       }
     }
     return false;
   }
 
+  private findObjInLocalStorage(itemWithKey): boolean {
+    const savedSpike = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
+    for(const each of savedSpike) {
+      const reducedObj = Object.assign({}, each);
+      delete reducedObj.isReady;
+      if (JSON.stringify(itemWithKey) === JSON.stringify(reducedObj)) {
+        return true;
+      }
+    }
+    return false
+  }
+
+  private removeFromLocalStorage(transaction): void {
+    const savedSpike = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
+    for(const each of savedSpike) {
+      if (JSON.stringify(each) === JSON.stringify(transaction)) {
+        savedSpike.splice(each.key, 1);
+        localStorage.setItem('savedSpike', JSON.stringify(savedSpike));
+        break;
+      }
+    }
+  }
+
   setToSuccessfulTransaction(transaction): void {
     this.bookingsService.setToSuccessfulTransaction(transaction);
+    this.removeFromLocalStorage(transaction);
   }
 
   setToFailedTransaction(transaction): void {
     this.bookingsService.setToFailedTransaction(transaction);
+    this.removeFromLocalStorage(transaction);
   }
 
   getMyBookings(): Observable<any> {
