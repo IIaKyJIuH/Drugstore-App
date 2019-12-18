@@ -3,6 +3,7 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { fromEvent, Observable } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { DataService } from 'src/app/core/services/data/data.service';
 import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
 
@@ -29,6 +30,7 @@ export class StoreComponent implements AfterViewInit {
     private router: Router,
     private dataService: DataService,
     private shoppingCart: ShoppingCartService,
+    private authService: AuthenticationService,
   ) {}
 
   getAllMedicines(): Observable<MatTableDataSource<any>> {
@@ -105,6 +107,9 @@ export class StoreComponent implements AfterViewInit {
         return this.getAllMedicines().pipe(
           map((data: any) => {
             data.filter = event.target.value;
+            if (this.authService.getUserData().role === 'ADMIN') {
+              (this.filter.nativeElement as HTMLInputElement).parentElement.parentElement.remove();
+            }
             return data;
           })
         );
