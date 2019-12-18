@@ -16,12 +16,23 @@
         <ng-template
             [ngxPermissionsExcept]="['STAFF']"
             [ngxPermissionsExceptElse]="staffBlock">
-            <a
-                routerLink="store"
-                routerLinkActive="active"
-                matTooltip="Go to store">
-                <mat-icon fxHide.lt-sm>store</mat-icon>
-            </a>
+            <main
+                fxFlex fxLayoutGap="15px">
+                <a
+                    routerLink="store"
+                    routerLinkActive="active"
+                    matTooltip="Go to store">
+                    <mat-icon fxHide.lt-sm>store</mat-icon>
+                </a>
+                <ng-template [ngxPermissionsOnly]="['ADMIN']">
+                    <a
+                        routerLink="admin"
+                        routerLinkActive="active"
+                        matTooltip="Admin page">
+                        <mat-icon fxHide.lt-sm>verified_user</mat-icon>
+                    </a>
+                </ng-template>
+            </main>
         </ng-template>
         <ng-template #staffBlock>
             <a
