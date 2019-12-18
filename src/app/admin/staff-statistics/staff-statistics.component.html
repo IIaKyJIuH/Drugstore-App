@@ -1,1 +1,21 @@
-<p>staff-statisctics works!</p>
+<ng-container *ngIf="staffStatistics$ | async as employees; else loading">
+    <main fxFlex fxLayoutAlign="center center">
+        <h2>Best employee ever</h2>
+        <mat-card
+            *ngFor="let employee of employees">
+            <mat-card-header>
+                <h3> {{ employee.email }} </h3>
+            </mat-card-header>
+            <ng-container *ngIf="employee.avatarUrl">
+                <img [src]="employee.avatarUrl" alt="Жмышенко Валерий Альбертович" />
+            </ng-container>
+            <mat-card-content>
+                This person made deals on <strong>{{ employee.purchasedItems }}</strong> items
+            </mat-card-content>
+        </mat-card>
+    </main>
+</ng-container>
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>
+
