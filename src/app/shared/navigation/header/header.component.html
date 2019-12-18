@@ -54,7 +54,10 @@
                         <mat-icon>settings_application</mat-icon>
                     </a>
                 </ng-template>
-                <a mat-menu-item (click)="signOut()">sign-out
+                <a 
+                    mat-menu-item
+                    routerLink="home"
+                    (click)="signOut()">sign-out
                     <mat-icon>exit_to_app</mat-icon>
                 </a>
             </mat-menu>

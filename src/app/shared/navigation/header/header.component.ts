@@ -14,18 +14,18 @@ import { AuthenticationService } from 'src/app/core/services/authentication/auth
 })
 export class HeaderComponent {
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** For opening sidenav-list component according to the window list.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For opening sidenav-list component according to the window list.
+  ***REMOVED***/
   @Output() public sidenavOpen = new EventEmitter();
 
   isAuthenticated$: Observable<boolean>;
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** .ctor
- ***REMOVED*****REMOVED*** @param authService - for authentication purposes. 
- ***REMOVED*****REMOVED*** @param router - responsible for redirecting user.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED*** @param authService - for authentication purposes. 
+  ***REMOVED*** @param router - responsible for redirecting user.
+  ***REMOVED***/
   constructor(
     public authService: AuthenticationService,
     private router: Router,
@@ -33,25 +33,24 @@ export class HeaderComponent {
     this.isAuthenticated$ = this.authService.getAuthStatus();
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Emits sidenav component opener.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Emits sidenav component opener.
+  ***REMOVED***/
   public onSidenavOpen(): void {
     this.sidenavOpen.emit();
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** For reactive sign out of the user.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For reactive sign out of the user.
+  ***REMOVED***/
   public signOut(): void {
-    this.router.navigate(['/home']);
     this.authService.signOut().pipe(take(1)).subscribe();
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** For getting current user profile data.
- ***REMOVED*****REMOVED*** @return authorized user email and his role.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For getting current user profile data.
+  ***REMOVED*** @return authorized user email and his role.
+  ***REMOVED***/
   currentUserData(): any {
     return this.authService.getUserData();
   }
