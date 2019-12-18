@@ -27,7 +27,10 @@ import { SharedModule } from './shared/shared.module';
       AngularFireAuthModule,
       AngularFireDatabaseModule,
       NgxPermissionsModule.forRoot(),
-      ToastrModule.forRoot()
+      ToastrModule.forRoot({
+         positionClass: 'toast-bottom-right',
+         preventDuplicates: true
+      })
    ],
    bootstrap: [AppComponent],
 })
