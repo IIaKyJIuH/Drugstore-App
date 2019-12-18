@@ -13,12 +13,22 @@
     </a>
     <mat-divider fxHide.lt-sm style="height: 100%; margin: 0 15px;" [vertical]="true"></mat-divider>
     <ng-container *ngIf="isAuthenticated$ | async; else authentication">
-        <ng-template [ngxPermissionsExcept]="['STAFF']">
+        <ng-template
+            [ngxPermissionsExcept]="['STAFF']"
+            [ngxPermissionsExceptElse]="staffBlock">
             <a
                 routerLink="store"
                 routerLinkActive="active"
                 matTooltip="Go to store">
                 <mat-icon fxHide.lt-sm>store</mat-icon>
+            </a>
+        </ng-template>
+        <ng-template #staffBlock>
+            <a
+                routerLink="archive"
+                routerLinkActive="active"
+                matTooltip="Go to archive">
+                <mat-icon fxHide.lt-sm>archive</mat-icon>
             </a>
         </ng-template>
         <main fxFlex fxLayout fxLayoutAlign="end center" fxHide.xs fxLayoutGap="10px">
