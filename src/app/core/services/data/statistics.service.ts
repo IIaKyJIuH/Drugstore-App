@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { NEVER, Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, take, tap } from 'rxjs/operators';
 import { AuthenticationService } from '../authentication/authentication.service';
 
 @Injectable({
@@ -15,15 +15,42 @@ export class StatisticsService {
   ) {}
 
   getMedicinesStatistics(): Observable<any> {
-    return NEVER;
+    return this.database.list('/statistics/medicines/').valueChanges()
+      .pipe(
+        map(recordings => {
+          const resultArr = [];
+          for(const recordKey of Object.keys(recordings)) {
+            resultArr.push(recordings[recordKey]);
+          }
+          return resultArr;
+        })
+      );
   }
 
   getStaffStatistics(): Observable<any> {
-    return NEVER;
+    return this.database.list('/statistics/staff/').valueChanges()
+      .pipe(
+        map(recordings => {
+          const resultArr = [];
+          for(const recordKey of Object.keys(recordings)) {
+            resultArr.push(recordings[recordKey]);
+          }
+          return resultArr;
+        })
+      );
   }
 
   getUsersStatistics(): Observable<any> {
-    return NEVER;
+    return this.database.list('/statistics/users/').valueChanges()
+      .pipe(
+        map(recordings => {
+          const resultArr = [];
+          for(const recordKey of Object.keys(recordings)) {
+            resultArr.push(recordings[recordKey]);
+          }
+          return resultArr;
+        })
+      );
   }
 
   writeSuccessfulTransaction(transaction): void {
