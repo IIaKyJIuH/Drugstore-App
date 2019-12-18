@@ -29,7 +29,12 @@ export class ArchiveService {
 
   writeCancelledBooking(booking): void {
     const currentDate = new Date();
-    const currentTime = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}, ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+    const year = currentDate.getFullYear();
+    const month = this.normalizeSymbolsCount(currentDate.getMonth()+1);
+    const day = this.normalizeSymbolsCount(currentDate.getDate());
+    const hours = this.normalizeSymbolsCount(currentDate.getHours());
+    const minutes = this.normalizeSymbolsCount(currentDate.getMinutes());
+    const currentTime = `${year}-${month}-${day}, ${hours}:${minutes}`;
     const itemsCount = booking.items.reduce((temp, {count}) => temp + count, 0);
     this.database.list('/archive/transactions/').push({
       date: currentTime,
@@ -41,7 +46,12 @@ export class ArchiveService {
 
   writeSuccessfulTransaction(transaction): void {
     const currentDate = new Date();
-    const currentTime = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}, ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+    const year = currentDate.getFullYear();
+    const month = this.normalizeSymbolsCount(currentDate.getMonth()+1);
+    const day = this.normalizeSymbolsCount(currentDate.getDate());
+    const hours = this.normalizeSymbolsCount(currentDate.getHours());
+    const minutes = this.normalizeSymbolsCount(currentDate.getMinutes());
+    const currentTime = `${year}-${month}-${day}, ${hours}:${minutes}`;
     const currentUser = this.authService.getUserData();
     const itemsCount = transaction.items.reduce((temp, {count}) => temp + count, 0);
     this.database.list('/archive/transactions/').push({
@@ -55,7 +65,12 @@ export class ArchiveService {
 
   writeFailedTransaction(transaction): void {
     const currentDate = new Date();
-    const currentTime = `${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}, ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+    const year = currentDate.getFullYear();
+    const month = this.normalizeSymbolsCount(currentDate.getMonth()+1);
+    const day = this.normalizeSymbolsCount(currentDate.getDate());
+    const hours = this.normalizeSymbolsCount(currentDate.getHours());
+    const minutes = this.normalizeSymbolsCount(currentDate.getMinutes());
+    const currentTime = `${year}-${month}-${day}, ${hours}:${minutes}`;
     const currentUser = this.authService.getUserData();
     const itemsCount = transaction.items.reduce((temp, {count}) => temp + count, 0);
     this.database.list('/archive/transactions/').push({
@@ -65,6 +80,15 @@ export class ArchiveService {
       userEmail: transaction.email,
       status: 'failure'
     });
+  }
+
+  private normalizeSymbolsCount(input): string {
+    const inputAsStr = input+'';
+    if (inputAsStr.length === 1) {
+      return `0${inputAsStr}`;
+    } else {
+      return inputAsStr;
+    }
   }
 
 }
