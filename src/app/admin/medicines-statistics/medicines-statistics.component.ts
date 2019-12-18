@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { StatisticsService } from 'src/app/core/services/data/statistics.service';
 
 @Component({
@@ -14,7 +15,16 @@ export class MedicinesStatisticsComponent {
   constructor(
     private statisticsService: StatisticsService
   ) { 
-    this.medicinesStatistics$ = statisticsService.getMedicinesStatistics();
+    this.medicinesStatistics$ = statisticsService.getMedicinesStatistics()
+      .pipe(
+        map(medicines => {
+          const filtered = medicines
+            .filter(x => x.purchased !== 0)
+            .sort((a, b) => b.purchased - a.purchased)
+            .slice(0, 3);
+          return filtered;
+        })
+      );
   }
 
 }

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { MatTabsModule } from '@angular/material';
+import { MatCardModule, MatTabsModule } from '@angular/material';
 import { MaterialModule } from '../material.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
@@ -20,7 +21,9 @@ import { UsersStatisticsComponent } from './users-statistics/users-statistics.co
     AdminRoutingModule,
     FormsModule,
     MaterialModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCardModule,
+    FlexLayoutModule
   ],
 })
 export class AdminModule { }
