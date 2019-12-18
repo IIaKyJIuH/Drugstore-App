@@ -47,17 +47,17 @@ export class BookingsService {
     );
   }
 
-  setToSuccessfulTransaction(booking): void {
-    const bookingAsStr = JSON.stringify(booking.items);
+  setToSuccessfulTransaction(transaction): void {
+    const transactionAsStr = JSON.stringify(transaction.items);
     this.database.object('/bookings/users/').valueChanges()
       .pipe(
         tap(recordings => {
           for (const [index, recordKey] of Object.keys(recordings).entries()) {
-            const transaction = recordings[recordKey];
-            if (transaction.email === booking.email) {
-              if (JSON.stringify(transaction.items) === bookingAsStr) {
-                this.archiveService.writeSuccessfulTransaction(transaction);
-                this.statisticsService.writeSuccessfulTransaction(transaction);
+            const loopTransaction = recordings[recordKey];
+            if (loopTransaction.email === transaction.email) {
+              if (JSON.stringify(loopTransaction.items) === transactionAsStr) {
+                this.archiveService.writeSuccessfulTransaction(loopTransaction);
+                this.statisticsService.writeSuccessfulTransaction(loopTransaction);
                 this.database.object(`/bookings/users/${recordKey}`).remove();
                 return;
               }
@@ -67,18 +67,18 @@ export class BookingsService {
       ).subscribe();
   }
 
-  setToFailedTransaction(booking): void {
-    const bookingAsStr = JSON.stringify(booking.items);
+  setToFailedTransaction(transaction): void {
+    const transactionAsStr = JSON.stringify(transaction.items);
     this.database.object('/bookings/users/').valueChanges()
     .pipe(
       take(1),
       tap(recordings => {
         for (const [index, recordKey] of Object.keys(recordings).entries()) {
-          const transaction = recordings[recordKey];
-          if (transaction.email === booking.email) {
-            if (JSON.stringify(transaction.items) === bookingAsStr) {
-              this.archiveService.writeFailedTransaction(transaction);
-              this.statisticsService.writeFailedTransaction(transaction);
+          const loopTransaction = recordings[recordKey];
+          if (loopTransaction.email === transaction.email) {
+            if (JSON.stringify(loopTransaction.items) === transactionAsStr) {
+              this.archiveService.writeFailedTransaction(loopTransaction);
+              this.statisticsService.writeFailedTransaction(loopTransaction);
               this.database.object(`/bookings/users/${recordKey}`).remove();
               return;
             }
@@ -88,20 +88,20 @@ export class BookingsService {
     ).subscribe();
   }
 
-  cancellTransaction(booking): void {
+  cancellBooking(booking): void {
     const bookingAsStr = JSON.stringify(booking.items);
     this.database.object('/bookings/users/').valueChanges()
       .pipe(
         take(1),
         tap(recordings => {
           for (const [index, recordKey] of Object.keys(recordings).entries()) {
-            const transaction = recordings[recordKey];
-            if (transaction.email === booking.email) {
-              if (JSON.stringify(transaction.items) === bookingAsStr) {
-                this.archiveService.writeCancelledTransaction(transaction);
-                this.statisticsService.writeCancelledTransaction(transaction);
+            const loopTransaction = recordings[recordKey];
+            if (loopTransaction.email === booking.email) {
+              if (JSON.stringify(loopTransaction.items) === bookingAsStr) {
+                this.archiveService.writeCancelledBooking(loopTransaction);
+                this.statisticsService.writeCancelledBooking(loopTransaction);
                 this.database.object(`/bookings/users/${recordKey}`).remove();
-                this.restoreMedicinesToDb(transaction.items);
+                this.restoreMedicinesToDb(loopTransaction.items);
                 return;
               }
             }

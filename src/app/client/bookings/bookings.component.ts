@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { BookingsService } from 'src/app/core/services/data/bookings.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
@@ -20,9 +21,11 @@ export class BookingsComponent {
     private bookingsService: BookingsService,
     private database: AngularFireDatabase,
     private notifications: NotificationService,
+    private authService: AuthenticationService,
     private dialog: MatDialog
   ) {
-    this.allBookings$ = this.getAllBookings();
+    const userRole = authService.getUserData().role;
+    this.allBookings$ = userRole === 'STAFF' ? this.getAllBookings() : this.getMyBookings();
    }
 
   getAllBookings(): Observable<any> {
@@ -40,23 +43,23 @@ export class BookingsComponent {
       );
   }
 
-  setToPrepared(booking): void {
-    booking.isReady = true;
-    this.saveToLocalStorage(booking);
+  setToPrepared(transaction): void {
+    transaction.isReady = true;
+    this.saveToLocalStorage(transaction);
     // TODO: send sms notification
   }
 
-  private saveToLocalStorage(booking): void {
+  private saveToLocalStorage(transaction): void {
     const savedSpike = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
     let found = false;
     for(const each of savedSpike) {
-      if (JSON.stringify(each) === JSON.stringify(booking)) {
+      if (JSON.stringify(each) === JSON.stringify(transaction)) {
         found = true;
         break;
       }
     }
     if (!found) {
-      savedSpike.push(booking);
+      savedSpike.push(transaction);
       localStorage.setItem('savedSpike', JSON.stringify(savedSpike));
     }
   }
@@ -75,25 +78,25 @@ export class BookingsComponent {
     return false;
   }
 
-  setToSuccessfulTransaction(booking): void {
-    this.bookingsService.setToSuccessfulTransaction(booking);
+  setToSuccessfulTransaction(transaction): void {
+    this.bookingsService.setToSuccessfulTransaction(transaction);
   }
 
-  setToFailedTransaction(booking): void {
-    this.bookingsService.setToFailedTransaction(booking);
+  setToFailedTransaction(transaction): void {
+    this.bookingsService.setToFailedTransaction(transaction);
   }
 
   getMyBookings(): Observable<any> {
     return this.bookingsService.getMyBookings();
   }
 
-  cancellTransaction(transaction): void {
+  cancellBooking(booking): void {
     this.openConfirmationDialog()
       .pipe(take(1))
       .subscribe(
         (isConfirmed) => {
           if (isConfirmed) {
-            this.bookingsService.cancellTransaction(transaction);
+            this.bookingsService.cancellBooking(booking);
             this.notifications.showWarning('Transaction was cancelled', 'Unbooked');
           }
         }

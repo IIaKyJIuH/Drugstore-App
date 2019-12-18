@@ -29,15 +29,15 @@ export class StatisticsService {
     return NEVER;
   }
 
-  writeSuccessfulTransaction(element): void {
+  writeSuccessfulTransaction(transaction): void {
     
   }
 
-  writeCancelledTransaction(element): void {
+  writeCancelledBooking(booking): void {
 
   }
 
-  writeFailedTransaction(element): void {
+  writeFailedTransaction(transaction): void {
 
   }
 }
