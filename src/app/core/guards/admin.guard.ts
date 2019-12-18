@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication/authentication.service';
 import { NotificationService } from '../services/notification/notification.service';
 
@@ -17,16 +19,19 @@ export class AdminGuard {
     private notifications: NotificationService,
   ) {}
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Guard function to choose allow access or not.
- ***REMOVED*****REMOVED***/
-  public canLoad(): boolean {
-    if (this.authService.getUserData().role === 'ADMIN') {
-      return true;
-    }
-    this.notifications.showError('You don`t have admin privilegies', 'Authentication error');
-    this.router.navigate(['/home']);
-    return false;
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Guard function to choose allow access or not.
+  ***REMOVED***/
+  public canLoad(): Observable<boolean> {
+    return of(this.authService.getUserData().role)
+      .pipe(
+        map(role => role === 'ADMIN'),
+        tap(isAdmin => {
+          if (!isAdmin) {
+            this.router.navigate(['/home']);
+          }
+        })
+      );
   }
 
 }
