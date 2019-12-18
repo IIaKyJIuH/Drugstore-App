@@ -1,5 +1,53 @@
 <ng-container *ngIf="staffList$ | async as staff">
+    <mat-card *ngFor="let employee of staff">
+        <mat-card-header>
+            <h3> {{ employee.email }} </h3>
+        </mat-card-header>
+        <mat-card-content fxFlex fxLayout="row" fxLayoutWrap fxLayoutAlign="center center" fxLayoutGap="10px">
+            <article [style.border]="doEmailChange ? '2px solid hotpink' : ''">
+                <button mat-stroked-button (click)="doEmailChange = !doEmailChange">CHANGE EMAIL</button>
+                <ng-container *ngIf="doEmailChange">
+                    <form
+                    [formGroup]="changeEmailForm"
+                    (ngSubmit)="changeEmail(changeEmailForm.value)">
 
+                        <mat-form-field>
+                            <input
+                                matInput 
+                                placeholder="New email"
+                                [ngStyle]="{ color: changeEmailForm.controls.email.errors && changeEmailForm.controls.email.dirty ? 'red' : 'green' }"
+                                formControlName="email">
+                            <mat-error *ngIf="changeEmailForm.controls.email.hasError('pattern')">
+                                Please enter a valid email address
+                            </mat-error>
+                        </mat-form-field>
+
+                        <button mat-raised-button type="submit" [disabled]="changeEmailForm.invalid" color="accent">APPLY NEW STAFF EMAIL</button>
+                    </form>
+                </ng-container>
+            </article>
+            <article [style.border]="doPasswordChange ? '2px solid hotpink' : ''">
+                <button mat-stroked-button (click)="doPasswordChange = !doPasswordChange">CHANGE PASSWORD</button>
+                <ng-container *ngIf="doPasswordChange">
+                    <form
+                    [formGroup]="changePasswordForm"
+                    (ngSubmit)="changePassword(changePasswordForm.value)">
+
+                        <mat-form-field>
+                            <input
+                                matInput 
+                                placeholder="New password"
+                                [ngStyle]="{ color: changePasswordForm.controls.password.errors && changePasswordForm.controls.password.dirty ? 'red' : 'green' }"
+                                formControlName="password">
+                        </mat-form-field>
+
+                        <button mat-raised-button type="submit" [disabled]="changePasswordForm.invalid" color="accent">APPLY NEW STAFF PASSWORD</button>
+                    </form>
+                </ng-container>
+            </article>
+            <button mat-stroked-button color="primary" (click)="resetPassword(employee.email)">RESET PASSWORD</button>
+        </mat-card-content>
+    </mat-card>
 </ng-container>
 <form
     [formGroup]="addStaffForm"
