@@ -117,13 +117,20 @@ const routes: Routes = [
     path: 'user-profile',
     component: UserProfileComponent,
     canActivate: [
-      NgxPermissionsGuard
+      AuthGuard
     ],
-    data: {
-      permissions: {
-        only: 'USER'
+    children: [
+      {
+        path: '',
+        component: UserProfileComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: 'USER'
+          }
+        }
       }
-    }    
+    ]
   },
   {
     path: 'admin',
