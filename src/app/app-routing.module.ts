@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { ArchiveComponent } from './client/archive/archive.component';
 import { BookingsComponent } from './client/bookings/bookings.component';
 import { DataFormComponent } from './client/data-form/data-form.component';
 import { DetailedMedicineComponent } from './client/detailed-medicine/detailed-medicine.component';
@@ -88,6 +89,24 @@ const routes: Routes = [
         data: {
           permissions: {
             except: 'ADMIN',
+            redirectTo: 'home'
+          }
+        }
+      }
+    ]
+***REMOVED***
+  {
+    path: 'archive',
+    component: ArchiveComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: ArchiveComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: 'STAFF',
             redirectTo: 'home'
           }
         }
