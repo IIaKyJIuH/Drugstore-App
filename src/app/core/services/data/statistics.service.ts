@@ -38,7 +38,7 @@ export class StatisticsService {
   }
 
   writeFailedTransaction(transaction): void {
-
+    this.writeFailedUser(transaction);
   }
 
   private writeMedicines(medicines): void {
@@ -111,7 +111,8 @@ export class StatisticsService {
               Object.assign({}, {
                 cancelledBookings: 0,
                 email: transaction.email,
-                purchasedItems: itemsCount
+                purchasedItems: itemsCount,
+                failures: 0
               })
             );
           }
@@ -136,7 +137,34 @@ export class StatisticsService {
               Object.assign({}, {
                 cancelledBookings: 1,
                 email: transaction.email,
-                purchasedItems: 0
+                purchasedItems: 0,
+                failures: 0
+              })
+            );
+          }
+        })
+      ).subscribe();
+  }
+
+  private writeFailedUser(transaction): void {
+    this.database.object('/statistics/users/').valueChanges()
+      .pipe(
+        take(1),
+        tap(records => {
+          let isFound = false;
+          for (const recordKey of Object.keys(records)) {
+            if (records[recordKey].email === transaction.email) {
+              isFound = true;
+              this.database.object(`/statistics/users/${recordKey}/failures`).set(records[recordKey].failures + 1);
+            }
+          }
+          if (!isFound) {
+            this.database.list(`/statistics/users/`).push(
+              Object.assign({}, {
+                cancelledBookings: 0,
+                email: transaction.email,
+                purchasedItems: 0,
+                failures: 1
               })
             );
           }
