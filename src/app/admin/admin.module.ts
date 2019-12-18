@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatTabsModule } from '@angular/material';
 import { MaterialModule } from '../material.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
@@ -18,7 +19,8 @@ import { UsersStatisticsComponent } from './users-statistics/users-statistics.co
     CommonModule,
     AdminRoutingModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    MatTabsModule
   ],
 })
 export class AdminModule { }
