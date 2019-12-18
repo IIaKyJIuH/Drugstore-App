@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { CredentialsModel } from 'src/app/core/services/models/credentials-model';
 
 @Component({
@@ -26,6 +27,7 @@ export class StaffEditComponent {
     private formBuiler: FormBuilder,
     private database: AngularFireDatabase,
     private afAuth: AngularFireAuth,
+    private authService: AuthenticationService,
   ) {
     this.staffList$ = this.getAllStaff();
     this.addStaffForm = this.formBuiler.group({
@@ -62,7 +64,8 @@ export class StaffEditComponent {
   }
 
   addStaff(formValues: CredentialsModel): void {
-
+    this.authService.addNewStaff(formValues);
+    this.database.list('/staff/emails/').push({ email: formValues.email });
   }
 
   changeEmail(formValues: Partial<CredentialsModel>): void {
