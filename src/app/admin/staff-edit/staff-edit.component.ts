@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { CredentialsModel } from 'src/app/core/services/models/credentials-model';
 
@@ -78,6 +78,20 @@ export class StaffEditComponent {
 
   resetPassword(staffEmail: string): void {
     this.afAuth.auth.sendPasswordResetEmail(staffEmail);
+  }
+
+  deleteStaff(staffEmail: string): void {
+    this.database.list('/staff/emails/').valueChanges()
+      .pipe(
+        take(1),
+        tap(recordings => {
+          for (const key of Object.keys(recordings)) {
+            if (recordings[key].email === staffEmail) {
+              this.database.list(`/staff/emails/${key}`).remove();
+            }
+          }
+        })
+      )
   }
 
 }
