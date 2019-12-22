@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserCredential } from '@firebase/auth-types';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
@@ -64,8 +65,12 @@ export class StaffEditComponent {
   }
 
   addStaff(formValues: CredentialsModel): void {
-    this.authService.addNewStaff(formValues);
-    this.database.list('/staff/emails/').push({ email: formValues.email });
+    this.authService.addNewStaff(formValues)
+      .subscribe(
+        (newStaffData: UserCredential) => {
+          newStaffData.user.sendEmailVerification();
+        }
+      );
   }
 
   changeEmail(formValues: Partial<CredentialsModel>): void {
