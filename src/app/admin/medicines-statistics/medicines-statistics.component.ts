@@ -14,15 +14,14 @@ export class MedicinesStatisticsComponent {
 
   constructor(
     private statisticsService: StatisticsService
-  ) { 
+  ) {
     this.medicinesStatistics$ = statisticsService.getMedicinesStatistics()
       .pipe(
         map(medicines => {
-          const filtered = medicines
+          return medicines
             .filter(x => x.purchased !== 0)
             .sort((a, b) => b.purchased - a.purchased)
-            .slice(0, 3);
-          return filtered;
+            .slice(0, 3); // For TOP n listing
         })
       );
   }
