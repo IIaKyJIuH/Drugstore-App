@@ -1,4 +1,4 @@
-export class StaffListModel {
+export class StaffModel {
 
 ***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** Staff email.
@@ -7,9 +7,9 @@ export class StaffListModel {
 
 ***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** .ctor
- ***REMOVED*****REMOVED*** @param data - object, not necessarily containing all StaffListModel fields.
+ ***REMOVED*****REMOVED*** @param data - object, not necessarily containing all StaffModel fields.
  ***REMOVED*****REMOVED***/
-  constructor(data: Partial<StaffListModel>) {
+  constructor(data: Partial<StaffModel>) {
     this.email = data.email;
   }
 }

@@ -6,7 +6,7 @@ export class MedicineModel {
   name: string;
 
 ***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** How many this medicine are in the db.
+ ***REMOVED*****REMOVED*** How many times are this medicine in the db.
  ***REMOVED*****REMOVED***/
   amount: number;
 
