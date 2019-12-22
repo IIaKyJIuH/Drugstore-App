@@ -1,9 +1,9 @@
-import { UserTokens } from './user-tokens';
+import { UserTokensModel } from './user-tokens-model';
 
 /**
- * User model that tries to fits FireBase response.
+ * Holds user data when he is signed-in.
  */
-export class UserModel extends UserTokens {
+export class UserModel extends UserTokensModel {
 
     /**
      * user email.
@@ -15,9 +15,13 @@ export class UserModel extends UserTokens {
      */
     public role: string;
 
-    constructor(data: Partial<UserModel>) {
+  /**
+   * .ctor
+   * @param data - object, not necessarily containing all UserModel fields.
+   */
+  constructor(data: Partial<UserModel>) {
         super(
-          new UserTokens({
+          new UserTokensModel({
             idToken: data.idToken,
             secureToken: data.secureToken,
           }),

@@ -1,5 +1,5 @@
 /**
- * Includes values inputed in the sign-in form.
+ * Includes values inputted in the sign-in form.
  */
 export  interface  CredentialsModel {
 
