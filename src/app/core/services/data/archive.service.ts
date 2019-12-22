@@ -94,7 +94,7 @@ export class ArchiveService {
       purchases: itemsCount,
       userEmail: booking.email,
       status: 'cancelled'
-    });
+    } as ArchiveDto);
   }
 
 ***REMOVED*****REMOVED*****REMOVED****
@@ -111,7 +111,7 @@ export class ArchiveService {
       staffEmail: currentUser.email,
       userEmail: transaction.email,
       status: 'success'
-    });
+    } as ArchiveDto);
   }
 
 ***REMOVED*****REMOVED*****REMOVED****
@@ -128,7 +128,7 @@ export class ArchiveService {
       staffEmail: currentUser.email,
       userEmail: transaction.email,
       status: 'failure'
-    });
+    } as ArchiveDto);
   }
 
 }
