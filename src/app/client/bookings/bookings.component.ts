@@ -7,6 +7,7 @@ import { AuthenticationService } from 'src/app/core/services/authentication/auth
 import { BookingsService } from 'src/app/core/services/data/bookings.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { BookingModel } from '../../core/services/models/bookings/booking-model';
 
 @Component({
   selector: 'app-bookings',
@@ -32,12 +33,12 @@ export class BookingsComponent {
     const savedSpike = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
     return this.bookingsService.getAllBookings()
       .pipe(
-        map(bookingsArr => {
+        map((bookingsArr: BookingModel[]) => {
           for(const [index, item] of bookingsArr.entries()) {
             Object.assign(item, {
               key: index
             });
-            const isFound = this.findObjInLocalStorage(item)
+            const isFound = this.findObjInLocalStorage(item);
             Object.assign(item, {
               isReady: this.tryGetLocalStorageValue(item),
             });
@@ -118,7 +119,7 @@ export class BookingsComponent {
   }
 
   getMyBookings(): Observable<any> {
-    return this.bookingsService.getMyBookings();
+    return this.bookingsService.getCurrentUserBookings();
   }
 
   cancellBooking(booking): void {
@@ -127,7 +128,7 @@ export class BookingsComponent {
       .subscribe(
         (isConfirmed) => {
           if (isConfirmed) {
-            this.bookingsService.cancellBooking(booking);
+            this.bookingsService.cancelBooking(booking);
             this.notifications.showWarning('Transaction was cancelled', 'Unbooked');
           }
         }

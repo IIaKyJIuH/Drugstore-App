@@ -28,4 +28,9 @@ export interface ArchiveDto {
    */
   purchases: number;
 
+  /**
+   * Unique key for getting record from db.
+   */
+  key?: string;
+
 }

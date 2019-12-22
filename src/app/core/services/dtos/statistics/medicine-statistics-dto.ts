@@ -10,4 +10,9 @@ export interface MedicineStatisticsDto {
    */
   purchased: number;
 
+  /**
+   * Unique key for getting record from db.
+   */
+  key?: string;
+
 }

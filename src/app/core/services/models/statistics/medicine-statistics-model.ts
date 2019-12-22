@@ -11,12 +11,18 @@ export class MedicineStatisticsModel {
   purchasesAmount: number;
 
   /**
+   * Unique key for getting record about this booking.
+   */
+  key: string;
+
+  /**
    * .ctor
    * @param data - object, not necessarily containing all MedicineStatisticsModel fields
    */
   constructor(data: Partial<MedicineStatisticsModel>) {
     this.name = data.name;
     this.purchasesAmount = data.purchasesAmount;
+    this.key = data.key;
   }
 
 }

@@ -26,6 +26,11 @@ export class ArchiveModel {
   purchasesAmount: number;
 
   /**
+   * Unique key for getting record about this booking.
+   */
+  key: string;
+
+  /**
    * .ctor
    * @param data - object, not necessarily containing all ArchiveModel fields.
    */
@@ -35,5 +40,6 @@ export class ArchiveModel {
     this.userEmail = data.userEmail;
     this.status = data.status;
     this.purchasesAmount = data.purchasesAmount;
+    this.key = data.key;
   }
 }

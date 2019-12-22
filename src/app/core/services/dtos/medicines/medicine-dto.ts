@@ -13,4 +13,14 @@ export interface MedicineDto {
    */
   count: number;
 
+  /**
+   * Unique key for getting record from db.
+   */
+  key?: string;
+
+  /**
+   * Pharmacy, from where the medicine.
+   */
+  pharmacy?: string;
+
 }

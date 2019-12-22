@@ -10,4 +10,9 @@ export interface PeopleStatisticsDto {
    */
   purchasedItems: number;
 
+  /**
+   * Unique key for getting record from db.
+   */
+  key?: string;
+
 }

@@ -13,6 +13,11 @@ export class UserStatisticsModel extends PeopleStatisticsModel {
   failuresAmount: number;
 
   /**
+   * Unique key for getting record about this booking.
+   */
+  key: string;
+
+  /**
    * .ctor
    * @param data - object, not necessarily containing all UserStatisticsModel fields.
    */
@@ -25,5 +30,6 @@ export class UserStatisticsModel extends PeopleStatisticsModel {
     );
     this.cancellationsAmount = data.cancellationsAmount;
     this.failuresAmount = data.failuresAmount;
+    this.key = data.key;
   }
 }

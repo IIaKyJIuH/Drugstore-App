@@ -15,4 +15,9 @@ export interface BookingDto {
    */
   items: MedicineDto[];
 
+  /**
+   * Unique key for getting record from db.
+   */
+  key?: string;
+
 }

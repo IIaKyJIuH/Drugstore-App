@@ -32,7 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
     //   catchError((error: HttpErrorResponse) => {
     //     if (error.status === 401) {
     //       return this.auth.refreshToken().pipe(
-    //         concatMap((tokens: UserTokens) => next.handle(request.clone({
+    //         concatMap((tokens: UserTokensModel) => next.handle(request.clone({
     //           params: request.params.set('auth', tokens.idToken),
     //         })),
     //         ),

@@ -8,4 +8,9 @@ export interface StaffDto {
    */
   email: string;
 
+  /**
+   * Unique key for getting record from db.
+   */
+  key?: string;
+
 }

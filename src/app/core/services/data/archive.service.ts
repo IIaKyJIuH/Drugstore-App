@@ -3,8 +3,11 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { ArchiveDto } from '../dtos/archive/archive-dto';
+import { ArchiveModel } from '../models/archive/archive-model';
 import { BookingModel } from '../models/bookings/booking-model';
 import { MedicineModel } from '../models/medicines/medicine-model';
+import { ProjectFunctions } from './project-functions';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +44,21 @@ export class ArchiveService {
     return medicines.reduce((accumulated, {amount}) => accumulated + amount, 0);
   }
 
+  private static mapDtoArrayToModelArray(dtoArr: ArchiveDto[]): ArchiveModel[] {
+    const resultModelArr: ArchiveModel[] = [];
+    for (const dto of dtoArr) {
+      resultModelArr.push(new ArchiveModel({
+        purchasesAmount: dto.purchases,
+        status: dto.status,
+        userEmail: dto.userEmail,
+        staffEmail: dto.staffEmail,
+        date: dto.date,
+        key: dto.key
+      }));
+    }
+    return resultModelArr;
+  }
+
   /**
    * .ctor
    * @param database - for interacting with current project db archive list.
@@ -54,15 +72,12 @@ export class ArchiveService {
   /**
    * Gets all transactions from the archive.
    */
-  getAllTransactions(): Observable<any> {
+  getAllTransactions(): Observable<ArchiveModel[]> {
     return this.database.list('/archive/transactions/').valueChanges()
       .pipe(
         map(recordings => {
-          const transactionsArr = [];
-          for (const recordKey of Object.keys(recordings)) {
-            transactionsArr.push(recordings[recordKey]);
-          }
-          return transactionsArr;
+          const dtoArr: ArchiveDto[] = ProjectFunctions.mapObjectToArray(recordings);
+          return ArchiveService.mapDtoArrayToModelArray(dtoArr);
         })
       )
   }
