@@ -1,7 +1,10 @@
-import { BookingDto } from '../dtos/bookings/booking-dto';
-
+// For mapping objects from firebase response.
 export class ProjectFunctions {
 
+  /**
+   * Concatenates key fields from db to each item.
+   * @param object - object to be converted.
+   */
   public static mapObjectToArray(object: object): any[] {
     const arr = [];
     for (const key of Object.keys(object)) {
@@ -15,6 +18,11 @@ export class ProjectFunctions {
     return arr;
   }
 
+  /**
+   * Concatenates key fields from db to each item.
+   * @param object - object to be converted.
+   * @param email - for filtering results by.
+   */
   public static mapObjectToArrayForUser(object: object, email: string): any[] {
     const arr = [];
     for (const key of Object.keys(object)) {
