@@ -75,8 +75,8 @@ export class ArchiveService {
   getAllTransactions(): Observable<ArchiveModel[]> {
     return this.database.list('/archive/transactions/').valueChanges()
       .pipe(
-        map(recordings => {
-          const dtoArr: ArchiveDto[] = ProjectFunctions.mapObjectToArray(recordings);
+        map(records => {
+          const dtoArr: ArchiveDto[] = ProjectFunctions.mapObjectToArray(records);
           return ArchiveService.mapDtoArrayToModelArray(dtoArr);
         })
       )
