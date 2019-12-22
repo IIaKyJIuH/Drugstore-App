@@ -22,21 +22,22 @@ export class AuthenticationService {
   public readonly USER_EMAIL = 'USER_EMAIL';
 
   /**
-   * For getting the locacl storage state of authorized user role.
+   * For getting the local storage state of authorized user role.
    */
   public readonly USER_ROLE = 'USER_ROLE';
 
-  private authStatus$: Observable<boolean>;
+  private readonly authStatus$: Observable<boolean>;
 
   /**
    * .сtor
+   * @param ngZone - for getting over the non-angular async functions.
    * @param afAuth - angular fire authentication service.
+   * @param ngxRoles - for dealing with user roles.
    */
   constructor(
+    private ngZone: NgZone,
     private afAuth: AngularFireAuth,
-    private ngxPermissions: NgxPermissionsService,
     private ngxRoles: NgxRolesService,
-    private ngZone: NgZone
   ) {
     this.authStatus$ = new Observable(observer => {
       return this.afAuth.auth.onAuthStateChanged((user) => {
@@ -63,7 +64,7 @@ export class AuthenticationService {
   }
 
   /**
-   * Signs in user with inputed email and password.
+   * Signs in user with inputted email and password.
    * @param user - interface that includes user email and password.
    * @returns firebase response user data flow.
    */
@@ -72,18 +73,12 @@ export class AuthenticationService {
   }
 
   /**
-   * Registrates user in firebase and signs him in.
+   * Register user in firebase and signs him in.
    * @param user - email + password.
    * @return firebase response user data flow.
    */
   public signUp(user: CredentialsModel): Observable<UserCredential> {
-    return from(this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)).pipe(
-      switchMap(userData => {
-        return of(userData.user.sendEmailVerification()).pipe(
-          map(() => userData)
-        )
-      })
-    );
+    return from(this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password));
   }
 
   /**
@@ -92,40 +87,45 @@ export class AuthenticationService {
    */
   private setUserData(user: User): void {
     const UID = user.uid;
-    const permissions = ['watchStaffuser', 'editStaffuser', 'watchMedicines', 'bookMedicines', 'editMedicines', 'watchArchive', 'editArchive', 'doClientQueries', 'watchEmailuser', 'editEmailuser'];
-    this.ngxPermissions.loadPermissions(permissions);
     localStorage.setItem(this.USER_EMAIL, user.email);
     const uids = JSON.parse(localStorage.getItem('uids'));
     if (uids.admin.includes(UID)) {
       localStorage.setItem(this.USER_ROLE, 'ADMIN');
-      this.ngxRoles.addRole('ADMIN', permissions);
+      this.ngxRoles.addRole('ADMIN', () => {
+        return true;
+      });
     } else if (uids.staff.includes(UID)) {
       localStorage.setItem(this.USER_ROLE, 'STAFF');
-      this.ngxRoles.addRole('STAFF', ['watchArchive', 'doClientQueries']);
+      this.ngxRoles.addRole('STAFF', () => {
+        return true;
+      });
     } else {
       localStorage.setItem(this.USER_ROLE, 'USER');
-      this.ngxRoles.addRole('USER', ['watchMedicines', 'bookMedicines']);
+      this.ngxRoles.addRole('USER', () => {
+        return true;
+      });
     }
   }
 
-  addNewStaff(staff: CredentialsModel): void {
-    from(this.afAuth.auth.createUserWithEmailAndPassword(staff.email, staff.password)).pipe(
+  /**
+   * Creates new staff in current firebase project.
+   * @param staff - new staff email + password.
+   */
+  addNewStaff(staff: CredentialsModel): Observable<UserCredential> {
+    return from(this.afAuth.auth.createUserWithEmailAndPassword(staff.email, staff.password)).pipe(
       take(1),
-      switchMap(userData => {
+      tap((userData: UserCredential) => {
         const uids = JSON.parse(localStorage.getItem('uids'));
         if (!uids.staff.includes(userData.user.uid)) {
           uids.staff.push(userData.user.uid);
         }
         localStorage.setItem('uids', JSON.stringify(uids));
-        return of(userData.user.sendEmailVerification()).pipe(
-          map(() => userData)
-        )
       })
-    ).subscribe();
+    );
   }
 
   /**
-   * Log outs user from firebase.
+   * Logs out user from firebase.
    */
   public signOut(): Observable<void> {
     return from(this.afAuth.auth.signOut()).pipe(
@@ -137,7 +137,7 @@ export class AuthenticationService {
   }
 
   /**
-   * For changing user if he wants to.
+   * If user wants to.
    */
   changeUserEmail(newEmail: string): Observable<void> {
     return from(this.afAuth.auth.currentUser.updateEmail(newEmail)).pipe(
@@ -148,16 +148,20 @@ export class AuthenticationService {
   }
 
   /**
-   * For changing user password after password confirmation, if he wants to.
+   * After password confirmation, if user wants to.
    */
   changeUserPassword(newPassword: string): Observable<void> {
     return from(this.afAuth.auth.currentUser.updatePassword(newPassword));
   }
 
+  /**
+   * Tries to reauthenticate user with given password => checks password confirmation in user settings page, when he wants to change his password.
+   * @param password
+   */
   isCurrentPassword(password: string): Observable<UserCredential> {
-    const user = this.afAuth.auth.currentUser;
+    const user: User | null = this.afAuth.auth.currentUser; // Probably not null, because only authenticated user can access settings.
     const credential = auth.EmailAuthProvider.credential(
-      this.getUserData().email,
+      user.email,
       password
     );
 
@@ -181,6 +185,7 @@ export class AuthenticationService {
       email: localStorage.getItem(this.USER_EMAIL),
       role: localStorage.getItem(this.USER_ROLE)
     });
+
     return user;
   }
 
