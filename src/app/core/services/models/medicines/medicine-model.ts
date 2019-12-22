@@ -6,7 +6,7 @@ export class MedicineModel {
   name: string;
 
   /**
-   * How many this medicine are in the db.
+   * How many times are this medicine in the db.
    */
   amount: number;
 
