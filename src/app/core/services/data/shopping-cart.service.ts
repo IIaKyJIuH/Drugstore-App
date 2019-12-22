@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthenticationService } from '../authentication/authentication.service';
-import { BookingDto } from '../dtos/bookings/booking-dto';
 import { MedicineModel } from '../models/medicines/medicine-model';
 import { BookingsService } from './bookings.service';
 
@@ -11,8 +10,17 @@ import { BookingsService } from './bookings.service';
 })
 export class ShoppingCartService {
 
-  currentCart$ = new BehaviorSubject<any>([]);
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** with medicines saved by user.
+ ***REMOVED*****REMOVED***/
+  currentCart$ = new BehaviorSubject<MedicineModel[]>([]);
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** .ctor
+ ***REMOVED*****REMOVED*** @param database - for interacting with db.
+ ***REMOVED*****REMOVED*** @param bookingsService - for booking medicines from cart.
+ ***REMOVED*****REMOVED*** @param authService - for getting user auth data.
+ ***REMOVED*****REMOVED***/
   constructor(
     private database: AngularFireDatabase,
     private bookingsService: BookingsService,
@@ -36,15 +44,18 @@ export class ShoppingCartService {
     //     }),
     //     tap(console.log)
     //   );
-    const currentCart = JSON.parse(localStorage.getItem('cart'));
+    const currentCart = localStorage.getItem('cart');
     if (currentCart) {
       this.currentCart$.next(JSON.parse(localStorage.getItem('cart')));
     } else {
       localStorage.setItem('cart', JSON.stringify([]));
-      this.currentCart$.next([]);
     }
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** For booking medicines via bookingsService.
+ ***REMOVED*****REMOVED*** @param medicines - to be booked.
+ ***REMOVED*****REMOVED***/
   bookMedicines(medicines: MedicineModel[]): void {
     // this.database.object('/bookings/users').valueChanges()
     //   .pipe(
@@ -75,69 +86,90 @@ export class ShoppingCartService {
     this.bookingsService.bookMedicines(medicines);
   }
 
-  private plusItem(obj: any): void {
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Pluses medicine counter in the cart.
+ ***REMOVED*****REMOVED*** @param medicine - to be increased.
+ ***REMOVED*****REMOVED***/
+  private plusItem(medicine: MedicineModel): void {
     const currentCart = this.currentCart$.getValue();
-    const existingObjIndex = currentCart.findIndex(x => x.term === obj.term);
+    const existingObjIndex = currentCart.findIndex(x => x.name === medicine.name);
     if (existingObjIndex === -1) {
-      currentCart.push(obj);
+      currentCart.push(medicine);
       localStorage.setItem('cart', JSON.stringify(currentCart));
       this.currentCart$.next(currentCart);
     } else {
-      currentCart[existingObjIndex].count++;
+      currentCart[existingObjIndex].amount++;
       localStorage.setItem('cart', JSON.stringify(currentCart));
       this.currentCart$.next(currentCart);
     }
   }
 
-  addItem(obj: any): void {
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Adds medicine to existing cart or creates new cart with that medicine.
+ ***REMOVED*****REMOVED*** @param medicine - to be added.
+ ***REMOVED*****REMOVED***/
+  addItem(medicine: MedicineModel): void {
     // this.database.list('/cart/users').push(obj);
-    const copiedObj = Object.assign({}, obj);
-    copiedObj.count = 1;
+    const copiedMedicine: MedicineModel = Object.assign({}, medicine);
+    copiedMedicine.amount = 1;
     const currentCart = localStorage.getItem('cart');
     if (currentCart) {
-      this.plusItem(copiedObj);
+      this.plusItem(copiedMedicine);
     } else {
-      localStorage.setItem('cart', JSON.stringify([copiedObj]));
-      this.currentCart$.next([copiedObj]);
+      const newCart = [copiedMedicine];
+      localStorage.setItem('cart', JSON.stringify(newCart));
+      this.currentCart$.next(newCart);
     }
   }
 
-  minusItem(obj: any): void {
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Minuses medicine amount from existing cart or deletes it if that is the last.
+ ***REMOVED*****REMOVED*** @param medicine - to be minused.
+ ***REMOVED*****REMOVED***/
+  minusItem(medicine: MedicineModel): void {
     // this.database.list('/cart/users');
-    const currentCart = JSON.parse(localStorage.getItem('cart'));
+    const currentCart = this.currentCart$.getValue();
     if (currentCart) {
-      const existingObjIndex = currentCart.findIndex(x => x.term === obj.term);
+      const existingObjIndex = currentCart.findIndex(x => x.name === medicine.name);
       if (existingObjIndex === -1) {
         return;
       }
-      if (currentCart[existingObjIndex].count === 1) {
+      if (currentCart[existingObjIndex].amount === 1) {
         currentCart.splice(existingObjIndex, 1);
         localStorage.setItem('cart', JSON.stringify(currentCart));
         this.currentCart$.next(currentCart);
       } else {
-        currentCart[existingObjIndex].count--;
+        currentCart[existingObjIndex].amount--;
         localStorage.setItem('cart', JSON.stringify(currentCart));
         this.currentCart$.next(currentCart);
       }
     }
   }
 
-  removeItem(obj: any): void {
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Removes medicine from existing cart.
+ ***REMOVED*****REMOVED*** @param medicine - to be minused.
+ ***REMOVED*****REMOVED***/
+  removeItem(medicine: MedicineModel): void {
     // this.database.list('/cart/users');
-    const currentCart = JSON.parse(localStorage.getItem('cart'));
+    const currentCart = this.currentCart$.getValue();
     if (currentCart) {
-      for (let i = 0; i < obj.count; i++) {
-        this.minusItem(obj);
+      for (let i = 0; i < medicine.amount; i++) {
+        this.minusItem(medicine);
       }
     }
   }
 
-  isEnough(element): boolean {
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Checks if the medicine amount in the cart is less than in db.
+ ***REMOVED*****REMOVED*** @param medicine - to be checked on.
+ ***REMOVED*****REMOVED***/
+  isEnough(medicine: MedicineModel): boolean {
     const currentCart = this.currentCart$.getValue();
     if (currentCart) {
-      const currentBookedElement = currentCart.find(x => x.term === element.term);
+      const currentBookedElement = currentCart.find(x => x.name === medicine.name);
       if (currentBookedElement) {
-        if (element.count === currentBookedElement.count) {
+        if (medicine.amount === currentBookedElement.amount) {
           return false;
         }
       }
@@ -145,15 +177,22 @@ export class ShoppingCartService {
     return true;
   }
 
-  isInCart(element): boolean {
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Checks if the medicine is in the cart right now.
+ ***REMOVED*****REMOVED*** @param medicine - to be checked.
+ ***REMOVED*****REMOVED***/
+  isInCart(medicine: MedicineModel): boolean {
     const currentCart = this.currentCart$.getValue();
     if (currentCart) {
-      return currentCart.findIndex(x => x.term === element.term) !== -1 ? true : false;
+      return currentCart.findIndex(x => x.name === medicine.name) !== -1;
     }
     return false;
   }
 
-  getCurrentCart(): Observable<any> {
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Gets current cart.
+ ***REMOVED*****REMOVED***/
+  getCurrentCart(): Observable<MedicineModel[]> {
     return this.currentCart$.asObservable();
   }
 
