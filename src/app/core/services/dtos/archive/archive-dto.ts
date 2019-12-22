@@ -3,29 +3,34 @@
 ***REMOVED***/
 export interface ArchiveDto {
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Format - YYYY-MM-DD HH:MM
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Format - YYYY-MM-DD HH:MM
+  ***REMOVED***/
   date: string;
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Staff who performed transaction.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Staff who performed transaction.
+  ***REMOVED***/
   staffEmail: string;
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** User who payed transaction.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** User who payed transaction.
+  ***REMOVED***/
   userEmail: string;
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** 'warning', 'success' or 'cancelled'
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** 'warning', 'success' or 'cancelled'
+  ***REMOVED***/
   status: string;
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** How many items were purchased.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** How many items were purchased.
+  ***REMOVED***/
   purchases: number;
+
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Unique key for getting record from db.
+  ***REMOVED***/
+  key?: string;
 
 }

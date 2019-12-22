@@ -12,10 +12,10 @@
                     <main
                         fxFlex fxLayoutWrap fxLayout="column" fxLayoutAlign="start center"
                         matLine
-                      ***REMOVED*****REMOVED***ngFor="let item of booking.items"
+                      ***REMOVED*****REMOVED***ngFor="let medicine of booking.medicines"
                         style="text-align: justify; font-size: 1.15em">
-                        <span>Medicine: <i><strong>{{ item.term }}</strong></i></span>
-                        <span>Amount: <u>{{ item.count }}</u></span>
+                        <span>Medicine: <i><strong>{{ medicine.name }}</strong></i></span>
+                        <span>Amount: <u>{{ medicine.amount }}</u></span>
                     </main>
                     <button
                         mat-flat-button
@@ -56,7 +56,7 @@
             </mat-list-item>
         </mat-list>
     </ng-template>
-</ng-container>    
+</ng-container>
 <ng-template #loading>
     <mat-spinner></mat-spinner>
 </ng-template>

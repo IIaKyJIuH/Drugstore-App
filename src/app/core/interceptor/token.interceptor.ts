@@ -18,11 +18,11 @@ export class TokenInterceptor implements HttpInterceptor {
     private config: AppConfig,
   ) { }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** HttpInterceptor realization.
- ***REMOVED*****REMOVED*** @param request - incoming request.
- ***REMOVED*****REMOVED*** @param next - command to transit modified http request to the next interceptor.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** HttpInterceptor realization.
+  ***REMOVED*** @param request - incoming request.
+  ***REMOVED*** @param next - command to transit modified http request to the next interceptor.
+  ***REMOVED***/
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     if (request.method === 'POST') {
@@ -32,7 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
     //   catchError((error: HttpErrorResponse) => {
     //     if (error.status === 401) {
     //       return this.auth.refreshToken().pipe(
-    //         concatMap((tokens: UserTokens) => next.handle(request.clone({
+    //         concatMap((tokens: UserTokensModel) => next.handle(request.clone({
     //           params: request.params.set('auth', tokens.idToken),
     //         })),
     //         ),

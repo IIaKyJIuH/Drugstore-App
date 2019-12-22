@@ -23,7 +23,7 @@ export class ShoppingCartComponent {
     private notifications: NotificationService,
     private bookingsService: BookingsService,
     private dialog: MatDialog
-  ) { 
+  ) {
     this.myItems$ = this.cartService.getCurrentCart();
   }
 
@@ -33,10 +33,9 @@ export class ShoppingCartComponent {
       .subscribe(
         (isConfirmed) => {
           if (isConfirmed) {
-            this.cartService.bookItems(items);
+            this.cartService.bookMedicines(items);
             this.removeAll(items);
             this.notifications.showSuccess('Alright, your medicine products will be prepared as soon as possible', 'Booked');
-            this.bookingsService.subMedicinesFromDb(items);
           }
         }
       );

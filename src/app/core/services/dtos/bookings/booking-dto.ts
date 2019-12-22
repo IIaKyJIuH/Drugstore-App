@@ -5,14 +5,19 @@ import { MedicineDto } from '../medicines/medicine-dto';
 ***REMOVED***/
 export interface BookingDto {
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** User who booked medicines.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** User who booked medicines.
+  ***REMOVED***/
   email: string;
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Booked by user.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Booked by user.
+  ***REMOVED***/
   items: MedicineDto[];
+
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Unique key for getting record from db.
+  ***REMOVED***/
+  key?: string;
 
 }

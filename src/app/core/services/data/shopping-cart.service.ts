@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { BookingDto } from '../dtos/bookings/booking-dto';
+import { MedicineModel } from '../models/medicines/medicine-model';
+import { BookingsService } from './bookings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +15,7 @@ export class ShoppingCartService {
 
   constructor(
     private database: AngularFireDatabase,
+    private bookingsService: BookingsService,
     private authService: AuthenticationService
   ) {
     // this.currentCart$ = this.database.object('/cart/users').valueChanges()
@@ -41,7 +45,7 @@ export class ShoppingCartService {
     }
   }
 
-  bookItems(items): void {
+  bookMedicines(medicines: MedicineModel[]): void {
     // this.database.object('/bookings/users').valueChanges()
     //   .pipe(
     //     take(1),
@@ -68,8 +72,7 @@ export class ShoppingCartService {
     //       return returnedUser;
     //     }),
     //   ).subscribe();
-    const currentEmail = this.authService.getUserData().email;
-    this.database.list('/bookings/users/').push({ email: currentEmail, items });
+    this.bookingsService.bookMedicines(medicines);
   }
 
   private plusItem(obj: any): void {

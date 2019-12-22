@@ -13,11 +13,17 @@ export class BookingModel {
   medicines: MedicineModel[];
 
 ***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Unique key for getting record about this booking.
+ ***REMOVED*****REMOVED***/
+  key: string;
+
+***REMOVED*****REMOVED*****REMOVED****
  ***REMOVED*****REMOVED*** .ctor
  ***REMOVED*****REMOVED*** @param data - object, not necessarily containing all BookingModel fields.
  ***REMOVED*****REMOVED***/
   constructor(data: Partial<BookingModel>) {
     this.email = data.email;
     this.medicines = data.medicines;
+    this.key = data.key;
   }
 }
