@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserCredential } from '@firebase/auth-types';
 import { FirebaseError } from 'firebase';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
@@ -52,28 +53,30 @@ export class DataFormComponent {
     }
 
 ***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Async user login + if successful then redirect to main.
+ ***REMOVED*****REMOVED*** Async user sign-in/sign-up + if successful then redirect to store.
  ***REMOVED*****REMOVED*** @param formValues - user email + password.
  ***REMOVED*****REMOVED***/
   public onSubmit(formValues: CredentialsModel): void {
     if (this.isSigningUp) {
       this.authService
-      .signUp(formValues).pipe(take(1))
-      .subscribe(
-        () => {
-          this.notifications.showSuccess('You`ve registered your account', 'Success');
-          this.router.navigate(['/store']);
-    ***REMOVED*****REMOVED*****REMOVED***
-        (error: FirebaseError) => {
-          switch(error.code){
-            case 'auth/email-already-in-use':
-              this.notifications.showError('Please, input another email', 'Email exists');
-              break;
-            default:
-              alert(error);
-              break;
+        .signUp(formValues).pipe(take(1))
+        .subscribe(
+          (userData: UserCredential) => {
+            userData.user.sendEmailVerification();
+            this.notifications.showSuccess('You`ve registered your account', 'Success');
+            this.router.navigate(['/store']);
+      ***REMOVED*****REMOVED*****REMOVED***
+          (error: FirebaseError) => {
+            switch(error.code){
+              case 'auth/email-already-in-use':
+                this.notifications.showError('Please, input another email', 'Email exists');
+                break;
+              // TODO: write another cases.
+              default:
+                alert(error);
+                break;
+            }
           }
-        }
         );
     } else {
       this.authService
@@ -100,6 +103,9 @@ export class DataFormComponent {
     }
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Removes confirmation password field and getting the behaviour back to sign-in.
+ ***REMOVED*****REMOVED***/
   switchToSignIn(): void {
     this.formControls.confirmPassword.setValue('');
     this.formControls.confirmPassword.clearValidators();
@@ -107,11 +113,17 @@ export class DataFormComponent {
     this.isSigningUp = !this.isSigningUp;
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Adds confirmation password field and sign-up behaviour to page.
+ ***REMOVED*****REMOVED***/
   switchToSignUp(): void {
     this.formControls.confirmPassword.setValidators(Validators.required);
     this.isSigningUp = !this.isSigningUp;
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** For checking if the confirm password === password.
+ ***REMOVED*****REMOVED***/
   onPasswordInput(): void {
       if (this.isSigningUp && this.formData.hasError('nomatch')) {
         this.formControls.confirmPassword.setErrors([{'nomatch': true}]);
