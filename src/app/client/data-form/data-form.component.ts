@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { FirebaseError } from 'firebase';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
-import { CredentialsModel } from 'src/app/core/services/models/credentials-model';
+import { CredentialsModel } from 'src/app/core/services/models/authentication/credentials-model';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { PasswordValidator } from 'src/app/core/services/registration/password-validator';
 
@@ -66,7 +66,7 @@ export class DataFormComponent {
     ***REMOVED*****REMOVED*****REMOVED***
         (error: FirebaseError) => {
           switch(error.code){
-            case 'auth/email-already-in-use': 
+            case 'auth/email-already-in-use':
               this.notifications.showError('Please, input another email', 'Email exists');
               break;
             default:
@@ -85,7 +85,7 @@ export class DataFormComponent {
       ***REMOVED*****REMOVED*****REMOVED***
           (error: FirebaseError) => {
             switch(error.code) {
-              case 'auth/wrong-password': 
+              case 'auth/wrong-password':
                 this.notifications.showError('Please, input password correctly', error.message);
                 break;
               case 'auth/user-not-found':

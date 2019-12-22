@@ -5,7 +5,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
-import { CredentialsModel } from 'src/app/core/services/models/credentials-model';
+import { CredentialsModel } from 'src/app/core/services/models/authentication/credentials-model';
 
 @Component({
   selector: 'app-staff-edit',
@@ -32,7 +32,7 @@ export class StaffEditComponent {
     this.staffList$ = this.getAllStaff();
     this.addStaffForm = this.formBuiler.group({
       email: ['', Validators.compose([
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'), 
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         Validators.required
        ])
       ],
@@ -40,7 +40,7 @@ export class StaffEditComponent {
     });
     this.changeEmailForm = this.formBuiler.group({
       email: ['', Validators.compose([
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'), 
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         Validators.required
        ])
       ]
@@ -73,7 +73,7 @@ export class StaffEditComponent {
   }
 
   changePassword(formValues: Partial<CredentialsModel>): void {
-    
+
   }
 
   resetPassword(staffEmail: string): void {

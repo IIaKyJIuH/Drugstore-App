@@ -5,8 +5,8 @@ import { auth } from 'firebase';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { from, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { CredentialsModel } from '../models/credentials-model';
-import { UserModel } from '../models/user-model';
+import { CredentialsModel } from '../models/authentication/credentials-model';
+import { UserModel } from '../models/authentication/user-model';
 
 ***REMOVED****
 ***REMOVED*** Service that authorizes user at FireBase.
