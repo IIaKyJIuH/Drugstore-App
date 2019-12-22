@@ -1,10 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User, UserCredential } from '@firebase/auth-types';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { auth } from 'firebase';
-import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
-import { from, Observable, of } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { NgxRolesService } from 'ngx-permissions';
+import { from, Observable } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
 import { CredentialsModel } from '../models/authentication/credentials-model';
 import { UserModel } from '../models/authentication/user-model';
 
@@ -33,11 +34,13 @@ export class AuthenticationService {
  ***REMOVED*****REMOVED*** @param ngZone - for getting over the non-angular async functions.
  ***REMOVED*****REMOVED*** @param afAuth - angular fire authentication service.
  ***REMOVED*****REMOVED*** @param ngxRoles - for dealing with user roles.
+ ***REMOVED*****REMOVED*** @param database - for interacting with current project db.
  ***REMOVED*****REMOVED***/
   constructor(
     private ngZone: NgZone,
     private afAuth: AngularFireAuth,
     private ngxRoles: NgxRolesService,
+    private database: AngularFireDatabase,
   ) {
     this.authStatus$ = new Observable(observer => {
       return this.afAuth.auth.onAuthStateChanged((user) => {
@@ -120,6 +123,7 @@ export class AuthenticationService {
           uids.staff.push(userData.user.uid);
         }
         localStorage.setItem('uids', JSON.stringify(uids));
+        this.database.list('/staff/emails/').push({ email: userData.user.email });
       })
     );
   }
@@ -181,12 +185,10 @@ export class AuthenticationService {
  ***REMOVED*****REMOVED*** For getting user email and role.
  ***REMOVED*****REMOVED***/
   getUserData(): UserModel {
-    const user = new UserModel({
+    return new UserModel({
       email: localStorage.getItem(this.USER_EMAIL),
       role: localStorage.getItem(this.USER_ROLE)
     });
-
-    return user;
   }
 
 ***REMOVED*****REMOVED*****REMOVED****
