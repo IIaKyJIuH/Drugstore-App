@@ -14,9 +14,9 @@ import { ProjectFunctions } from './project-functions';
 })
 export class ArchiveService {
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Get actual date in format 'YYYY-MM-DD HH:MM'
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Get actual date in format 'YYYY-MM-DD HH:MM'
+  ***REMOVED***/
   private static getCurrentDate(): string {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -27,19 +27,19 @@ export class ArchiveService {
     return `${year}-${month}-${day}, ${hours}:${minutes}`;
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Makes two symbols digit from time if needed.
- ***REMOVED*****REMOVED*** @param time - given time.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Makes two symbols digit from time if needed.
+  ***REMOVED*** @param time - given time.
+  ***REMOVED***/
   private static normalizeSymbolsCount(time: number): string {
     const timeAsStr = time+'';
     return timeAsStr.length === 1 ? `0${timeAsStr}` : timeAsStr;
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Sums all booked medicines and returns their amount.
- ***REMOVED*****REMOVED*** @param medicines - source to sum booked medicines amount.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Sums all booked medicines and returns their amount.
+  ***REMOVED*** @param medicines - source to sum booked medicines amount.
+  ***REMOVED***/
   private static getMedicinesAmount(medicines: MedicineModel[]): number {
     return medicines.reduce((accumulated, {amount}) => accumulated + amount, 0);
   }
@@ -59,33 +59,33 @@ export class ArchiveService {
     return resultModelArr;
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** .ctor
- ***REMOVED*****REMOVED*** @param database - for interacting with current project db archive list.
- ***REMOVED*****REMOVED*** @param authService - for getting current user data mostly.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED*** @param database - for interacting with current project db archive list.
+  ***REMOVED*** @param authService - for getting current user data mostly.
+  ***REMOVED***/
   constructor(
     private database: AngularFireDatabase,
     private authService: AuthenticationService
   ) {}
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Gets all transactions from the archive.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Gets all transactions from the archive.
+  ***REMOVED***/
   getAllTransactions(): Observable<ArchiveModel[]> {
     return this.database.list('/archive/transactions/').valueChanges()
       .pipe(
-        map(recordings => {
-          const dtoArr: ArchiveDto[] = ProjectFunctions.mapObjectToArray(recordings);
+        map(records => {
+          const dtoArr: ArchiveDto[] = ProjectFunctions.mapObjectToArray(records);
           return ArchiveService.mapDtoArrayToModelArray(dtoArr);
         })
       )
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Records cancelled booking in the archive.
- ***REMOVED*****REMOVED*** @param booking - contains info about booking.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records cancelled booking in the archive.
+  ***REMOVED*** @param booking - contains info about booking.
+  ***REMOVED***/
   writeCancelledBooking(booking: BookingModel): void {
     const currentTime = ArchiveService.getCurrentDate();
     const itemsCount = ArchiveService.getMedicinesAmount(booking.medicines);
@@ -97,10 +97,10 @@ export class ArchiveService {
     } as ArchiveDto);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Records successful transaction in the archive.
- ***REMOVED*****REMOVED*** @param transaction - contains info about transaction.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records successful transaction in the archive.
+  ***REMOVED*** @param transaction - contains info about transaction.
+  ***REMOVED***/
   writeSuccessfulTransaction(transaction: BookingModel): void {
     const currentTime = ArchiveService.getCurrentDate();
     const currentUser = this.authService.getUserData();
@@ -114,10 +114,10 @@ export class ArchiveService {
     } as ArchiveDto);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Records failed transaction in the archive.
- ***REMOVED*****REMOVED*** @param transaction - contains info about transaction.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records failed transaction in the archive.
+  ***REMOVED*** @param transaction - contains info about transaction.
+  ***REMOVED***/
   writeFailedTransaction(transaction: BookingModel): void {
     const currentTime = ArchiveService.getCurrentDate();
     const currentUser = this.authService.getUserData();
