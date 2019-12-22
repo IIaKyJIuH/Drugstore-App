@@ -6,17 +6,38 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NotificationService {
 
-  constructor(private toastr: ToastrService) { }
+  /**
+   * .ctor
+   * @param toaster - out module, that is used as toasting service.
+   */
+  constructor(
+    private toaster: ToastrService
+  ) { }
 
+  /**
+   * With green background.
+   * @param message - will be displayed as normal text.
+   * @param title - will be displayed in bold at the top.
+   */
   showSuccess(message, title): void {
-      this.toastr.success(message, title);
+      this.toaster.success(message, title);
   }
 
+  /**
+   * With red background.
+   * @param message - will be displayed as normal text.
+   * @param title - will be displayed in bold at the top.
+   */
   showError(message, title): void {
-    this.toastr.error(message, title);
+    this.toaster.error(message, title);
   }
 
+  /**
+   * With yellow background.
+   * @param message - will be displayed as normal text.
+   * @param title - will be displayed in bold at the top.
+   */
   showWarning(message, title): void {
-    this.toastr.warning(message, title);
+    this.toaster.warning(message, title);
   }
 }
