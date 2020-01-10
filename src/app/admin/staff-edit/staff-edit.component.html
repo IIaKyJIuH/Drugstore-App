@@ -13,7 +13,7 @@
 
                         <mat-form-field>
                             <input
-                                matInput 
+                                matInput
                                 placeholder="New email"
                                 [ngStyle]="{ color: changeEmailForm.controls.email.errors && changeEmailForm.controls.email.dirty ? 'red' : 'green' }"
                                 formControlName="email">
@@ -35,7 +35,7 @@
 
                         <mat-form-field>
                             <input
-                                matInput 
+                                matInput
                                 placeholder="New password"
                                 [ngStyle]="{ color: changePasswordForm.controls.password.errors && changePasswordForm.controls.password.dirty ? 'red' : 'green' }"
                                 formControlName="password">
@@ -46,7 +46,7 @@
                 </ng-container>
             </article> -->
             <button mat-stroked-button color="primary" (click)="resetPassword(employee.email)">RESET PASSWORD</button>
-            <button mat-stroked-button color="warn" (click)="deleteStaff(employee.email)">DELET STAFF</button>
+            <button mat-stroked-button color="warn" (click)="deleteStaff(employee.email)">DELETE STAFF</button>
         </mat-card-content>
     </mat-card>
 </ng-container>
@@ -56,7 +56,7 @@
 
     <mat-form-field>
         <input
-            matInput 
+            matInput
             placeholder="Email"
             [ngStyle]="{ color: addStaffForm.controls.email.errors && addStaffForm.controls.email.dirty ? 'red' : 'green' }"
             formControlName="email">
@@ -67,7 +67,7 @@
     <br>
     <mat-form-field>
         <input
-            matInput 
+            matInput
             placeholder="Password"
             [ngStyle]="{ color: addStaffForm.controls.password.errors && addStaffForm.controls.password.dirty ? 'red' : 'green' }"
             formControlName="password">
