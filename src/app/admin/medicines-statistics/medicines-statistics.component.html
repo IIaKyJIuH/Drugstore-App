@@ -5,10 +5,10 @@
             <mat-card
                 *ngFor="let medicine of medicines">
                 <mat-card-header>
-                    <h3> {{ medicine.term }} </h3>
+                    <h3> {{ medicine.name }} </h3>
                 </mat-card-header>
                 <mat-card-content>
-                    Was purchased <strong>{{ medicine.purchased }}</strong> times
+                    Was purchased <strong>{{ medicine.purchasesAmount }}</strong> times
                 </mat-card-content>
             </mat-card>
         </main>
