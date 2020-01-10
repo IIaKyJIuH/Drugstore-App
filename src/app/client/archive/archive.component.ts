@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ArchiveService } from 'src/app/core/services/data/archive.service';
 
 @Component({
@@ -13,8 +14,13 @@ export class ArchiveComponent {
 
   constructor(
     private archiveService: ArchiveService
-  ) { 
-    this.allTransactions$ = archiveService.getAllTransactions();
+  ) {
+    this.allTransactions$ = archiveService.getAllTransactions()
+      .pipe(
+        map(transactions => {
+          return transactions.sort((a, b) => b.date.localeCompare(a.date));
+        })
+      );
   }
 
 }
