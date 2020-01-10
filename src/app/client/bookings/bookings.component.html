@@ -12,7 +12,7 @@
                     <main
                         fxFlex fxLayoutWrap fxLayout="column" fxLayoutAlign="start center"
                         matLine
-                      ***REMOVED*****REMOVED***ngFor="let medicine of booking.medicines"
+                       ***REMOVED***ngFor="let medicine of booking.medicines"
                         style="text-align: justify; font-size: 1.15em">
                         <span>Medicine: <i><strong>{{ medicine.name }}</strong></i></span>
                         <span>Amount: <u>{{ medicine.amount }}</u></span>
@@ -20,7 +20,7 @@
                     <button
                         mat-flat-button
                         color="primary"
-                      ***REMOVED*****REMOVED***ngIf="!booking.isReady; else checkIfBought"
+                       ***REMOVED***ngIf="!booking.isReady; else checkIfBought"
                         (click)="setToPrepared(booking)">
                         SET TO PREPARED
                     </button>
@@ -44,13 +44,13 @@
                     <main
                         fxFlex fxLayout="column" fxLayoutAlign="start center"
                         matLine
-                      ***REMOVED*****REMOVED***ngFor="let item of booking.items"
+                       ***REMOVED***ngFor="let item of booking.medicines"
                         style="text-align: justify; font-size: 1.15em">
-                        <span>Medicine: <i><strong>{{ item.term }}</strong></i></span>
-                        <span>Amount: <u>{{ item.count }}</u></span>
+                        <span>Medicine: <i><strong>{{ item.name }}</strong></i></span>
+                        <span>Amount: <u>{{ item.amount }}</u></span>
                     </main>
-                    <button mat-raised-button color="warn" (click)="cancellBooking(booking)">
-                        Cancell booking
+                    <button mat-raised-button color="warn" (click)="cancelBooking(booking)">
+                        Cancel booking
                     </button>
                 </ng-template>
             </mat-list-item>
