@@ -11,8 +11,15 @@ import { UserStatisticsModel } from '../../core/services/models/statistics/user-
 })
 export class UsersStatisticsComponent {
 
+  /**
+   * How many medicines bought, cancelled, failed to pay for each of user.
+   */
   usersStatistics$: Observable<UserStatisticsModel[]>;
 
+  /**
+   * .ctor
+   * @param statisticsService - for getting user statistics.
+   */
   constructor(
     private statisticsService: StatisticsService
   ) {
