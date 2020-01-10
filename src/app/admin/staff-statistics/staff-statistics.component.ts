@@ -11,8 +11,15 @@ import { PeopleStatisticsModel } from '../../core/services/models/statistics/peo
 })
 export class StaffStatisticsComponent {
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** How many items sold top 'n' staff.
+  ***REMOVED***/
   staffStatistics$: Observable<PeopleStatisticsModel[]>;
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED*** @param statisticsService - for getting staff statistics.
+  ***REMOVED***/
   constructor(
     private statisticsService: StatisticsService
   ) {
