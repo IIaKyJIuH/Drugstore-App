@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { StatisticsService } from 'src/app/core/services/data/statistics.service';
+import { MedicineStatisticsModel } from '../../core/services/models/statistics/medicine-statistics-model';
 
 @Component({
   selector: 'app-medicines-statistics',
@@ -10,17 +11,17 @@ import { StatisticsService } from 'src/app/core/services/data/statistics.service
 })
 export class MedicinesStatisticsComponent {
 
-  medicinesStatistics$: Observable<any>
+  medicinesStatistics$: Observable<MedicineStatisticsModel[]>;
 
   constructor(
     private statisticsService: StatisticsService
   ) {
     this.medicinesStatistics$ = statisticsService.getMedicinesStatistics()
       .pipe(
-        map(medicines => {
+        map((medicines: MedicineStatisticsModel[]) => {
           return medicines
-            .filter(x => x.purchased !== 0)
-            .sort((a, b) => b.purchased - a.purchased)
+            .filter(x => x.purchasesAmount !== 0)
+            .sort((a, b) => b.purchasesAmount - a.purchasesAmount)
             .slice(0, 3); // For TOP n listing
         })
       );

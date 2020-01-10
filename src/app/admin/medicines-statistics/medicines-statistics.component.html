@@ -3,12 +3,12 @@
         <main fxFlex fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="30px">
             <h2>TOP 3 items</h2>
             <mat-card
-              ***REMOVED*****REMOVED***ngFor="let medicine of medicines">
+               ***REMOVED***ngFor="let medicine of medicines">
                 <mat-card-header>
-                    <h3> {{ medicine.term }} </h3>
+                    <h3> {{ medicine.name }} </h3>
                 </mat-card-header>
                 <mat-card-content>
-                    Was purchased <strong>{{ medicine.purchased }}</strong> times
+                    Was purchased <strong>{{ medicine.purchasesAmount }}</strong> times
                 </mat-card-content>
             </mat-card>
         </main>
