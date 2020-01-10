@@ -5,17 +5,17 @@
             <section
                 fxFlex fxLayoutAlign="start center" fxLayoutGap="15px">
                 <mat-card
-                  ***REMOVED*****REMOVED***ngFor="let user of users">
+                   ***REMOVED***ngFor="let user of users">
                     <mat-card-header>
                         <h3> {{ user.email }} </h3>
                     </mat-card-header>
                     <mat-card-content>
                         <article
                             fxFlex fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="15px">
-                            <span>Purchased <strong>{{ user.purchasedItems }}</strong> items for in general</span>
-                            <span>Cancelled <strong>{{ user.cancelledBookings }}</strong> bookings</span>
+                            <span>Purchased <strong>{{ user.purchasesAmount }}</strong> items in general</span>
+                            <span>Cancelled <strong>{{ user.cancellationsAmount }}</strong> bookings</span>
                             <span>and</span>
-                            <span>Failed to pay his transaction <strong>{{ user.failures }}</strong> times</span>
+                            <span>Failed to pay his transaction <strong>{{ user.failuresAmount }}</strong> times</span>
                         </article>
                     </mat-card-content>
                 </mat-card>
