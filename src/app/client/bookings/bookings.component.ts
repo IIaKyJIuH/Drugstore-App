@@ -34,16 +34,13 @@ export class BookingsComponent {
     return this.bookingsService.getAllBookings()
       .pipe(
         map((bookingsArr: BookingModel[]) => {
-          for(const [index, item] of bookingsArr.entries()) {
-            Object.assign(item, {
-              key: index
-            });
-            const isFound = this.findObjInLocalStorage(item);
-            Object.assign(item, {
-              isReady: this.tryGetLocalStorageValue(item),
+          for(const booking of bookingsArr) {
+            const isFound = this.findObjInLocalStorage(booking);
+            Object.assign(booking, {
+              isReady: this.tryGetLocalStorageValue(booking),
             });
             if (!isFound) {
-              savedSpike.push(item);
+              savedSpike.push(booking);
             }
           }
           localStorage.setItem('savedSpike', JSON.stringify(savedSpike));
@@ -99,9 +96,10 @@ export class BookingsComponent {
 
   private removeFromLocalStorage(transaction): void {
     const savedSpike = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
-    for(const each of savedSpike) {
+    for(const [index, each] of savedSpike.entries()) {
       if (JSON.stringify(each) === JSON.stringify(transaction)) {
-        savedSpike.splice(each.key, 1);
+        savedSpike.splice(index, 1);
+        localStorage.removeItem('savedSpike');
         localStorage.setItem('savedSpike', JSON.stringify(savedSpike));
         break;
       }
@@ -122,7 +120,7 @@ export class BookingsComponent {
     return this.bookingsService.getCurrentUserBookings();
   }
 
-  cancellBooking(booking): void {
+  cancelBooking(booking): void {
     this.openConfirmationDialog()
       .pipe(take(1))
       .subscribe(
