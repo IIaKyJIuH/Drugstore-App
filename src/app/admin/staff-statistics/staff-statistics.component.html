@@ -10,10 +10,10 @@
                     <h3> {{ employee.email }} </h3>
                 </mat-card-header>
                 <ng-container *ngIf="employee.avatarUrl">
-                    <img src="{{ employee.avatarUrl }}" alt="Жмышенко Валерий Альбертович" />
+                    <img src="{{ employee.avatarUrl }}" alt="Фотография сотрудника" />
                 </ng-container>
                 <mat-card-content>
-                    This person made deals on <strong>{{ employee.purchasedItems }}</strong> items
+                    This person made deals on <strong>{{ employee.purchasesAmount }}</strong> items
                 </mat-card-content>
             </mat-card>
         </section>
