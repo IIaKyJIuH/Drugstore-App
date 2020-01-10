@@ -24,10 +24,14 @@ export class StaffEditComponent {
    */
   staffList$: Observable<any>;
 
-  addStaffForm: FormGroup;
-  changeEmailForm: FormGroup;
-  changePasswordForm: FormGroup;
+  addStaffForm: FormGroup; // For adding new staff.
+  changeEmailForm: FormGroup; // For changing staff email.
+  changePasswordForm: FormGroup; // For changing staff password.
 
+  /**
+   * For easier actualization of db changes.
+   * @param dtoArr - to be converted to corresponding model.
+   */
   private static mapDtoArrayToModelArray(dtoArr: StaffDto[]): StaffModel[] {
     const result = [];
     for (const dto of dtoArr) {
@@ -39,9 +43,17 @@ export class StaffEditComponent {
     return result;
   }
 
+  /**
+   * .ctor
+   * @param afAuth - for interacting with firebase auth api.
+   * @param formBuilder - for easier buildings of forms.
+   * @param database - for interacting with firebase db.
+   * @param authService - for getting current auth data.
+   * @param notifications - for getting result of operations.
+   */
   constructor(
-    private formBuilder: FormBuilder,
     private afAuth: AngularFireAuth,
+    private formBuilder: FormBuilder,
     private database: AngularFireDatabase,
     private authService: AuthenticationService,
     private notifications: NotificationService,
@@ -67,6 +79,9 @@ export class StaffEditComponent {
     });
    }
 
+  /**
+   * Gets all staff profiles.
+   */
   getAllStaff(): Observable<StaffModel[]> {
     return this.database.list('/staff/emails/').valueChanges()
       .pipe(
@@ -77,6 +92,10 @@ export class StaffEditComponent {
       )
   }
 
+  /**
+   * Registers new staff in firebase project.
+   * @param formValues - credentials of the new staff.
+   */
   addStaff(formValues: CredentialsModel): void {
     this.authService.addNewStaff(formValues)
       .subscribe(
@@ -88,6 +107,7 @@ export class StaffEditComponent {
       );
   }
 
+  // TODO: need to add server for this and the next.
   changeEmail(formValues: Partial<CredentialsModel>): void {
 
   }
@@ -96,10 +116,18 @@ export class StaffEditComponent {
 
   }
 
+  /**
+   * For resetting password of the staff.
+   * @param staffEmail - where to send reset link.
+   */
   resetPassword(staffEmail: string): void {
     this.afAuth.auth.sendPasswordResetEmail(staffEmail);
   }
 
+  /**
+   * Deletes staff from firebase project.
+   * @param staffEmail - to be deleted.
+   */
   deleteStaff(staffEmail: string): void {
     this.database.object('/staff/emails/').valueChanges()
       .pipe(
