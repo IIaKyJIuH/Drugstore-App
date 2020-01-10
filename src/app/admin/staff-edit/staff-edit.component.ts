@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { CredentialsModel } from 'src/app/core/services/models/authentication/credentials-model';
+import { NotificationService } from '../../core/services/notification/notification.service';
 
 @Component({
   selector: 'app-staff-edit',
@@ -25,28 +26,29 @@ export class StaffEditComponent {
   doPasswordChange = false;
 
   constructor(
-    private formBuiler: FormBuilder,
-    private database: AngularFireDatabase,
+    private formBuilder: FormBuilder,
     private afAuth: AngularFireAuth,
+    private database: AngularFireDatabase,
     private authService: AuthenticationService,
+    private notifications: NotificationService,
   ) {
     this.staffList$ = this.getAllStaff();
-    this.addStaffForm = this.formBuiler.group({
+    this.addStaffForm = this.formBuilder.group({
       email: ['', Validators.compose([
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[.][a-zA-Z0-9-.]+$'),
         Validators.required
        ])
       ],
       password: ['', Validators.required]
     });
-    this.changeEmailForm = this.formBuiler.group({
+    this.changeEmailForm = this.formBuilder.group({
       email: ['', Validators.compose([
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[.][a-zA-Z0-9-.]+$'),
         Validators.required
        ])
       ]
     });
-    this.changePasswordForm = this.formBuiler.group({
+    this.changePasswordForm = this.formBuilder.group({
       password: ['', Validators.required]
     });
    }
@@ -69,6 +71,8 @@ export class StaffEditComponent {
       .subscribe(
         (newStaffData: UserCredential) => {
           newStaffData.user.sendEmailVerification();
+    ***REMOVED*****REMOVED*****REMOVED*** (error) => {
+          this.notifications.showWarning('oops', error);
         }
       );
   }
@@ -86,7 +90,7 @@ export class StaffEditComponent {
   }
 
   deleteStaff(staffEmail: string): void {
-    this.database.list('/staff/emails/').valueChanges()
+    this.database.object('/staff/emails/').valueChanges()
       .pipe(
         take(1),
         tap(recordings => {
@@ -96,7 +100,7 @@ export class StaffEditComponent {
             }
           }
         })
-      )
+      ).subscribe();
   }
 
 }
