@@ -7,6 +7,9 @@ import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { CredentialsModel } from 'src/app/core/services/models/authentication/credentials-model';
+import { ProjectFunctions } from '../../core/services/data/project-functions';
+import { StaffDto } from '../../core/services/dtos/staff-list/staff-dto';
+import { StaffModel } from '../../core/services/models/staff-list/staff-model';
 import { NotificationService } from '../../core/services/notification/notification.service';
 
 @Component({
@@ -16,14 +19,25 @@ import { NotificationService } from '../../core/services/notification/notificati
 })
 export class StaffEditComponent {
 
+  /**
+   * List with all staff registered in db.
+   */
   staffList$: Observable<any>;
 
   addStaffForm: FormGroup;
   changeEmailForm: FormGroup;
   changePasswordForm: FormGroup;
 
-  doEmailChange = false;
-  doPasswordChange = false;
+  private static mapDtoArrayToModelArray(dtoArr: StaffDto[]): StaffModel[] {
+    const result = [];
+    for (const dto of dtoArr) {
+      result.push(new StaffModel({
+        email: dto.email,
+        key: dto.key
+      }));
+    }
+    return result;
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,15 +67,12 @@ export class StaffEditComponent {
     });
    }
 
-  getAllStaff(): Observable<any> {
+  getAllStaff(): Observable<StaffModel[]> {
     return this.database.list('/staff/emails/').valueChanges()
       .pipe(
-        map(recordings => {
-          const recordsArr = [];
-          for (const recordKey of Object.keys(recordings)) {
-            recordsArr.push(recordings[recordKey]);
-          }
-          return recordsArr
+        map((recordings: object) => {
+          const staffDtoArr: StaffDto[] = ProjectFunctions.mapObjectToArray(recordings);
+          return StaffEditComponent.mapDtoArrayToModelArray(staffDtoArr);
         })
       )
   }
@@ -99,7 +110,7 @@ export class StaffEditComponent {
               this.database.list(`/staff/emails/${key}`).remove();
             }
           }
-        })
+        })// TODO: add logic to delete user from firebase project.
       ).subscribe();
   }
 
