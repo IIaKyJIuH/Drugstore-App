@@ -24,24 +24,28 @@ export class DataFormComponent {
    */
   public formData: FormGroup;
 
+  /**
+   * For checking if the user wants to sign-up instead of sign-in.
+   */
   isSigningUp = false;
 
   /**
    * .ctor
-   * @param auth - my authorization service.
    * @param router - responsible for redirecting user.
-   * @param formBuilder - includes form data.
+   * @param formBuilder - for easier form creation.
+   * @param authService - my authorization service.
+   * @param notifications - for getting result of operations.
    */
   constructor(
-    private authService: AuthenticationService,
-    private formBuilder: FormBuilder,
     private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthenticationService,
     private notifications: NotificationService,
   ) {
       this.formData  =  this.formBuilder.group({
-        email: ['pakylin3@mail.ru', [ Validators.compose([
+        email: ['pak3@mail.ru', [ Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[.][a-zA-Z0-9-.]+$'),
         ]) ] ],
         password: ['lolkek', Validators.compose([
           Validators.required,
