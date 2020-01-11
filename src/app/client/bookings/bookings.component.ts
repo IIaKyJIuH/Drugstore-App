@@ -16,8 +16,19 @@ import { BookingModel } from '../../core/services/models/bookings/booking-model'
 })
 export class BookingsComponent {
 
+  /**
+   * All booked items from db.
+   */
   allBookings$: Observable<BookingModel[]>;
 
+  /**
+   * .ctor
+   * @param dialog - for confirmation dialogs.
+   * @param database - for interacting with db data.
+   * @param bookingsService - for dealing with bookings.
+   * @param notifications - for getting result of operations.
+   * @param authService - for getting current auth data.
+   */
   constructor(
     private dialog: MatDialog,
     private database: AngularFireDatabase,
@@ -29,6 +40,9 @@ export class BookingsComponent {
     this.allBookings$ = userRole === 'STAFF' ? this.getAllBookings() : this.getMyBookings();
    }
 
+  /**
+   * Gets all reserved bookings from db.
+   */
   getAllBookings(): Observable<BookingModel[]> {
     return this.bookingsService.getAllBookings()
       .pipe(
@@ -48,12 +62,20 @@ export class BookingsComponent {
       );
   }
 
+  /**
+   * Sets ready status for booking.
+   * @param transaction - booking to be set to prepared.
+   */
   setToPrepared(transaction: BookingModel): void {
     transaction.isReady = true;
     this.updateLocalStorage(transaction);
     // TODO: send sms notification
   }
 
+  /**
+   * Updates local storage isReady status for given transaction.
+   * @param transaction - for searching in the local storage.
+   */
   private updateLocalStorage(transaction: BookingModel): void {
     const savedSpike: BookingModel[] = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
     const localRecord = savedSpike.find(x => x.key === transaction.key);
@@ -63,6 +85,10 @@ export class BookingsComponent {
     }
   }
 
+  /**
+   * Removes transaction from local storage.
+   * @param transaction - to be removed from local storage.
+   */
   private removeFromLocalStorage(transaction: BookingModel): void {
     const savedSpike: BookingModel[] = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
     const localRecordIndex = savedSpike.findIndex(x => x.key === transaction.key);
@@ -73,20 +99,35 @@ export class BookingsComponent {
     }
   }
 
+  /**
+   * Marks given transaction as successful.
+   * @param transaction - that is succeeded.
+   */
   setToSuccessfulTransaction(transaction: BookingModel): void {
     this.bookingsService.setToSuccessfulTransaction(transaction);
     this.removeFromLocalStorage(transaction);
   }
 
+  /**
+   * Marks given transaction as failed.
+   * @param transaction - that is failed.
+   */
   setToFailedTransaction(transaction: BookingModel): void {
     this.bookingsService.setToFailedTransaction(transaction);
     this.removeFromLocalStorage(transaction);
   }
 
+  /**
+   * Gets all transaction off the current signed-in client.
+   */
   getMyBookings(): Observable<BookingModel[]> {
     return this.bookingsService.getCurrentUserBookings();
   }
 
+  /**
+   * Cancel reserved booking from db.
+   * @param booking - to be cancelled.
+   */
   cancelBooking(booking: BookingModel): void {
     this.openConfirmationDialog()
       .pipe(take(1))
@@ -100,6 +141,9 @@ export class BookingsComponent {
       );
   }
 
+  /**
+   * For confirmation of the booking cancellation.
+   */
   private openConfirmationDialog(): Observable<any> {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '400px',
