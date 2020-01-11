@@ -19,11 +19,14 @@ export class DataService {
     const resultArr: MedicineDto[] = [];
     for (const pharmacyName of Object.keys(pharmacies)) {
       const pharmacy = pharmacies[pharmacyName];
-      for (const [index, medicine] of pharmacy.entries()) {
-        resultArr.push(Object.assign(medicine, {
-          pharmacy: pharmacyName,
-          key: index
-        } as MedicineDto));
+      for (const key of Object.keys(pharmacy)) {
+        const medicine = pharmacy[key];
+        if (medicine) {
+          resultArr.push(Object.assign(medicine, {
+            pharmacy: pharmacyName,
+            key
+          } as MedicineDto));
+        }
       }
     }
     return resultArr;
@@ -63,9 +66,13 @@ export class DataService {
   getAllMedicines(): Observable<MedicineModel[]> {
     return this.database.object('/medicines/pharmacies').valueChanges()
       .pipe(
-        map(records => {
-          const dtoArr: MedicineDto[] = DataService.mapObjectToArray(records);
-          return DataService.mapDtoArrayToModelArray(dtoArr);
+        map((records: object) => {
+          if (records) {
+            const dtoArr: MedicineDto[] = DataService.mapObjectToArray(records);
+            return DataService.mapDtoArrayToModelArray(dtoArr);
+          } else {
+            return [];
+          }
         })
       );
   }
@@ -81,14 +88,14 @@ export class DataService {
   }
 
   /**
-   * Adds medicine to db.....TODO: do it.
-   * @param to
-   * @param medicine
+   * Adds medicine to specific pharmacy in db.
+   * @param to - where to add.
+   * @param medicine - what medicine to add.
    */
-  private addMedicineToDb(to: string, medicine: any): void {
+  private addMedicineToDb(to: string, medicine: MedicineModel): void {
     const newObj: any = Object.assign({}, {
-      count: medicine.count,
-      term: medicine.term
+      count: medicine.amount,
+      term: medicine.name
     });
     this.database.list(`medicines/pharmacies/${to}`).push(newObj);
   }
