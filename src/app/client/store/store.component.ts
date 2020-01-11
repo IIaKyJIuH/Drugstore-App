@@ -18,9 +18,9 @@ import { MedicineModel } from '../../core/services/models/medicines/medicine-mod
 })
 export class StoreComponent implements AfterViewInit {
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** All medicines from db.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** All medicines from db.
+  ***REMOVED***/
   medicines$: Observable<MatTableDataSource<any>>;
 
   displayedColumns: string[] = ['pharmacy', 'name', 'amount', 'controls']; // For mat-table.
@@ -30,13 +30,13 @@ export class StoreComponent implements AfterViewInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort; // For sorting specific columns of the table.
   @ViewChild('filter', { static: false}) filter: ElementRef; // For filtering data by given key.
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** .ctor
- ***REMOVED*****REMOVED*** @param router - for redirecting user.
- ***REMOVED*****REMOVED*** @param dataService - for getting data from db.
- ***REMOVED*****REMOVED*** @param shoppingCart - for adding/removing data to shopping cart.
- ***REMOVED*****REMOVED*** @param authService - for getting current auth data.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED*** @param router - for redirecting user.
+  ***REMOVED*** @param dataService - for getting data from db.
+  ***REMOVED*** @param shoppingCart - for adding/removing data to shopping cart.
+  ***REMOVED*** @param authService - for getting current auth data.
+  ***REMOVED***/
   constructor(
     private router: Router,
     private dataService: DataService,
@@ -44,9 +44,9 @@ export class StoreComponent implements AfterViewInit {
     private authService: AuthenticationService,
   ) {}
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Gets all medicines from db.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Gets all medicines from db.
+  ***REMOVED***/
   getAllMedicines(): Observable<MatTableDataSource<any>> {
     return this.dataService.getAllMedicines().pipe(
       map((medicines: MedicineModel[]) => {
@@ -64,64 +64,64 @@ export class StoreComponent implements AfterViewInit {
     );
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Adds/increases given element to shopping cart.
- ***REMOVED*****REMOVED*** @param element - to be added/increased.
- ***REMOVED*****REMOVED***/
-  addToCart(element): void {
-    this.shoppingCart.addItem(element);
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Adds/increases given medicine to shopping cart.
+  ***REMOVED*** @param medicine - to be added/increased.
+  ***REMOVED***/
+  addToCart(medicine: MedicineModel): void {
+    this.shoppingCart.addItem(medicine);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Removes/subtracts given element from shopping cart.
- ***REMOVED*****REMOVED*** @param element - to be removed/subtracted.
- ***REMOVED*****REMOVED***/
-  subFromCart(element): void {
-    this.shoppingCart.minusItem(element);
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Removes/subtracts given medicine from shopping cart.
+  ***REMOVED*** @param medicine - to be removed/subtracted.
+  ***REMOVED***/
+  subFromCart(medicine: MedicineModel): void {
+    this.shoppingCart.minusItem(medicine);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Checks if the given element amount in the cart is less than in db.
- ***REMOVED*****REMOVED*** @param element - to be checked on.
- ***REMOVED*****REMOVED***/
-  isEnough(element): boolean {
-    return this.shoppingCart.isEnough(element);
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Checks if the given medicine amount in the cart is less than in db.
+  ***REMOVED*** @param medicine - to be checked on.
+  ***REMOVED***/
+  isEnough(medicine: MedicineModel): boolean {
+    return this.shoppingCart.isEnough(medicine);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Checks if the given element is in the cart right now.
- ***REMOVED*****REMOVED*** @param element - to be checked.
- ***REMOVED*****REMOVED***/
-  isInCart(element): boolean {
-    return this.shoppingCart.isInCart(element);
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Checks if the given medicine is in the cart right now.
+  ***REMOVED*** @param medicine - to be checked.
+  ***REMOVED***/
+  isInCart(medicine: MedicineModel): boolean {
+    return this.shoppingCart.isInCart(medicine);
   }
 
   goToDetailedInfo(row): void {
     this.router.navigate(['/store', row.pharmacy, row.id]);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** ADMIN! Moves given element to another pharmacy of the db.
- ***REMOVED*****REMOVED*** @param element - to be moved.
- ***REMOVED*****REMOVED*** @param option - new place for element.
- ***REMOVED*****REMOVED***/
-  moveToPharmacy(element, option: string): void {
-    if (element.pharmacy === option) {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** ADMIN! Moves given medicine to another pharmacy of the db.
+  ***REMOVED*** @param medicine - to be moved.
+  ***REMOVED*** @param option - new place for medicine.
+  ***REMOVED***/
+  moveToPharmacy(medicine: MedicineModel, option: string): void {
+    if (medicine.pharmacy === option) {
       alert('select appropriate option');
       return;
     }
     if (option === undefined) {
       return;
     }
-    this.dataService.moveToAnotherPharmacy(option, element);
+    this.dataService.moveToAnotherPharmacy(option, medicine);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** ADMIN! Deletes given element from db.
- ***REMOVED*****REMOVED*** @param element - to be removed.
- ***REMOVED*****REMOVED***/
-  deleteFromDb(element): void {
-    this.dataService.deleteMedicineFromDb(element);
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** ADMIN! Deletes given medicine from db.
+  ***REMOVED*** @param medicine - to be removed.
+  ***REMOVED***/
+  deleteFromDb(medicine: MedicineModel): void {
+    this.dataService.deleteMedicineFromDb(medicine);
   }
 
   ngAfterViewInit(): void {
