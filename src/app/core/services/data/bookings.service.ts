@@ -17,6 +17,25 @@ import { StatisticsService } from './statistics.service';
 export class BookingsService {
 
   /**
+   * Concatenates key fields from db to each item for bookings.
+   * @param object - object to be converted.
+   */
+  public static mapObjectToArray(object: object): any[] {
+    const arr = [];
+    for (const key of Object.keys(object)) {
+      const current = object[key];
+      if (key !== 'default') {
+        arr.push(Object.assign(current, {
+          key
+        }));
+      }
+    }
+    return arr;
+  }
+
+  // private static getMedicineByName(medicine: )
+
+  /**
    * For easier interacting in app.
    * @param dtoArr - dto bookings from db.
    */
@@ -27,13 +46,16 @@ export class BookingsService {
       for (const item of dto.items) {
         itemsModel.push(new MedicineModel({
           amount: item.count,
-          name: item.term
+          name: item.term,
+          key: item.key,
+          pharmacy: item.pharmacy
         }))
       }
       resultModelArr.push(new BookingModel({
         email: dto.email,
         medicines: itemsModel,
-        key: dto.key
+        key: dto.key,
+        isReady: false,
       }));
     }
     return resultModelArr;
@@ -59,7 +81,7 @@ export class BookingsService {
   getAllBookings(): Observable<BookingModel[]> {
     return this.database.object('/bookings/users').valueChanges().pipe(
       map((records: object) => {
-        const arr = ProjectFunctions.mapObjectToArray(records);
+        const arr = BookingsService.mapObjectToArray(records);
         return BookingsService.mapDtoArrayToModelArray(arr);
       }),
     );
@@ -83,13 +105,7 @@ export class BookingsService {
    * @param transaction - to be saved.
    */
   setToSuccessfulTransaction(transaction: BookingModel): void {
-    this.database.object(`/bookings/users/${transaction.key}`).valueChanges()
-      .pipe(
-        take(1),
-        tap((record: BookingDto) => {
-          this.recordTransactionByOperation(Operation.Success, transaction);
-        })
-      ).subscribe();
+    this.recordTransactionByOperation(Operation.Success, transaction);
   }
 
   /**
@@ -97,13 +113,7 @@ export class BookingsService {
    * @param transaction - to be saved.
    */
   setToFailedTransaction(transaction: BookingModel): void {
-    this.database.object(`/bookings/users/${transaction.key}`).valueChanges()
-    .pipe(
-      take(1),
-      tap((record: BookingDto) => {
-        this.recordTransactionByOperation(Operation.Fail, transaction);
-      })
-    ).subscribe();
+    this.recordTransactionByOperation(Operation.Fail, transaction);
   }
 
   /**
@@ -111,13 +121,7 @@ export class BookingsService {
    * @param booking - to be saved.
    */
   cancelBooking(booking: BookingModel): void {
-    this.database.object(`/bookings/users/${booking.key}`).valueChanges()
-      .pipe(
-        take(1),
-        tap((record: BookingDto) => {
-         this.recordTransactionByOperation(Operation.Cancel, booking);
-        })
-      ).subscribe();
+     this.recordTransactionByOperation(Operation.Cancel, booking);
   }
 
   /**
@@ -130,7 +134,9 @@ export class BookingsService {
     for (const medicine of medicines) {
       medicinesDto.push({
         term: medicine.name,
-        count: medicine.amount
+        count: medicine.amount,
+        key: medicine.key,
+        pharmacy: medicine.pharmacy
       })
     }
     this.database.list('/bookings/users/').push({ email: currentEmail, items: medicinesDto } as BookingDto);
@@ -150,6 +156,7 @@ export class BookingsService {
         this.database.object(`/bookings/users/${transaction.key}`).remove();
         break;
       case Operation.Fail:
+        this.restoreMedicinesToDb(transaction.medicines);
         this.archiveService.writeFailedTransaction(transaction);
         this.statisticsService.writeFailedTransaction(transaction);
         this.database.object(`/bookings/users/${transaction.key}`).remove();

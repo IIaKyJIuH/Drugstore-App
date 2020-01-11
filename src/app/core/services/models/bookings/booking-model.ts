@@ -18,6 +18,11 @@ export class BookingModel {
   key: string;
 
   /**
+   * Tells if the booking is ready to be sold.
+   */
+  isReady: boolean;
+
+  /**
    * .ctor
    * @param data - object, not necessarily containing all BookingModel fields.
    */
@@ -25,5 +30,6 @@ export class BookingModel {
     this.email = data.email;
     this.medicines = data.medicines;
     this.key = data.key;
+    this.isReady = data.isReady;
   }
 }
