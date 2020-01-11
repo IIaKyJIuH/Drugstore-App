@@ -6,6 +6,7 @@ import { BookingsService } from 'src/app/core/services/data/bookings.service';
 import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { MedicineModel } from '../../core/services/models/medicines/medicine-model';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -14,23 +15,23 @@ import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/
 })
 export class ShoppingCartComponent {
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Items selected by user for booking.
- ***REMOVED*****REMOVED***/
-  myItems$: Observable<any>;
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Items selected by user for booking.
+  ***REMOVED***/
+  myItems$: Observable<MedicineModel[]>;
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Columns for mat-table.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Columns for mat-table.
+  ***REMOVED***/
   displayedColumns = ['Name', 'Count', 'Pharmacy', 'Controls'];
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** .ctor
- ***REMOVED*****REMOVED*** @param dialog - for confirmation of the booking operation.
- ***REMOVED*****REMOVED*** @param cartService - for dealing with cart items.
- ***REMOVED*****REMOVED*** @param bookingsService - for booking specific items.
- ***REMOVED*****REMOVED*** @param notifications - for getting info about operations.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED*** @param dialog - for confirmation of the booking operation.
+  ***REMOVED*** @param cartService - for dealing with cart items.
+  ***REMOVED*** @param bookingsService - for booking specific items.
+  ***REMOVED*** @param notifications - for getting info about operations.
+  ***REMOVED***/
   constructor(
     private dialog: MatDialog,
     private cartService: ShoppingCartService,
@@ -40,11 +41,11 @@ export class ShoppingCartComponent {
     this.myItems$ = this.cartService.getCurrentCart();
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Books selected items after confirmation.
- ***REMOVED*****REMOVED*** @param items - to be booked.
- ***REMOVED*****REMOVED***/
-  bookItems(items): void {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Books selected items after confirmation.
+  ***REMOVED*** @param items - to be booked.
+  ***REMOVED***/
+  bookItems(items: MedicineModel[]): void {
     this.openConfirmationDialog()
       .pipe(take(1))
       .subscribe(
@@ -58,9 +59,9 @@ export class ShoppingCartComponent {
       );
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** For confirmation of the booking.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For confirmation of the booking.
+  ***REMOVED***/
   private openConfirmationDialog(): Observable<any> {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '400px',
@@ -72,35 +73,35 @@ export class ShoppingCartComponent {
     return dialogRef.afterClosed();
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Removes all selected items from shopping-cart.
- ***REMOVED*****REMOVED*** @param items - to be deleted.
- ***REMOVED*****REMOVED***/
-  removeAll(items): void {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Removes all selected items from shopping-cart.
+  ***REMOVED*** @param items - to be deleted.
+  ***REMOVED***/
+  removeAll(items: MedicineModel[]): void {
     this.cartService.removeItems(items);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Adds or increases cart with the given element.
- ***REMOVED*****REMOVED*** @param element - to be add/increased.
- ***REMOVED*****REMOVED***/
-  addToCart(element): void {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Adds or increases cart with the given element.
+  ***REMOVED*** @param element - to be add/increased.
+  ***REMOVED***/
+  addToCart(element: MedicineModel): void {
     this.cartService.addItem(element);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Removes or subtracts the given element from cart.
- ***REMOVED*****REMOVED*** @param element - to be removed/subtracted.
- ***REMOVED*****REMOVED***/
-  subFromCart(element): void {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Removes or subtracts the given element from cart.
+  ***REMOVED*** @param element - to be removed/subtracted.
+  ***REMOVED***/
+  subFromCart(element: MedicineModel): void {
     this.cartService.minusItem(element);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** For checking if the given element is in cart now.
- ***REMOVED*****REMOVED*** @param element - to be checked.
- ***REMOVED*****REMOVED***/
-  isInCart(element): boolean {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For checking if the given element is in cart now.
+  ***REMOVED*** @param element - to be checked.
+  ***REMOVED***/
+  isInCart(element: MedicineModel): boolean {
     return this.cartService.isInCart(element);
   }
 
