@@ -23,8 +23,17 @@ export class UserProfileComponent {
    */
   passwordChangeForm: FormGroup;
 
+  /**
+   * State for checking if the password inputted by user(for changing password) is right.
+   */
   isCurrentPasswordRight: boolean;
 
+  /**
+   * .ctor
+   * @param formBuilder - for easier form creation.
+   * @param authService - for everything about authentication from firebase project.
+   * @param notifications - for getting operations status.
+   */
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
@@ -44,6 +53,10 @@ export class UserProfileComponent {
     { validator: PasswordValidator.areEqual });
   }
 
+  /**
+   * Changes user email.
+   * @param emailFormValues - new email.
+   */
   onEmailChangeSubmit(emailFormValues: Partial<CredentialsModel>): void {
     const newEmail = emailFormValues.email;
     if (newEmail === this.currentUserEmail) {
@@ -60,7 +73,11 @@ export class UserProfileComponent {
     );
   }
 
-  onPasswordChangeSubmit(passwordFormValues: any): void {
+  /**
+   * Changes user password.
+   * @param passwordFormValues - new password.
+   */
+  onPasswordChangeSubmit(passwordFormValues: Partial<CredentialsModel>): void {
     const newPassword = passwordFormValues.password;
     this.authService.changeUserPassword(newPassword).pipe(take(1)).subscribe(
       () => {
@@ -75,10 +92,17 @@ export class UserProfileComponent {
     )
   }
 
+  /**
+   * For getting signed-in user email.
+   */
   get currentUserEmail(): string {
     return this.authService.getUserData().email;
   }
 
+  /**
+   * For checking if the password inputted by user(for changing password) is right.
+   * @param password - to be checked.
+   */
   checkIfItIsCurrentPassword(password: string): void {
     this.authService.isCurrentPassword(password).pipe(
       take(1)
@@ -92,6 +116,9 @@ export class UserProfileComponent {
       });
   }
 
+  /**
+   * For password confirmation.
+   */
   onPasswordInput(): void {
     if (this.passwordChangeForm.hasError('nomatch')) {
       this.passwordControls.confirmPassword.setErrors([{'nomatch': true}]);
