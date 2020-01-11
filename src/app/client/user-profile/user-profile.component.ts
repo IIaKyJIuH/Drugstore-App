@@ -31,7 +31,7 @@ export class UserProfileComponent {
     private notifications: NotificationService
   ) {
     this.emailChangeForm = this.formBuilder.group({
-      email: ['', Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$') ]
+      email: ['', Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[.][a-zA-Z0-9-.]+$') ]
     });
     this.passwordChangeForm = this.formBuilder.group({
       password: ['', Validators.compose([
