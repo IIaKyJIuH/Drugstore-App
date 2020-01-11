@@ -19,29 +19,33 @@ import { PasswordValidator } from 'src/app/core/services/registration/password-v
 })
 export class DataFormComponent {
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Form data: email + password.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Form data: email + password.
+  ***REMOVED***/
   public formData: FormGroup;
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For checking if the user wants to sign-up instead of sign-in.
+  ***REMOVED***/
   isSigningUp = false;
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** .ctor
- ***REMOVED*****REMOVED*** @param auth - my authorization service.
- ***REMOVED*****REMOVED*** @param router - responsible for redirecting user.
- ***REMOVED*****REMOVED*** @param formBuilder - includes form data.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED*** @param router - responsible for redirecting user.
+  ***REMOVED*** @param formBuilder - for easier form creation.
+  ***REMOVED*** @param authService - my authorization service.
+  ***REMOVED*** @param notifications - for getting result of operations.
+  ***REMOVED***/
   constructor(
-    private authService: AuthenticationService,
-    private formBuilder: FormBuilder,
     private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthenticationService,
     private notifications: NotificationService,
   ) {
       this.formData  =  this.formBuilder.group({
-        email: ['pakylin3@mail.ru', [ Validators.compose([
+        email: ['pak3@mail.ru', [ Validators.compose([
           Validators.required,
-          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[.][a-zA-Z0-9-.]+$'),
         ]) ] ],
         password: ['lolkek', Validators.compose([
           Validators.required,
@@ -49,13 +53,13 @@ export class DataFormComponent {
           Validators.maxLength(12),
         ])],
         confirmPassword: [''],
-  ***REMOVED*****REMOVED*****REMOVED*** { validator: PasswordValidator.areEqual });
+   ***REMOVED*****REMOVED*** { validator: PasswordValidator.areEqual });
     }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Async user sign-in/sign-up + if successful then redirect to store.
- ***REMOVED*****REMOVED*** @param formValues - user email + password.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Async user sign-in/sign-up + if successful then redirect to store.
+  ***REMOVED*** @param formValues - user email + password.
+  ***REMOVED***/
   public onSubmit(formValues: CredentialsModel): void {
     if (this.isSigningUp) {
       this.authService
@@ -65,7 +69,7 @@ export class DataFormComponent {
             userData.user.sendEmailVerification();
             this.notifications.showSuccess('You`ve registered your account', 'Success');
             this.router.navigate(['/store']);
-      ***REMOVED*****REMOVED*****REMOVED***
+       ***REMOVED*****REMOVED***
           (error: FirebaseError) => {
             switch(error.code){
               case 'auth/email-already-in-use':
@@ -85,7 +89,7 @@ export class DataFormComponent {
           () => {
             this.notifications.showSuccess('You`ve signed-in', 'Success');
             this.router.navigate(['/store']);
-      ***REMOVED*****REMOVED*****REMOVED***
+       ***REMOVED*****REMOVED***
           (error: FirebaseError) => {
             switch(error.code) {
               case 'auth/wrong-password':
@@ -103,9 +107,9 @@ export class DataFormComponent {
     }
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Removes confirmation password field and getting the behaviour back to sign-in.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Removes confirmation password field and getting the behaviour back to sign-in.
+  ***REMOVED***/
   switchToSignIn(): void {
     this.formControls.confirmPassword.setValue('');
     this.formControls.confirmPassword.clearValidators();
@@ -113,17 +117,17 @@ export class DataFormComponent {
     this.isSigningUp = !this.isSigningUp;
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Adds confirmation password field and sign-up behaviour to page.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Adds confirmation password field and sign-up behaviour to page.
+  ***REMOVED***/
   switchToSignUp(): void {
     this.formControls.confirmPassword.setValidators(Validators.required);
     this.isSigningUp = !this.isSigningUp;
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** For checking if the confirm password === password.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For checking if the confirm password === password.
+  ***REMOVED***/
   onPasswordInput(): void {
       if (this.isSigningUp && this.formData.hasError('nomatch')) {
         this.formControls.confirmPassword.setErrors([{'nomatch': true}]);
@@ -133,10 +137,10 @@ export class DataFormComponent {
       }
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** All controls that have a formControlName in html file.
- ***REMOVED*****REMOVED*** @returns FormGroup.controls.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** All controls that have a formControlName in html file.
+  ***REMOVED*** @returns FormGroup.controls.
+  ***REMOVED***/
   get formControls(): { [key: string]: AbstractControl; } { return this.formData.controls; }
 
 }
