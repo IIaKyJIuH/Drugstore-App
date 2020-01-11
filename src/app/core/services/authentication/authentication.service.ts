@@ -115,6 +115,7 @@ export class AuthenticationService {
    * @param staff - new staff email + password.
    */
   addNewStaff(staff: CredentialsModel): Observable<UserCredential> {
+    const adminEmail = this.getUserData().email;
     return from(this.afAuth.auth.createUserWithEmailAndPassword(staff.email, staff.password)).pipe(
       take(1),
       tap((userData: UserCredential) => {
@@ -124,6 +125,7 @@ export class AuthenticationService {
         }
         localStorage.setItem('uids', JSON.stringify(uids));
         this.database.list('/staff/emails/').push({ email: userData.user.email });
+        this.afAuth.auth.signInWithEmailAndPassword(adminEmail, 'admin123'); // Back to admin
       })
     );
   }
