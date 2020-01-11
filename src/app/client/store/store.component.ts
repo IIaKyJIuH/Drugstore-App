@@ -18,15 +18,25 @@ import { MedicineModel } from '../../core/services/models/medicines/medicine-mod
 })
 export class StoreComponent implements AfterViewInit {
 
+  /**
+   * All medicines from db.
+   */
   medicines$: Observable<MatTableDataSource<any>>;
 
-  displayedColumns: string[] = ['pharmacy', 'name', 'amount', 'controls'];
-  pharmaciesList: string[] = [];
+  displayedColumns: string[] = ['pharmacy', 'name', 'amount', 'controls']; // For mat-table.
+  pharmaciesList: string[] = []; // for admin table.
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild('filter', { static: false}) filter: ElementRef;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator; // For pagination of the table.
+  @ViewChild(MatSort, { static: false }) sort: MatSort; // For sorting specific columns of the table.
+  @ViewChild('filter', { static: false}) filter: ElementRef; // For filtering data by given key.
 
+  /**
+   * .ctor
+   * @param router - for redirecting user.
+   * @param dataService - for getting data from db.
+   * @param shoppingCart - for adding/removing data to shopping cart.
+   * @param authService - for getting current auth data.
+   */
   constructor(
     private router: Router,
     private dataService: DataService,
@@ -34,6 +44,9 @@ export class StoreComponent implements AfterViewInit {
     private authService: AuthenticationService,
   ) {}
 
+  /**
+   * Gets all medicines from db.
+   */
   getAllMedicines(): Observable<MatTableDataSource<any>> {
     return this.dataService.getAllMedicines().pipe(
       map((medicines: MedicineModel[]) => {
@@ -51,18 +64,34 @@ export class StoreComponent implements AfterViewInit {
     );
   }
 
+  /**
+   * Adds/increases given element to shopping cart.
+   * @param element - to be added/increased.
+   */
   addToCart(element): void {
     this.shoppingCart.addItem(element);
   }
 
+  /**
+   * Removes/subtracts given element from shopping cart.
+   * @param element - to be removed/subtracted.
+   */
   subFromCart(element): void {
     this.shoppingCart.minusItem(element);
   }
 
+  /**
+   * Checks if the given element amount in the cart is less than in db.
+   * @param element - to be checked on.
+   */
   isEnough(element): boolean {
     return this.shoppingCart.isEnough(element);
   }
 
+  /**
+   * Checks if the given element is in the cart right now.
+   * @param element - to be checked.
+   */
   isInCart(element): boolean {
     return this.shoppingCart.isInCart(element);
   }
@@ -71,6 +100,11 @@ export class StoreComponent implements AfterViewInit {
     this.router.navigate(['/store', row.pharmacy, row.id]);
   }
 
+  /**
+   * ADMIN! Moves given element to another pharmacy of the db.
+   * @param element - to be moved.
+   * @param option - new place for element.
+   */
   moveToPharmacy(element, option: string): void {
     if (element.pharmacy === option) {
       alert('select appropriate option');
@@ -82,6 +116,10 @@ export class StoreComponent implements AfterViewInit {
     this.dataService.moveToAnotherPharmacy(option, element);
   }
 
+  /**
+   * ADMIN! Deletes given element from db.
+   * @param element - to be removed.
+   */
   deleteFromDb(element): void {
     this.dataService.deleteMedicineFromDb(element);
   }
