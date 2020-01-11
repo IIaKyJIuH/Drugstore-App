@@ -16,10 +16,29 @@ import { StatisticsService } from './statistics.service';
 })
 export class BookingsService {
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** For easier interacting in app.
- ***REMOVED*****REMOVED*** @param dtoArr - dto bookings from db.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Concatenates key fields from db to each item for bookings.
+  ***REMOVED*** @param object - object to be converted.
+  ***REMOVED***/
+  public static mapObjectToArray(object: object): any[] {
+    const arr = [];
+    for (const key of Object.keys(object)) {
+      const current = object[key];
+      if (key !== 'default') {
+        arr.push(Object.assign(current, {
+          key
+        }));
+      }
+    }
+    return arr;
+  }
+
+  // private static getMedicineByName(medicine: )
+
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For easier interacting in app.
+  ***REMOVED*** @param dtoArr - dto bookings from db.
+  ***REMOVED***/
   private static mapDtoArrayToModelArray(dtoArr: BookingDto[]): BookingModel[] {
     const resultModelArr: BookingModel[] = [];
     for (const dto of dtoArr) {
@@ -27,25 +46,28 @@ export class BookingsService {
       for (const item of dto.items) {
         itemsModel.push(new MedicineModel({
           amount: item.count,
-          name: item.term
+          name: item.term,
+          key: item.key,
+          pharmacy: item.pharmacy
         }))
       }
       resultModelArr.push(new BookingModel({
         email: dto.email,
         medicines: itemsModel,
-        key: dto.key
+        key: dto.key,
+        isReady: false,
       }));
     }
     return resultModelArr;
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** .ctor
- ***REMOVED*****REMOVED*** @param database - for interacting with firebase db.
- ***REMOVED*****REMOVED*** @param archiveService - for storing info about transactions into db archive..
- ***REMOVED*****REMOVED*** @param authService - for getting user auth info.
- ***REMOVED*****REMOVED*** @param statisticsService - for storing info about transactions into db statistics.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED*** @param database - for interacting with firebase db.
+  ***REMOVED*** @param archiveService - for storing info about transactions into db archive..
+  ***REMOVED*** @param authService - for getting user auth info.
+  ***REMOVED*** @param statisticsService - for storing info about transactions into db statistics.
+  ***REMOVED***/
   constructor(
     private database: AngularFireDatabase,
     private archiveService: ArchiveService,
@@ -53,21 +75,21 @@ export class BookingsService {
     private statisticsService: StatisticsService,
   ) { }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Gets all bookings from db.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Gets all bookings from db.
+  ***REMOVED***/
   getAllBookings(): Observable<BookingModel[]> {
     return this.database.object('/bookings/users').valueChanges().pipe(
       map((records: object) => {
-        const arr = ProjectFunctions.mapObjectToArray(records);
+        const arr = BookingsService.mapObjectToArray(records);
         return BookingsService.mapDtoArrayToModelArray(arr);
       }),
     );
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Gets all bookings corresponding to the current user.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Gets all bookings corresponding to the current user.
+  ***REMOVED***/
   getCurrentUserBookings(): Observable<BookingModel[]> {
     return this.database.object('/bookings/users').valueChanges().pipe(
       map((records: object) => {
@@ -78,70 +100,54 @@ export class BookingsService {
     );
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Records this transaction as successful in db.
- ***REMOVED*****REMOVED*** @param transaction - to be saved.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records this transaction as successful in db.
+  ***REMOVED*** @param transaction - to be saved.
+  ***REMOVED***/
   setToSuccessfulTransaction(transaction: BookingModel): void {
-    this.database.object(`/bookings/users/${transaction.key}`).valueChanges()
-      .pipe(
-        take(1),
-        tap((record: BookingDto) => {
-          this.recordTransactionByOperation(Operation.Success, transaction);
-        })
-      ).subscribe();
+    this.recordTransactionByOperation(Operation.Success, transaction);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Records this transaction as failed in db.
- ***REMOVED*****REMOVED*** @param transaction - to be saved.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records this transaction as failed in db.
+  ***REMOVED*** @param transaction - to be saved.
+  ***REMOVED***/
   setToFailedTransaction(transaction: BookingModel): void {
-    this.database.object(`/bookings/users/${transaction.key}`).valueChanges()
-    .pipe(
-      take(1),
-      tap((record: BookingDto) => {
-        this.recordTransactionByOperation(Operation.Fail, transaction);
-      })
-    ).subscribe();
+    this.recordTransactionByOperation(Operation.Fail, transaction);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Records this transaction as cancelled in db.
- ***REMOVED*****REMOVED*** @param booking - to be saved.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records this transaction as cancelled in db.
+  ***REMOVED*** @param booking - to be saved.
+  ***REMOVED***/
   cancelBooking(booking: BookingModel): void {
-    this.database.object(`/bookings/users/${booking.key}`).valueChanges()
-      .pipe(
-        take(1),
-        tap((record: BookingDto) => {
-         this.recordTransactionByOperation(Operation.Cancel, booking);
-        })
-      ).subscribe();
+     this.recordTransactionByOperation(Operation.Cancel, booking);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Subtracts medicines from db and pushes new booking.
- ***REMOVED*****REMOVED*** @param medicines - to be booked.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Subtracts medicines from db and pushes new booking.
+  ***REMOVED*** @param medicines - to be booked.
+  ***REMOVED***/
   bookMedicines(medicines: MedicineModel[]): void {
     const currentEmail = this.authService.getUserData().email;
     const medicinesDto: MedicineDto[] = [];
     for (const medicine of medicines) {
       medicinesDto.push({
         term: medicine.name,
-        count: medicine.amount
+        count: medicine.amount,
+        key: medicine.key,
+        pharmacy: medicine.pharmacy
       })
     }
     this.database.list('/bookings/users/').push({ email: currentEmail, items: medicinesDto } as BookingDto);
     this.subMedicinesFromDb(medicines);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Do some actions to store info about transaction in db.
- ***REMOVED*****REMOVED*** @param operation - alias to transaction status.
- ***REMOVED*****REMOVED*** @param transaction - to be saved.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Do some actions to store info about transaction in db.
+  ***REMOVED*** @param operation - alias to transaction status.
+  ***REMOVED*** @param transaction - to be saved.
+  ***REMOVED***/
   private recordTransactionByOperation(operation: Operation, transaction: BookingModel): void {
     switch (operation) {
       case Operation.Success:
@@ -150,6 +156,7 @@ export class BookingsService {
         this.database.object(`/bookings/users/${transaction.key}`).remove();
         break;
       case Operation.Fail:
+        this.restoreMedicinesToDb(transaction.medicines);
         this.archiveService.writeFailedTransaction(transaction);
         this.statisticsService.writeFailedTransaction(transaction);
         this.database.object(`/bookings/users/${transaction.key}`).remove();
@@ -163,10 +170,10 @@ export class BookingsService {
     }
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Subtract medicines from db medicines list.
- ***REMOVED*****REMOVED*** @param medicines - are booked.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Subtract medicines from db medicines list.
+  ***REMOVED*** @param medicines - are booked.
+  ***REMOVED***/
   private subMedicinesFromDb(medicines: MedicineModel[]): void {
     for (const medicine of medicines) {
       this.database.object(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}`).valueChanges()
@@ -179,10 +186,10 @@ export class BookingsService {
     }
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Restores medicines to db from cancelled booking.
- ***REMOVED*****REMOVED*** @param medicines - to be restored.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Restores medicines to db from cancelled booking.
+  ***REMOVED*** @param medicines - to be restored.
+  ***REMOVED***/
   private restoreMedicinesToDb(medicines: MedicineModel[]): void {
     for (const medicine of medicines) {
       this.database.object(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}`).valueChanges()
