@@ -3,199 +3,334 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { MedicineStatisticsDto } from '../dtos/statistics/medicine-statistics-dto';
+import { PeopleStatisticsDto } from '../dtos/statistics/people-statistics-dto';
+import { UserStatisticsDto } from '../dtos/statistics/user-statistics-dto';
+import { BookingModel } from '../models/bookings/booking-model';
+import { MedicineModel } from '../models/medicines/medicine-model';
+import { MedicineStatisticsModel } from '../models/statistics/medicine-statistics-model';
+import { PeopleStatisticsModel } from '../models/statistics/people-statistics-model';
+import { UserStatisticsModel } from '../models/statistics/user-statistics-model';
+import { ProjectFunctions } from './project-functions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatisticsService {
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Converts dto<t>[] to model<t>[]
+  ***REMOVED*** @param dtoArr - to be converted.
+  ***REMOVED*** @return model related to dto.
+  ***REMOVED***/
+  private static mapDtoArrayToModelArray(dtoArr: MedicineStatisticsDto[] | PeopleStatisticsDto[] | UserStatisticsDto[])
+    : MedicineStatisticsModel[] | PeopleStatisticsModel[] | UserStatisticsModel[] {
+    const resultArr = [];
+    if (StatisticsService.isMedicineStatistics(dtoArr)) {
+      for (const dto of (dtoArr as MedicineStatisticsDto[])) {
+        resultArr.push(new MedicineStatisticsModel({
+          name: dto.term,
+          purchasesAmount: dto.purchased,
+          key: dto.key
+        }))
+      }
+    } else if (StatisticsService.isUserStatistics(dtoArr)) {
+      for (const dto of (dtoArr as UserStatisticsDto[])) {
+        resultArr.push(new UserStatisticsModel({
+          email: dto.email,
+          purchasesAmount: dto.purchasedItems,
+          cancellationsAmount: dto.cancelledBookings,
+          failuresAmount: dto.failures,
+          key: dto.key
+        }))
+      }
+    } else {
+      for (const dto of (dtoArr as PeopleStatisticsDto[])) {
+        resultArr.push(new PeopleStatisticsModel({
+          email: dto.email,
+          purchasesAmount: dto.purchasedItems,
+          key: dto.key
+        }))
+      }
+    }
+    return resultArr;
+  }
+
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Checks if the given array is of specific type.
+  ***REMOVED*** @param array - to be checked.
+  ***REMOVED*** @return array type = MedicineStatisticsDto - true, else - false.
+  ***REMOVED***/
+  private static isMedicineStatistics(array: MedicineStatisticsDto[] | object): array is MedicineStatisticsDto {
+    return (array as MedicineStatisticsDto[])[0].term !== undefined; // 'term' is MedicineDto field.
+  }
+
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Checks if the given array is of specific type.
+  ***REMOVED*** @param array - to be checked.
+  ***REMOVED*** @return array type = UserStatisticsDto - true, else - false.
+  ***REMOVED***/
+  private static isUserStatistics(array: UserStatisticsDto[] | object): array is UserStatisticsDto[] {
+    return (array as UserStatisticsDto[])[0].failures !== undefined; // 'failures' is UserStatisticsDto field.
+  }
+
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED*** @param database - for interacting with db.
+  ***REMOVED*** @param authService - for getting user auth info.
+  ***REMOVED***/
   constructor(
     private database: AngularFireDatabase,
     private authService: AuthenticationService
   ) {}
 
-  getMedicinesStatistics(): Observable<any> {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Send get request to db fro medicine statistics.
+  ***REMOVED*** @return db medicines statistics model.
+  ***REMOVED***/
+  getMedicinesStatistics(): Observable<MedicineStatisticsModel[]> {
     return this.database.list('/statistics/medicines/').valueChanges()
       .pipe(
-        map(recordings => {
-          const resultArr = [];
-          for(const recordKey of Object.keys(recordings)) {
-            resultArr.push(recordings[recordKey]);
-          }
-          return resultArr;
+        map(records => {
+          const dtoArr: MedicineStatisticsDto[] = ProjectFunctions.mapObjectToArray(records);
+          return StatisticsService.mapDtoArrayToModelArray(dtoArr) as MedicineStatisticsModel[];
         })
       );
   }
 
-  getStaffStatistics(): Observable<any> {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Send get request to db for staff statistics.
+  ***REMOVED*** @return db staff statistics model.
+  ***REMOVED***/
+  getStaffStatistics(): Observable<PeopleStatisticsModel[]> {
     return this.database.list('/statistics/staff/').valueChanges()
       .pipe(
-        map(recordings => {
-          const resultArr = [];
-          for(const recordKey of Object.keys(recordings)) {
-            resultArr.push(recordings[recordKey]);
-          }
-          return resultArr;
+        map(records => {
+          const dtoArr: PeopleStatisticsDto[] = ProjectFunctions.mapObjectToArray(records);
+          return StatisticsService.mapDtoArrayToModelArray(dtoArr) as PeopleStatisticsModel[];
         })
       );
   }
 
-  getUsersStatistics(): Observable<any> {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Send get request to db for users statistics.
+  ***REMOVED*** @return db users statistics model.
+  ***REMOVED***/
+  getUsersStatistics(): Observable<UserStatisticsModel[]> {
     return this.database.list('/statistics/users/').valueChanges()
       .pipe(
-        map(recordings => {
-          const resultArr = [];
-          for(const recordKey of Object.keys(recordings)) {
-            resultArr.push(recordings[recordKey]);
-          }
-          return resultArr;
+        map(records => {
+          const dtoArr: UserStatisticsDto[] = ProjectFunctions.mapObjectToArray(records);
+          return StatisticsService.mapDtoArrayToModelArray(dtoArr) as UserStatisticsModel[];
         })
       );
   }
 
-  writeSuccessfulTransaction(transaction): void {
-    const userEmail = transaction.email;
-    this.writeMedicines(transaction.items);
-    this.writeSuccessfulUser(transaction);
-    this.writeStaff(transaction);
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records successful transaction.
+  ***REMOVED*** @param transaction - to be recorded.
+  ***REMOVED***/
+  writeSuccessfulTransaction(transaction: BookingModel): void {
+    const basePath = '/statistics/';
+    const statisticsPlaces = ['medicines/', 'users/', 'staff/'];
+    for (const place of statisticsPlaces) {
+      if (place === 'users/') {
+        this.processTransactionRequestOnPath(basePath + place, transaction, UserStatus.Success);
+      }
+      this.processTransactionRequestOnPath(basePath + place, transaction);
+    }
   }
 
-  writeCancelledBooking(booking): void {
-    this.writeCancelledUser(booking);
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records cancelled booking.
+  ***REMOVED*** @param booking - to be recorded.
+  ***REMOVED***/
+  writeCancelledBooking(booking: BookingModel): void {
+    this.processTransactionRequestOnPath('/statistics/users/', booking, UserStatus.Cancel);
   }
 
-  writeFailedTransaction(transaction): void {
-    this.writeFailedUser(transaction);
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records failed transaction.
+  ***REMOVED*** @param transaction - to be recorded.
+  ***REMOVED***/
+  writeFailedTransaction(transaction: BookingModel): void {
+    this.processTransactionRequestOnPath('/statistics/users/', transaction, UserStatus.Fail);
   }
 
-  private writeMedicines(medicines): void {
-    this.database.object('/statistics/medicines/').valueChanges()
-    .pipe(
-      take(1),
-      tap(records => {
-        for (const item of medicines) {
-          let isFound = false;
-          for (const recordKey of Object.keys(records)) {
-            if (records[recordKey].term === item.term) {
-              isFound = true;
-              this.database.object(`/statistics/medicines/${recordKey}/purchased`).set(records[recordKey].purchased + item.count);
-            }
-          }
-          if (!isFound) {
-            this.database.list('/statistics/medicines/').push(
-              Object.assign({}, {
-                purchased: item.count,
-                term: item.term
-              })
-            );
-          }
-        }
-      })
-    ).subscribe();
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records medicines items from transaction.
+  ***REMOVED*** @param medicinesDto - medicine statistics items from db.
+  ***REMOVED*** @param medicines - to be recorded.
+  ***REMOVED***/
+  private writeMedicines(medicinesDto: MedicineStatisticsDto[], medicines: MedicineModel[]): void {
+    // this.database.object('/statistics/medicines/').valueChanges()
+    // .pipe(
+    //   take(1),
+    //   map((records: object) => ProjectFunctions.mapObjectToArray(records)),
+    //   tap((records: MedicineStatisticsDto[]) => {
+    //
+    //   })
+    // ).subscribe();
+    for (const medicine of medicines) {
+      const appropriateRecord = medicinesDto.find(x => x.term === medicine.name);
+      if (appropriateRecord) {
+        this.database.object(`/statistics/medicines/${appropriateRecord.key}/purchased`).set(appropriateRecord.purchased + medicine.amount);
+      } else {
+        this.database.list('/statistics/medicines/').push(
+          Object.assign({}, {
+            purchased: medicine.amount,
+            term: medicine.name
+          })
+        );
+      }
+    }
   }
 
-  private writeStaff(transaction): void {
-    const staffEmail = this.authService.getUserData().email;
-    const itemsCount = transaction.items.reduce((temp, {count}) => temp + count, 0);
-    this.database.object('/statistics/staff/').valueChanges()
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records staff who processed transaction.
+  ***REMOVED*** @param staffDto - specific staff record from db who processed transaction or undefined if there isn`t.
+  ***REMOVED*** @param transaction - to be registered on staff db record.
+  ***REMOVED***/
+  private writeStaff(staffDto: PeopleStatisticsDto | undefined, transaction: BookingModel): void {
+    const staffEmail = this.authService.getUserData().email; // Because only staff can set transaction status.
+    const itemsCount = transaction.medicines.reduce((accumulated, {amount}) => accumulated + amount, 0);
+    // this.database.object('/statistics/staff/').valueChanges()
+    //   .pipe(
+    //     take(1),
+    //     map((records: object) => ProjectFunctions.mapObjectToArray(records)),
+    //     tap((records: PeopleStatisticsDto[]) => {
+    //
+    //     })
+    //   ).subscribe();
+    if (staffDto) {
+      this.database.object(`/statistics/staff/${staffDto.key}/purchasedItems`).set(staffDto.purchasedItems + itemsCount);
+    } else {
+      this.database.list(`/statistics/staff/`).push(
+        Object.assign({}, {
+          email: staffEmail,
+          purchasedItems: itemsCount
+        })
+      );
+    }
+  }
+
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records user who registered transaction.
+  ***REMOVED*** @param userDto - specific user statistics from db who payed transaction or undefined if there isn`t.
+  ***REMOVED*** @param transaction - to be registered as successful on transaction user.
+  ***REMOVED***/
+  private writeSuccessfulUser(userDto: UserStatisticsDto | undefined, transaction: BookingModel): void {
+    const itemsCount = transaction.medicines.reduce((accumulated, {amount}) => accumulated + amount, 0);
+    // this.database.object('/statistics/users/').valueChanges()
+    //   .pipe(
+    //     take(1),
+    //     map((records: object) => ProjectFunctions.mapObjectToArray(records)),
+    //     tap((records: UserStatisticsDto[]) => {
+    //
+    //     })
+    //   ).subscribe();
+    if (userDto) {
+      this.database.object(`/statistics/users/${userDto.key}/purchasedItems`).set(userDto.purchasedItems + itemsCount);
+    } else {
+      this.database.list(`/statistics/users/`).push(
+        Object.assign({}, {
+          email: transaction.email,
+          purchasedItems: itemsCount,
+          cancelledBookings: 0,
+          failures: 0
+        })
+      );
+    }
+  }
+
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records user who cancelled booking.
+  ***REMOVED*** @param userDto - specific user statistics who cancelled transaction from db or undefined if there isn`t.
+  ***REMOVED*** @param transaction - to be registered as cancelled on transaction user.
+  ***REMOVED***/
+  private writeCancelledUser(userDto: UserStatisticsDto | undefined, transaction: BookingModel): void {
+    // this.database.object('/statistics/users/').valueChanges()
+    //   .pipe(
+    //     take(1),
+    //     map((records: object) => ProjectFunctions.mapObjectToArray(records)),
+    //     tap((records: UserStatisticsDto[]) => {
+    //
+    //     })
+    //   ).subscribe();
+    if (userDto) {
+      this.database.object(`/statistics/users/${userDto.key}/cancelledBookings`).set(userDto.cancelledBookings + 1);
+    } else {
+      this.database.list(`/statistics/users/`).push(
+        Object.assign({}, {
+          email: transaction.email,
+          purchasedItems: 0,
+          cancelledBookings: 1,
+          failures: 0
+        })
+      );
+    }
+  }
+
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Records user that failed transaction.
+  ***REMOVED*** @param userDto - specific user statistics who failed to pay transaction from db or undefined if there isn`t.
+  ***REMOVED*** @param transaction - that was failed.
+  ***REMOVED***/
+  private writeFailedUser(userDto: UserStatisticsDto | undefined, transaction: BookingModel): void {
+    // this.database.object('/statistics/users/').valueChanges()
+    //   .pipe(
+    //     take(1),
+    //     map((records: object) => ProjectFunctions.mapObjectToArray(records)),
+    //     tap((records: UserStatisticsDto[]) => {
+    //
+    //   ).subscribe();
+    if (userDto) {
+      this.database.object(`/statistics/users/${userDto.key}/failures`).set(userDto.failures + 1);
+    } else {
+      this.database.list(`/statistics/users/`).push(
+        Object.assign({}, {
+          email: transaction.email,
+          purchasedItems: 0,
+          cancelledBookings: 0,
+          failures: 1
+        })
+      );
+    }
+  }
+
+  private processTransactionRequestOnPath(path: string, transaction: BookingModel, userStatus?: UserStatus): void {
+    this.database.object(path).valueChanges()
       .pipe(
         take(1),
-        tap(records => {
-          let isFound = false;
-          for (const recordKey of Object.keys(records)) {
-            if (records[recordKey].email === staffEmail) {
-              isFound = true;
-              this.database.object(`/statistics/staff/${recordKey}/purchasedItems`).set(records[recordKey].purchasedItems + itemsCount);
+        map(records => ProjectFunctions.mapObjectToArray(records)),
+        tap((records: MedicineStatisticsDto[] | PeopleStatisticsDto[] | UserStatisticsDto[]) => {
+          if (path.includes('medicines')) {
+            this.writeMedicines(records as MedicineStatisticsDto[], transaction.medicines);
+          } else if (path.includes('users')) {
+            const userDto = (records as UserStatisticsDto[]).find(x => x.email === transaction.email);
+            switch (userStatus) {
+              case UserStatus.Success:
+                this.writeSuccessfulUser(userDto, transaction);
+                break;
+              case UserStatus.Fail:
+                this.writeFailedUser(userDto, transaction);
+                break;
+              case UserStatus.Cancel:
+                this.writeCancelledUser(userDto, transaction);
+                break;
             }
-          }
-          if (!isFound) {
-            this.database.list(`/statistics/staff/`).push(
-              Object.assign({}, {
-                email: staffEmail,
-                purchasedItems: itemsCount
-              })
-            );
+          } else {
+            const staffEmail = this.authService.getUserData().email;
+            const staffDto = (records as PeopleStatisticsDto[]).find(x => x.email === staffEmail);
+            this.writeStaff(staffDto, transaction);
           }
         })
       ).subscribe();
   }
+}
 
-  private writeSuccessfulUser(transaction): void {
-    const itemsCount = transaction.items.reduce((temp, {count}) => temp + count, 0);
-    this.database.object('/statistics/users/').valueChanges()
-      .pipe(
-        take(1),
-        tap(records => {
-          let isFound = false;
-          for (const recordKey of Object.keys(records)) {
-            if (records[recordKey].email === transaction.email) {
-              isFound = true;
-              this.database.object(`/statistics/users/${recordKey}/purchasedItems`).set(records[recordKey].purchasedItems + itemsCount);
-            }
-          }
-          if (!isFound) {
-            this.database.list(`/statistics/users/`).push(
-              Object.assign({}, {
-                cancelledBookings: 0,
-                email: transaction.email,
-                purchasedItems: itemsCount,
-                failures: 0
-              })
-            );
-          }
-        })
-      ).subscribe();
-  }
-
-  private writeCancelledUser(transaction): void {
-    this.database.object('/statistics/users/').valueChanges()
-      .pipe(
-        take(1),
-        tap(records => {
-          let isFound = false;
-          for (const recordKey of Object.keys(records)) {
-            if (records[recordKey].email === transaction.email) {
-              isFound = true;
-              this.database.object(`/statistics/users/${recordKey}/cancelledBookings`).set(records[recordKey].cancelledBookings + 1);
-            }
-          }
-          if (!isFound) {
-            this.database.list(`/statistics/users/`).push(
-              Object.assign({}, {
-                cancelledBookings: 1,
-                email: transaction.email,
-                purchasedItems: 0,
-                failures: 0
-              })
-            );
-          }
-        })
-      ).subscribe();
-  }
-
-  private writeFailedUser(transaction): void {
-    this.database.object('/statistics/users/').valueChanges()
-      .pipe(
-        take(1),
-        tap(records => {
-          let isFound = false;
-          for (const recordKey of Object.keys(records)) {
-            if (records[recordKey].email === transaction.email) {
-              isFound = true;
-              this.database.object(`/statistics/users/${recordKey}/failures`).set(records[recordKey].failures + 1);
-            }
-          }
-          if (!isFound) {
-            this.database.list(`/statistics/users/`).push(
-              Object.assign({}, {
-                cancelledBookings: 0,
-                email: transaction.email,
-                purchasedItems: 0,
-                failures: 1
-              })
-            );
-          }
-        })
-      ).subscribe();
-  }
+enum UserStatus {
+  Success,
+  Fail,
+  Cancel
 }
