@@ -53,9 +53,7 @@ export class ShoppingCartComponent {
   }
 
   removeAll(items): void {
-    for (const item of items) {
-      this.cartService.removeItem(item);
-    }
+    this.cartService.removeItems(items);
   }
 
   addToCart(element): void {

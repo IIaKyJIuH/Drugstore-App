@@ -10,17 +10,17 @@ import { BookingsService } from './bookings.service';
 })
 export class ShoppingCartService {
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** with medicines saved by user.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** with medicines saved by user.
+  ***REMOVED***/
   currentCart$ = new BehaviorSubject<MedicineModel[]>([]);
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** .ctor
- ***REMOVED*****REMOVED*** @param database - for interacting with db.
- ***REMOVED*****REMOVED*** @param bookingsService - for booking medicines from cart.
- ***REMOVED*****REMOVED*** @param authService - for getting user auth data.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED*** @param database - for interacting with db.
+  ***REMOVED*** @param bookingsService - for booking medicines from cart.
+  ***REMOVED*** @param authService - for getting user auth data.
+  ***REMOVED***/
   constructor(
     private database: AngularFireDatabase,
     private bookingsService: BookingsService,
@@ -52,10 +52,10 @@ export class ShoppingCartService {
     }
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** For booking medicines via bookingsService.
- ***REMOVED*****REMOVED*** @param medicines - to be booked.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For booking medicines via bookingsService.
+  ***REMOVED*** @param medicines - to be booked.
+  ***REMOVED***/
   bookMedicines(medicines: MedicineModel[]): void {
     // this.database.object('/bookings/users').valueChanges()
     //   .pipe(
@@ -86,10 +86,10 @@ export class ShoppingCartService {
     this.bookingsService.bookMedicines(medicines);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Pluses medicine counter in the cart.
- ***REMOVED*****REMOVED*** @param medicine - to be increased.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Pluses medicine counter in the cart.
+  ***REMOVED*** @param medicine - to be increased.
+  ***REMOVED***/
   private plusItem(medicine: MedicineModel): void {
     const currentCart = this.currentCart$.getValue();
     const existingObjIndex = currentCart.findIndex(x => x.name === medicine.name);
@@ -104,10 +104,10 @@ export class ShoppingCartService {
     }
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Adds medicine to existing cart or creates new cart with that medicine.
- ***REMOVED*****REMOVED*** @param medicine - to be added.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Adds medicine to existing cart or creates new cart with that medicine.
+  ***REMOVED*** @param medicine - to be added.
+  ***REMOVED***/
   addItem(medicine: MedicineModel): void {
     // this.database.list('/cart/users').push(obj);
     const copiedMedicine: MedicineModel = Object.assign({}, medicine);
@@ -122,10 +122,10 @@ export class ShoppingCartService {
     }
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Minuses medicine amount from existing cart or deletes it if that is the last.
- ***REMOVED*****REMOVED*** @param medicine - to be minused.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Minuses medicine amount from existing cart or deletes it if that is the last.
+  ***REMOVED*** @param medicine - to be minused.
+  ***REMOVED***/
   minusItem(medicine: MedicineModel): void {
     // this.database.list('/cart/users');
     const currentCart = this.currentCart$.getValue();
@@ -146,24 +146,24 @@ export class ShoppingCartService {
     }
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Removes medicine from existing cart.
- ***REMOVED*****REMOVED*** @param medicine - to be minused.
- ***REMOVED*****REMOVED***/
-  removeItem(medicine: MedicineModel): void {
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Removes all medicines from existing cart.
+  ***REMOVED*** @param medicines - to be minused.
+  ***REMOVED***/
+  removeItems(medicines: MedicineModel[]): void {
     // this.database.list('/cart/users');
-    const currentCart = this.currentCart$.getValue();
-    if (currentCart) {
-      for (let i = 0; i < medicine.amount; i++) {
-        this.minusItem(medicine);
-      }
+    const newCart = medicines.slice();
+    for (const index of medicines.keys()) {
+      newCart.splice(index, 1); // will be empty after the last iteration.
     }
+    localStorage.setItem('cart', JSON.stringify([]));
+    this.currentCart$.next([]);
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Checks if the medicine amount in the cart is less than in db.
- ***REMOVED*****REMOVED*** @param medicine - to be checked on.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Checks if the medicine amount in the cart is less than in db.
+  ***REMOVED*** @param medicine - to be checked on.
+  ***REMOVED***/
   isEnough(medicine: MedicineModel): boolean {
     const currentCart = this.currentCart$.getValue();
     if (currentCart) {
@@ -177,10 +177,10 @@ export class ShoppingCartService {
     return true;
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Checks if the medicine is in the cart right now.
- ***REMOVED*****REMOVED*** @param medicine - to be checked.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Checks if the medicine is in the cart right now.
+  ***REMOVED*** @param medicine - to be checked.
+  ***REMOVED***/
   isInCart(medicine: MedicineModel): boolean {
     const currentCart = this.currentCart$.getValue();
     if (currentCart) {
@@ -189,9 +189,9 @@ export class ShoppingCartService {
     return false;
   }
 
-***REMOVED*****REMOVED*****REMOVED****
- ***REMOVED*****REMOVED*** Gets current cart.
- ***REMOVED*****REMOVED***/
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Gets current cart.
+  ***REMOVED***/
   getCurrentCart(): Observable<MedicineModel[]> {
     return this.currentCart$.asObservable();
   }
