@@ -16,8 +16,19 @@ import { BookingModel } from '../../core/services/models/bookings/booking-model'
 })
 export class BookingsComponent {
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** All booked items from db.
+  ***REMOVED***/
   allBookings$: Observable<BookingModel[]>;
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** .ctor
+  ***REMOVED*** @param dialog - for confirmation dialogs.
+  ***REMOVED*** @param database - for interacting with db data.
+  ***REMOVED*** @param bookingsService - for dealing with bookings.
+  ***REMOVED*** @param notifications - for getting result of operations.
+  ***REMOVED*** @param authService - for getting current auth data.
+  ***REMOVED***/
   constructor(
     private dialog: MatDialog,
     private database: AngularFireDatabase,
@@ -29,6 +40,9 @@ export class BookingsComponent {
     this.allBookings$ = userRole === 'STAFF' ? this.getAllBookings() : this.getMyBookings();
    }
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Gets all reserved bookings from db.
+  ***REMOVED***/
   getAllBookings(): Observable<BookingModel[]> {
     return this.bookingsService.getAllBookings()
       .pipe(
@@ -48,12 +62,20 @@ export class BookingsComponent {
       );
   }
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Sets ready status for booking.
+  ***REMOVED*** @param transaction - booking to be set to prepared.
+  ***REMOVED***/
   setToPrepared(transaction: BookingModel): void {
     transaction.isReady = true;
     this.updateLocalStorage(transaction);
     // TODO: send sms notification
   }
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Updates local storage isReady status for given transaction.
+  ***REMOVED*** @param transaction - for searching in the local storage.
+  ***REMOVED***/
   private updateLocalStorage(transaction: BookingModel): void {
     const savedSpike: BookingModel[] = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
     const localRecord = savedSpike.find(x => x.key === transaction.key);
@@ -63,6 +85,10 @@ export class BookingsComponent {
     }
   }
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Removes transaction from local storage.
+  ***REMOVED*** @param transaction - to be removed from local storage.
+  ***REMOVED***/
   private removeFromLocalStorage(transaction: BookingModel): void {
     const savedSpike: BookingModel[] = localStorage.getItem('savedSpike') ? JSON.parse(localStorage.getItem('savedSpike')) : [];
     const localRecordIndex = savedSpike.findIndex(x => x.key === transaction.key);
@@ -73,20 +99,35 @@ export class BookingsComponent {
     }
   }
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Marks given transaction as successful.
+  ***REMOVED*** @param transaction - that is succeeded.
+  ***REMOVED***/
   setToSuccessfulTransaction(transaction: BookingModel): void {
     this.bookingsService.setToSuccessfulTransaction(transaction);
     this.removeFromLocalStorage(transaction);
   }
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Marks given transaction as failed.
+  ***REMOVED*** @param transaction - that is failed.
+  ***REMOVED***/
   setToFailedTransaction(transaction: BookingModel): void {
     this.bookingsService.setToFailedTransaction(transaction);
     this.removeFromLocalStorage(transaction);
   }
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Gets all transaction off the current signed-in client.
+  ***REMOVED***/
   getMyBookings(): Observable<BookingModel[]> {
     return this.bookingsService.getCurrentUserBookings();
   }
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** Cancel reserved booking from db.
+  ***REMOVED*** @param booking - to be cancelled.
+  ***REMOVED***/
   cancelBooking(booking: BookingModel): void {
     this.openConfirmationDialog()
       .pipe(take(1))
@@ -100,6 +141,9 @@ export class BookingsComponent {
       );
   }
 
+ ***REMOVED*****REMOVED****
+  ***REMOVED*** For confirmation of the booking cancellation.
+  ***REMOVED***/
   private openConfirmationDialog(): Observable<any> {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '400px',
