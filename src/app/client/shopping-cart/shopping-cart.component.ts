@@ -14,19 +14,36 @@ import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/
 })
 export class ShoppingCartComponent {
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Items selected by user for booking.
+ ***REMOVED*****REMOVED***/
   myItems$: Observable<any>;
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Columns for mat-table.
+ ***REMOVED*****REMOVED***/
   displayedColumns = ['Name', 'Count', 'Pharmacy', 'Controls'];
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** .ctor
+ ***REMOVED*****REMOVED*** @param dialog - for confirmation of the booking operation.
+ ***REMOVED*****REMOVED*** @param cartService - for dealing with cart items.
+ ***REMOVED*****REMOVED*** @param bookingsService - for booking specific items.
+ ***REMOVED*****REMOVED*** @param notifications - for getting info about operations.
+ ***REMOVED*****REMOVED***/
   constructor(
+    private dialog: MatDialog,
     private cartService: ShoppingCartService,
-    private notifications: NotificationService,
     private bookingsService: BookingsService,
-    private dialog: MatDialog
+    private notifications: NotificationService,
   ) {
     this.myItems$ = this.cartService.getCurrentCart();
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Books selected items after confirmation.
+ ***REMOVED*****REMOVED*** @param items - to be booked.
+ ***REMOVED*****REMOVED***/
   bookItems(items): void {
     this.openConfirmationDialog()
       .pipe(take(1))
@@ -41,6 +58,9 @@ export class ShoppingCartComponent {
       );
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** For confirmation of the booking.
+ ***REMOVED*****REMOVED***/
   private openConfirmationDialog(): Observable<any> {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '400px',
@@ -52,18 +72,34 @@ export class ShoppingCartComponent {
     return dialogRef.afterClosed();
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Removes all selected items from shopping-cart.
+ ***REMOVED*****REMOVED*** @param items - to be deleted.
+ ***REMOVED*****REMOVED***/
   removeAll(items): void {
     this.cartService.removeItems(items);
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Adds or increases cart with the given element.
+ ***REMOVED*****REMOVED*** @param element - to be add/increased.
+ ***REMOVED*****REMOVED***/
   addToCart(element): void {
     this.cartService.addItem(element);
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** Removes or subtracts the given element from cart.
+ ***REMOVED*****REMOVED*** @param element - to be removed/subtracted.
+ ***REMOVED*****REMOVED***/
   subFromCart(element): void {
     this.cartService.minusItem(element);
   }
 
+***REMOVED*****REMOVED*****REMOVED****
+ ***REMOVED*****REMOVED*** For checking if the given element is in cart now.
+ ***REMOVED*****REMOVED*** @param element - to be checked.
+ ***REMOVED*****REMOVED***/
   isInCart(element): boolean {
     return this.cartService.isInCart(element);
   }
