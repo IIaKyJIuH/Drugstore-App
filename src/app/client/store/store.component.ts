@@ -6,6 +6,7 @@ import { map, startWith, switchMap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { DataService } from 'src/app/core/services/data/data.service';
 import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
+import { MedicineModel } from '../../core/services/models/medicines/medicine-model';
 
 /**
  * Main app page.
@@ -19,7 +20,7 @@ export class StoreComponent implements AfterViewInit {
 
   medicines$: Observable<MatTableDataSource<any>>;
 
-  displayedColumns: string[] = ['pharmacy', 'term', 'count', 'controls'];
+  displayedColumns: string[] = ['pharmacy', 'name', 'amount', 'controls'];
   pharmaciesList: string[] = [];
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -35,24 +36,16 @@ export class StoreComponent implements AfterViewInit {
 
   getAllMedicines(): Observable<MatTableDataSource<any>> {
     return this.dataService.getAllMedicines().pipe(
-      map((pharmacies: any) => {
+      map((medicines: MedicineModel[]) => {
         const dataArr = new MatTableDataSource<any>();
-        for (const pharmacy of Object.keys(pharmacies)) { // Прибавляем новые поля к каждому элементу из аптек
-          if (!this.pharmaciesList.includes(pharmacy)) {
-            this.pharmaciesList.push(pharmacy);
+        for (const medicine of medicines) { // Прибавляем новые поля к каждому элементу из аптек
+          if (!this.pharmaciesList.includes(medicine.pharmacy)) {
+            this.pharmaciesList.push(medicine.pharmacy);
           }
-          for (const key of Object.keys(pharmacies[pharmacy])) {
-            if (pharmacies[pharmacy][key].count !== 0) {
-              dataArr.data.push(Object.assign(pharmacies[pharmacy][key], {
-                pharmacy,
-                key
-              }));
-            }
+          if (medicine.amount !== 0) {
+            dataArr.data.push(Object.assign({}, medicine));
           }
         }
-        dataArr.paginator = this.paginator;
-        setTimeout(() => {dataArr.sort = this.sort;}, 0); // For dealing with ngIf problem
-        dataArr.filterPredicate = (element: any, filter: string) => element.term.startsWith(filter);
         return dataArr;
       })
     );
@@ -80,7 +73,7 @@ export class StoreComponent implements AfterViewInit {
 
   moveToPharmacy(element, option: string): void {
     if (element.pharmacy === option) {
-      alert('select appropriate option')
+      alert('select appropriate option');
       return;
     }
     if (option === undefined) {
@@ -99,7 +92,7 @@ export class StoreComponent implements AfterViewInit {
       cancelable : true,
       key : "just for activating fromEvent",
       shiftKey : true,
-    }); 
+    });
     this.filter.nativeElement.dispatchEvent(startingKeyboardEvent); // For setting target to this event
     this.medicines$ = fromEvent(this.filter.nativeElement, 'keyup').pipe(
       startWith(startingKeyboardEvent),
@@ -107,6 +100,9 @@ export class StoreComponent implements AfterViewInit {
         return this.getAllMedicines().pipe(
           map((data: any) => {
             data.filter = event.target.value;
+            data.paginator = this.paginator;
+            setTimeout(() => {data.sort = this.sort;}, 0); // For dealing with ngIf problem
+            data.filterPredicate = (element: MedicineModel, filter: string) => element.name.startsWith(filter);
             if (this.authService.getUserData().role === 'ADMIN') {
               (this.filter.nativeElement as HTMLInputElement).parentElement.parentElement.remove();
             }
