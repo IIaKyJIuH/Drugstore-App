@@ -5,6 +5,7 @@
 </div>
 <ng-container***REMOVED***ngIf="medicines$ | async as medicines; else loading">
     <ng-template [ngxPermissionsOnly]="['USER']" [ngxPermissionsOnlyElse]="adminTable"> <!-- code duplicate for killing error bubbling in console  -->
+      <div class="table-container">
         <table mat-table [dataSource]="medicines" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="pharmacy">
                 <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Pharmacy </th>
@@ -37,11 +38,13 @@
                 </td>
             </ng-container>
 
-            <tr mat-header-row***REMOVED***matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row***REMOVED***matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row***REMOVED***matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+      </div>
     </ng-template>
     <ng-template #adminTable>
+      <div class="table-container">
         <table mat-table***REMOVED***ngIf="medicines$ | async as medicines" [dataSource]="medicines" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="pharmacy">
                 <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Pharmacy </th>
@@ -75,9 +78,10 @@
                 </td>
             </ng-container>
 
-            <tr mat-header-row***REMOVED***matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row***REMOVED***matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row***REMOVED***matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+      </div>
     </ng-template>
 </ng-container>
 <mat-paginator

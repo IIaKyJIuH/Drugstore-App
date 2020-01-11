@@ -3,39 +3,41 @@
         Sorry, but for now there are no items in your shopping cart
     </div>
     <ng-template #nonEmpty>
-        <table mat-table [dataSource]="items" matSort class="mat-elevation-z8">
+        <div class="table-container">
+            <table mat-table [dataSource]="items" matSort class="mat-elevation-z8">
 
-            <ng-container matColumnDef="Name">
-                <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Medicine name </th>
-                <td mat-cell***REMOVED***matCellDef="let element"> {{ element.name }} </td>
-            </ng-container>
+                <ng-container matColumnDef="Name">
+                    <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Medicine name </th>
+                    <td mat-cell***REMOVED***matCellDef="let element"> {{ element.name }} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="Pharmacy">
-                <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Pharmacy </th>
-                <td mat-cell***REMOVED***matCellDef="let element"> {{ element.pharmacy }} </td>
-            </ng-container>
+                <ng-container matColumnDef="Pharmacy">
+                    <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Pharmacy </th>
+                    <td mat-cell***REMOVED***matCellDef="let element"> {{ element.pharmacy }} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="Count">
-                <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Count </th>
-                <td mat-cell***REMOVED***matCellDef="let element"> {{ element.amount }} </td>
-            </ng-container>
+                <ng-container matColumnDef="Count">
+                    <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Count </th>
+                    <td mat-cell***REMOVED***matCellDef="let element"> {{ element.amount }} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="Controls">
-                <th mat-header-cell***REMOVED***matHeaderCellDef> Controls </th>
-                <td mat-cell***REMOVED***matCellDef="let element">
-                    <button mat-mini-fab color="warn" (click)="subFromCart(element)"***REMOVED***ngIf="isInCart(element)">
-                        <mat-icon>remove</mat-icon>
-                    </button>
-                    <strong style="font-size: 20px;">1</strong>
-                    <button mat-mini-fab color="warn" (click)="addToCart(element)">
-                        <mat-icon>add</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                <ng-container matColumnDef="Controls">
+                    <th mat-header-cell***REMOVED***matHeaderCellDef> Controls </th>
+                    <td mat-cell***REMOVED***matCellDef="let element">
+                        <button mat-mini-fab color="warn" (click)="subFromCart(element)"***REMOVED***ngIf="isInCart(element)">
+                            <mat-icon>remove</mat-icon>
+                        </button>
+                        <strong style="font-size: 20px;">1</strong>
+                        <button mat-mini-fab color="warn" (click)="addToCart(element)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
 
-            <tr mat-header-row***REMOVED***matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row***REMOVED***matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
+                <tr mat-header-row***REMOVED***matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row***REMOVED***matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+        </div>
 
         <button mat-raised-button color="primary" (click)="bookItems(items)">book all</button>
         <button mat-flat-button color="warn" (click)="removeAll(items)">remove all</button>
