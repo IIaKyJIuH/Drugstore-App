@@ -65,35 +65,35 @@ export class StoreComponent implements AfterViewInit {
   }
 
   /**
-   * Adds/increases given element to shopping cart.
-   * @param element - to be added/increased.
+   * Adds/increases given medicine to shopping cart.
+   * @param medicine - to be added/increased.
    */
-  addToCart(element): void {
-    this.shoppingCart.addItem(element);
+  addToCart(medicine: MedicineModel): void {
+    this.shoppingCart.addItem(medicine);
   }
 
   /**
-   * Removes/subtracts given element from shopping cart.
-   * @param element - to be removed/subtracted.
+   * Removes/subtracts given medicine from shopping cart.
+   * @param medicine - to be removed/subtracted.
    */
-  subFromCart(element): void {
-    this.shoppingCart.minusItem(element);
+  subFromCart(medicine: MedicineModel): void {
+    this.shoppingCart.minusItem(medicine);
   }
 
   /**
-   * Checks if the given element amount in the cart is less than in db.
-   * @param element - to be checked on.
+   * Checks if the given medicine amount in the cart is less than in db.
+   * @param medicine - to be checked on.
    */
-  isEnough(element): boolean {
-    return this.shoppingCart.isEnough(element);
+  isEnough(medicine: MedicineModel): boolean {
+    return this.shoppingCart.isEnough(medicine);
   }
 
   /**
-   * Checks if the given element is in the cart right now.
-   * @param element - to be checked.
+   * Checks if the given medicine is in the cart right now.
+   * @param medicine - to be checked.
    */
-  isInCart(element): boolean {
-    return this.shoppingCart.isInCart(element);
+  isInCart(medicine: MedicineModel): boolean {
+    return this.shoppingCart.isInCart(medicine);
   }
 
   goToDetailedInfo(row): void {
@@ -101,27 +101,27 @@ export class StoreComponent implements AfterViewInit {
   }
 
   /**
-   * ADMIN! Moves given element to another pharmacy of the db.
-   * @param element - to be moved.
-   * @param option - new place for element.
+   * ADMIN! Moves given medicine to another pharmacy of the db.
+   * @param medicine - to be moved.
+   * @param option - new place for medicine.
    */
-  moveToPharmacy(element, option: string): void {
-    if (element.pharmacy === option) {
+  moveToPharmacy(medicine: MedicineModel, option: string): void {
+    if (medicine.pharmacy === option) {
       alert('select appropriate option');
       return;
     }
     if (option === undefined) {
       return;
     }
-    this.dataService.moveToAnotherPharmacy(option, element);
+    this.dataService.moveToAnotherPharmacy(option, medicine);
   }
 
   /**
-   * ADMIN! Deletes given element from db.
-   * @param element - to be removed.
+   * ADMIN! Deletes given medicine from db.
+   * @param medicine - to be removed.
    */
-  deleteFromDb(element): void {
-    this.dataService.deleteMedicineFromDb(element);
+  deleteFromDb(medicine: MedicineModel): void {
+    this.dataService.deleteMedicineFromDb(medicine);
   }
 
   ngAfterViewInit(): void {
