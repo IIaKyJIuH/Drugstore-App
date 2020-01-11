@@ -147,17 +147,17 @@ export class ShoppingCartService {
   }
 
   /**
-   * Removes medicine from existing cart.
-   * @param medicine - to be minused.
+   * Removes all medicines from existing cart.
+   * @param medicines - to be minused.
    */
-  removeItem(medicine: MedicineModel): void {
+  removeItems(medicines: MedicineModel[]): void {
     // this.database.list('/cart/users');
-    const currentCart = this.currentCart$.getValue();
-    if (currentCart) {
-      for (let i = 0; i < medicine.amount; i++) {
-        this.minusItem(medicine);
-      }
+    const newCart = medicines.slice();
+    for (const index of medicines.keys()) {
+      newCart.splice(index, 1); // will be empty after the last iteration.
     }
+    localStorage.setItem('cart', JSON.stringify([]));
+    this.currentCart$.next([]);
   }
 
   /**
