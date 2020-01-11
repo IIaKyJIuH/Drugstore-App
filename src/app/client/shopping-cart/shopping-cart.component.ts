@@ -6,6 +6,7 @@ import { BookingsService } from 'src/app/core/services/data/bookings.service';
 import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
+import { MedicineModel } from '../../core/services/models/medicines/medicine-model';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -17,7 +18,7 @@ export class ShoppingCartComponent {
   /**
    * Items selected by user for booking.
    */
-  myItems$: Observable<any>;
+  myItems$: Observable<MedicineModel[]>;
 
   /**
    * Columns for mat-table.
@@ -44,7 +45,7 @@ export class ShoppingCartComponent {
    * Books selected items after confirmation.
    * @param items - to be booked.
    */
-  bookItems(items): void {
+  bookItems(items: MedicineModel[]): void {
     this.openConfirmationDialog()
       .pipe(take(1))
       .subscribe(
@@ -76,7 +77,7 @@ export class ShoppingCartComponent {
    * Removes all selected items from shopping-cart.
    * @param items - to be deleted.
    */
-  removeAll(items): void {
+  removeAll(items: MedicineModel[]): void {
     this.cartService.removeItems(items);
   }
 
@@ -84,7 +85,7 @@ export class ShoppingCartComponent {
    * Adds or increases cart with the given element.
    * @param element - to be add/increased.
    */
-  addToCart(element): void {
+  addToCart(element: MedicineModel): void {
     this.cartService.addItem(element);
   }
 
@@ -92,7 +93,7 @@ export class ShoppingCartComponent {
    * Removes or subtracts the given element from cart.
    * @param element - to be removed/subtracted.
    */
-  subFromCart(element): void {
+  subFromCart(element: MedicineModel): void {
     this.cartService.minusItem(element);
   }
 
@@ -100,7 +101,7 @@ export class ShoppingCartComponent {
    * For checking if the given element is in cart now.
    * @param element - to be checked.
    */
-  isInCart(element): boolean {
+  isInCart(element: MedicineModel): boolean {
     return this.cartService.isInCart(element);
   }
 
