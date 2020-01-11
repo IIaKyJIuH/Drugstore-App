@@ -12,11 +12,14 @@ import { switchMap } from 'rxjs/operators';
 })
 export class DetailedMedicineComponent {
 
+  /**
+   * detailed info about medicine from db.
+   */
   medicineInfo$: Observable<any>;
 
   constructor(
-    private database: AngularFireDatabase,
     private http: HttpClient,
+    private database: AngularFireDatabase,
     private activatedRoute: ActivatedRoute
   ) {
     this.medicineInfo$ = activatedRoute.params.pipe(
@@ -28,10 +31,10 @@ export class DetailedMedicineComponent {
             const headerDict = {
               'Access-Control-Allow-Origin': '*',
               'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Accept',
-            }
-                                                                                                                                                                                          
-            const requestOptions = {                                                                                                                                                                                 
-              headers: new HttpHeaders(headerDict), 
+            };
+
+            const requestOptions = {
+              headers: new HttpHeaders(headerDict),
             };
             return http.get(`https://www.nhs.uk/search/?q=${item.term}`, requestOptions);
           })
