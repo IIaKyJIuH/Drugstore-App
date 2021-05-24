@@ -135,7 +135,7 @@ const routes: Routes = [
   {
     path: 'admin',
     canLoad: [AdminGuard],
-    loadChildren: './admin/admin.module#AdminModule'
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
   },
   { path: '**', component: WrongPathComponent },
 ];

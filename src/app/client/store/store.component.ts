@@ -26,9 +26,9 @@ export class StoreComponent implements AfterViewInit {
   displayedColumns: string[] = ['pharmacy', 'name', 'amount', 'controls']; // For mat-table.
   pharmaciesList: string[] = []; // for admin table.
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator; // For pagination of the table.
-  @ViewChild(MatSort, { static: false }) sort: MatSort; // For sorting specific columns of the table.
-  @ViewChild('filter', { static: false}) filter: ElementRef; // For filtering data by given key.
+  @ViewChild(MatPaginator) paginator: MatPaginator; // For pagination of the table.
+  @ViewChild(MatSort) sort: MatSort; // For sorting specific columns of the table.
+  @ViewChild('filter') filter: ElementRef; // For filtering data by given key.
 
   /**
    * .ctor
