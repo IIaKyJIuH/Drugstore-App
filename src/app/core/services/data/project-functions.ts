@@ -1,10 +1,10 @@
 // For mapping objects from firebase response.
 export class ProjectFunctions {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Concatenates key fields from db to each item.
-  ***REMOVED*** @param object - object to be converted.
-  ***REMOVED***/
+  /**
+   * Concatenates key fields from db to each item.
+   * @param object - object to be converted.
+   */
   public static mapObjectToArray(object: object): any[] {
     const arr = [];
     for (const key of Object.keys(object)) {
@@ -18,11 +18,11 @@ export class ProjectFunctions {
     return arr;
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Concatenates key fields from db to each item.
-  ***REMOVED*** @param object - object to be converted.
-  ***REMOVED*** @param email - for filtering results by.
-  ***REMOVED***/
+  /**
+   * Concatenates key fields from db to each item.
+   * @param object - object to be converted.
+   * @param email - for filtering results by.
+   */
   public static mapObjectToArrayForUser(object: object, email: string): any[] {
     const arr = [];
     for (const key of Object.keys(object)) {

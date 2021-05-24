@@ -6,19 +6,19 @@ import { map, take } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication/authentication.service';
 import { NotificationService } from '../services/notification/notification.service';
 
-***REMOVED****
-***REMOVED*** Guard for user routing through app.
-***REMOVED***/
+/**
+ * Guard for user routing through app.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param authService - for checking auth status.
-  ***REMOVED*** @param router - responsible for redirecting user.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param authService - for checking auth status.
+   * @param router - responsible for redirecting user.
+   */
   public constructor(
     private authService: AuthenticationService,
     private ngxRoles: NgxRolesService,
@@ -26,9 +26,9 @@ export class AuthGuard implements CanActivate {
     private router: Router,
   ) {}
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Implemented method
-  ***REMOVED***/
+  /**
+   * Implemented method
+   */
   public canActivate(): Observable<boolean> {
     return this.authService.getAuthStatus().pipe(
       take(1),

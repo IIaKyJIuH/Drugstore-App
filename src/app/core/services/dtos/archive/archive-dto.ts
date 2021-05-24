@@ -1,36 +1,36 @@
-***REMOVED****
-***REMOVED*** For getting archive data from db.
-***REMOVED***/
+/**
+ * For getting archive data from db.
+ */
 export interface ArchiveDto {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Format - YYYY-MM-DD HH:MM
-  ***REMOVED***/
+  /**
+   * Format - YYYY-MM-DD HH:MM
+   */
   date: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Staff who performed transaction.
-  ***REMOVED***/
+  /**
+   * Staff who performed transaction.
+   */
   staffEmail: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** User who payed transaction.
-  ***REMOVED***/
+  /**
+   * User who payed transaction.
+   */
   userEmail: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** 'warning', 'success' or 'cancelled'
-  ***REMOVED***/
+  /**
+   * 'warning', 'success' or 'cancelled'
+   */
   status: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** How many items were purchased.
-  ***REMOVED***/
+  /**
+   * How many items were purchased.
+   */
   purchases: number;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Unique key for getting record from db.
-  ***REMOVED***/
+  /**
+   * Unique key for getting record from db.
+   */
   key?: string;
 
 }

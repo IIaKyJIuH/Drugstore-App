@@ -12,7 +12,7 @@
         <span fxHide.gt-xs>Home</span>
     </a>
     <mat-divider fxHide.lt-sm style="height: 100%; margin: 0 15px;" [vertical]="true"></mat-divider>
-    <ng-container***REMOVED***ngIf="isAuthenticated$ | async; else authentication">
+    <ng-container *ngIf="isAuthenticated$ | async; else authentication">
         <ng-template
             [ngxPermissionsExcept]="['STAFF']"
             [ngxPermissionsExceptElse]="staffBlock">

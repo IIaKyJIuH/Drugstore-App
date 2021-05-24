@@ -19,15 +19,15 @@ const routes: Routes = [
     path: '',
      redirectTo: 'home',
      pathMatch: 'full',
-***REMOVED***
+  },
   {
     path: 'home',
     component: HomeComponent,
-***REMOVED***
+  },
   {
     path: 'authentication',
     component: DataFormComponent,
-***REMOVED***
+  },
   {
     path: 'store',
     component: StoreComponent,
@@ -49,7 +49,7 @@ const routes: Routes = [
         }
       }
     ]
-***REMOVED***
+  },
   {
     path: 'store/:pharmacy/:medicineId',
     component: DetailedMedicineComponent,
@@ -58,7 +58,7 @@ const routes: Routes = [
         only: 'USER'
       }
     }
-***REMOVED***
+  },
   {
     path: 'cart',
     component: ShoppingCartComponent,
@@ -76,7 +76,7 @@ const routes: Routes = [
         }
       }
     ]
-***REMOVED***
+  },
   {
     path: 'bookings',
     component: BookingsComponent,
@@ -94,7 +94,7 @@ const routes: Routes = [
         }
       }
     ]
-***REMOVED***
+  },
   {
     path: 'archive',
     component: ArchiveComponent,
@@ -112,7 +112,7 @@ const routes: Routes = [
         }
       }
     ]
-***REMOVED***
+  },
   {
     path: 'user-profile',
     component: UserProfileComponent,
@@ -131,18 +131,18 @@ const routes: Routes = [
         }
       }
     ]
-***REMOVED***
+  },
   {
     path: 'admin',
     canLoad: [AdminGuard],
     loadChildren: './admin/admin.module#AdminModule'
-***REMOVED***
+  },
   { path: '**', component: WrongPathComponent },
 ];
 
-***REMOVED****
-***REMOVED*** @inheritdoc
-***REMOVED***/
+/**
+ * @inheritdoc
+ */
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

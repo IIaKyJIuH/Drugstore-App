@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { StatisticsService } from '../core/services/data/statistics.service';
 
-***REMOVED****
-***REMOVED*** Admin`s place.
-***REMOVED***/
+/**
+ * Admin`s place.
+ */
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',

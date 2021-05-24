@@ -16,10 +16,10 @@ import { StatisticsService } from './statistics.service';
 })
 export class BookingsService {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Concatenates key fields from db to each item for bookings.
-  ***REMOVED*** @param object - object to be converted.
-  ***REMOVED***/
+  /**
+   * Concatenates key fields from db to each item for bookings.
+   * @param object - object to be converted.
+   */
   public static mapObjectToArray(object: object): any[] {
     const arr = [];
     for (const key of Object.keys(object)) {
@@ -35,10 +35,10 @@ export class BookingsService {
 
   // private static getMedicineByName(medicine: )
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For easier interacting in app.
-  ***REMOVED*** @param dtoArr - dto bookings from db.
-  ***REMOVED***/
+  /**
+   * For easier interacting in app.
+   * @param dtoArr - dto bookings from db.
+   */
   private static mapDtoArrayToModelArray(dtoArr: BookingDto[]): BookingModel[] {
     const resultModelArr: BookingModel[] = [];
     for (const dto of dtoArr) {
@@ -61,13 +61,13 @@ export class BookingsService {
     return resultModelArr;
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param database - for interacting with firebase db.
-  ***REMOVED*** @param archiveService - for storing info about transactions into db archive..
-  ***REMOVED*** @param authService - for getting user auth info.
-  ***REMOVED*** @param statisticsService - for storing info about transactions into db statistics.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param database - for interacting with firebase db.
+   * @param archiveService - for storing info about transactions into db archive..
+   * @param authService - for getting user auth info.
+   * @param statisticsService - for storing info about transactions into db statistics.
+   */
   constructor(
     private database: AngularFireDatabase,
     private archiveService: ArchiveService,
@@ -75,9 +75,9 @@ export class BookingsService {
     private statisticsService: StatisticsService,
   ) { }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Gets all bookings from db.
-  ***REMOVED***/
+  /**
+   * Gets all bookings from db.
+   */
   getAllBookings(): Observable<BookingModel[]> {
     return this.database.object('/bookings/users').valueChanges().pipe(
       map((records: object) => {
@@ -87,9 +87,9 @@ export class BookingsService {
     );
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Gets all bookings corresponding to the current user.
-  ***REMOVED***/
+  /**
+   * Gets all bookings corresponding to the current user.
+   */
   getCurrentUserBookings(): Observable<BookingModel[]> {
     return this.database.object('/bookings/users').valueChanges().pipe(
       map((records: object) => {
@@ -100,34 +100,34 @@ export class BookingsService {
     );
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records this transaction as successful in db.
-  ***REMOVED*** @param transaction - to be saved.
-  ***REMOVED***/
+  /**
+   * Records this transaction as successful in db.
+   * @param transaction - to be saved.
+   */
   setToSuccessfulTransaction(transaction: BookingModel): void {
     this.recordTransactionByOperation(Operation.Success, transaction);
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records this transaction as failed in db.
-  ***REMOVED*** @param transaction - to be saved.
-  ***REMOVED***/
+  /**
+   * Records this transaction as failed in db.
+   * @param transaction - to be saved.
+   */
   setToFailedTransaction(transaction: BookingModel): void {
     this.recordTransactionByOperation(Operation.Fail, transaction);
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records this transaction as cancelled in db.
-  ***REMOVED*** @param booking - to be saved.
-  ***REMOVED***/
+  /**
+   * Records this transaction as cancelled in db.
+   * @param booking - to be saved.
+   */
   cancelBooking(booking: BookingModel): void {
      this.recordTransactionByOperation(Operation.Cancel, booking);
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Subtracts medicines from db and pushes new booking.
-  ***REMOVED*** @param medicines - to be booked.
-  ***REMOVED***/
+  /**
+   * Subtracts medicines from db and pushes new booking.
+   * @param medicines - to be booked.
+   */
   bookMedicines(medicines: MedicineModel[]): void {
     const currentEmail = this.authService.getUserData().email;
     const medicinesDto: MedicineDto[] = [];
@@ -143,11 +143,11 @@ export class BookingsService {
     this.subMedicinesFromDb(medicines);
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Do some actions to store info about transaction in db.
-  ***REMOVED*** @param operation - alias to transaction status.
-  ***REMOVED*** @param transaction - to be saved.
-  ***REMOVED***/
+  /**
+   * Do some actions to store info about transaction in db.
+   * @param operation - alias to transaction status.
+   * @param transaction - to be saved.
+   */
   private recordTransactionByOperation(operation: Operation, transaction: BookingModel): void {
     switch (operation) {
       case Operation.Success:
@@ -170,10 +170,10 @@ export class BookingsService {
     }
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Subtract medicines from db medicines list.
-  ***REMOVED*** @param medicines - are booked.
-  ***REMOVED***/
+  /**
+   * Subtract medicines from db medicines list.
+   * @param medicines - are booked.
+   */
   private subMedicinesFromDb(medicines: MedicineModel[]): void {
     for (const medicine of medicines) {
       this.database.object(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}`).valueChanges()
@@ -186,10 +186,10 @@ export class BookingsService {
     }
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Restores medicines to db from cancelled booking.
-  ***REMOVED*** @param medicines - to be restored.
-  ***REMOVED***/
+  /**
+   * Restores medicines to db from cancelled booking.
+   * @param medicines - to be restored.
+   */
   private restoreMedicinesToDb(medicines: MedicineModel[]): void {
     for (const medicine of medicines) {
       this.database.object(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}`).valueChanges()
@@ -204,9 +204,9 @@ export class BookingsService {
 
 }
 
-***REMOVED****
-***REMOVED*** For easier visibility of method action above.
-***REMOVED***/
+/**
+ * For easier visibility of method action above.
+ */
 enum Operation {
   Success,
   Fail,

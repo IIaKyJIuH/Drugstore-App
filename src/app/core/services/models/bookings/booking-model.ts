@@ -2,30 +2,30 @@ import { MedicineModel } from '../medicines/medicine-model';
 
 export class BookingModel {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** User who booked medicines.
-  ***REMOVED***/
+  /**
+   * User who booked medicines.
+   */
   email: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Booked by user.
-  ***REMOVED***/
+  /**
+   * Booked by user.
+   */
   medicines: MedicineModel[];
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Unique key for getting record about this booking.
-  ***REMOVED***/
+  /**
+   * Unique key for getting record about this booking.
+   */
   key: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Tells if the booking is ready to be sold.
-  ***REMOVED***/
+  /**
+   * Tells if the booking is ready to be sold.
+   */
   isReady: boolean;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param data - object, not necessarily containing all BookingModel fields.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param data - object, not necessarily containing all BookingModel fields.
+   */
   constructor(data: Partial<BookingModel>) {
     this.email = data.email;
     this.medicines = data.medicines;

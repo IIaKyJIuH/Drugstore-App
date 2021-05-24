@@ -9,33 +9,33 @@ import { take, tap } from 'rxjs/operators';
 import { CredentialsModel } from '../models/authentication/credentials-model';
 import { UserModel } from '../models/authentication/user-model';
 
-***REMOVED****
-***REMOVED*** Service that authorizes user at FireBase.
-***REMOVED***/
+/**
+ * Service that authorizes user at FireBase.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For getting the local storage state of authorized user email.
-  ***REMOVED***/
+  /**
+   * For getting the local storage state of authorized user email.
+   */
   public readonly USER_EMAIL = 'USER_EMAIL';
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For getting the local storage state of authorized user role.
-  ***REMOVED***/
+  /**
+   * For getting the local storage state of authorized user role.
+   */
   public readonly USER_ROLE = 'USER_ROLE';
 
   private readonly authStatus$: Observable<boolean>;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .сtor
-  ***REMOVED*** @param ngZone - for getting over the non-angular async functions.
-  ***REMOVED*** @param afAuth - angular fire authentication service.
-  ***REMOVED*** @param ngxRoles - for dealing with user roles.
-  ***REMOVED*** @param database - for interacting with current project db.
-  ***REMOVED***/
+  /**
+   * .сtor
+   * @param ngZone - for getting over the non-angular async functions.
+   * @param afAuth - angular fire authentication service.
+   * @param ngxRoles - for dealing with user roles.
+   * @param database - for interacting with current project db.
+   */
   constructor(
     private ngZone: NgZone,
     private afAuth: AngularFireAuth,
@@ -62,32 +62,32 @@ export class AuthenticationService {
       staff: [
         '1UepQikTzlMzzXVvK6tX8jAEGHI3'
       ]
-   ***REMOVED*****REMOVED***
+    };
     localStorage.setItem('uids', JSON.stringify(uids));
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Signs in user with inputted email and password.
-  ***REMOVED*** @param user - interface that includes user email and password.
-  ***REMOVED*** @returns firebase response user data flow.
-  ***REMOVED***/
+  /**
+   * Signs in user with inputted email and password.
+   * @param user - interface that includes user email and password.
+   * @returns firebase response user data flow.
+   */
   public signIn(user: CredentialsModel): Observable<UserCredential> {
     return from(this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password));
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Register user in firebase and signs him in.
-  ***REMOVED*** @param user - email + password.
-  ***REMOVED*** @return firebase response user data flow.
-  ***REMOVED***/
+  /**
+   * Register user in firebase and signs him in.
+   * @param user - email + password.
+   * @return firebase response user data flow.
+   */
   public signUp(user: CredentialsModel): Observable<UserCredential> {
     return from(this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password));
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For setting user data to local storage.
-  ***REMOVED*** @param user - user data from firebase response.
-  ***REMOVED***/
+  /**
+   * For setting user data to local storage.
+   * @param user - user data from firebase response.
+   */
   private setUserData(user: User): void {
     const UID = user.uid;
     localStorage.setItem(this.USER_EMAIL, user.email);
@@ -110,10 +110,10 @@ export class AuthenticationService {
     }
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Creates new staff in current firebase project.
-  ***REMOVED*** @param staff - new staff email + password.
-  ***REMOVED***/
+  /**
+   * Creates new staff in current firebase project.
+   * @param staff - new staff email + password.
+   */
   addNewStaff(staff: CredentialsModel): Observable<UserCredential> {
     const adminEmail = this.getUserData().email;
     return from(this.afAuth.auth.createUserWithEmailAndPassword(staff.email, staff.password)).pipe(
@@ -130,9 +130,9 @@ export class AuthenticationService {
     );
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Logs out user from firebase.
-  ***REMOVED***/
+  /**
+   * Logs out user from firebase.
+   */
   public signOut(): Observable<void> {
     return from(this.afAuth.auth.signOut()).pipe(
       tap(() => {
@@ -142,9 +142,9 @@ export class AuthenticationService {
     );
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** If user wants to.
-  ***REMOVED***/
+  /**
+   * If user wants to.
+   */
   changeUserEmail(newEmail: string): Observable<void> {
     return from(this.afAuth.auth.currentUser.updateEmail(newEmail)).pipe(
       tap(() => {
@@ -153,17 +153,17 @@ export class AuthenticationService {
     );
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** After password confirmation, if user wants to.
-  ***REMOVED***/
+  /**
+   * After password confirmation, if user wants to.
+   */
   changeUserPassword(newPassword: string): Observable<void> {
     return from(this.afAuth.auth.currentUser.updatePassword(newPassword));
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Tries to reauthenticate user with given password => checks password confirmation in user settings page, when he wants to change his password.
-  ***REMOVED*** @param password
-  ***REMOVED***/
+  /**
+   * Tries to reauthenticate user with given password => checks password confirmation in user settings page, when he wants to change his password.
+   * @param password
+   */
   isCurrentPassword(password: string): Observable<UserCredential> {
     const user: User | null = this.afAuth.auth.currentUser; // Probably not null, because only authenticated user can access settings.
     const credential = auth.EmailAuthProvider.credential(
@@ -174,18 +174,18 @@ export class AuthenticationService {
     return from(user.reauthenticateWithCredential(credential));
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For deleting local storage states.
-  ***REMOVED***/
+  /**
+   * For deleting local storage states.
+   */
   private deleteUserData(): void {
     localStorage.removeItem(this.USER_EMAIL);
     localStorage.removeItem(this.USER_ROLE);
     localStorage.removeItem('cart');
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For getting user email and role.
-  ***REMOVED***/
+  /**
+   * For getting user email and role.
+   */
   getUserData(): UserModel {
     return new UserModel({
       email: localStorage.getItem(this.USER_EMAIL),
@@ -193,10 +193,10 @@ export class AuthenticationService {
     });
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** just returns auth object flow with auth state
-  ***REMOVED*** @returns if the currentUser !== null - isAuthenticated - true, else - false.
-  ***REMOVED***/
+  /**
+   * just returns auth object flow with auth state
+   * @returns if the currentUser !== null - isAuthenticated - true, else - false.
+   */
   getAuthStatus(): Observable<boolean> {
     return this.authStatus$;
   }

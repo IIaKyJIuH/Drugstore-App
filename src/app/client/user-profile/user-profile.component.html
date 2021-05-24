@@ -25,7 +25,7 @@
                             placeholder="Email"
                             [ngStyle]="{ color: emailChangeForm.controls.email.errors && emailChangeForm.controls.email.dirty ? 'red' : 'green' }"
                             formControlName="email">
-                        <mat-error***REMOVED***ngIf="emailChangeForm.controls.email.hasError('pattern')">
+                        <mat-error *ngIf="emailChangeForm.controls.email.hasError('pattern')">
                             Please enter a valid email address
                         </mat-error>
                     </mat-form-field>
@@ -51,7 +51,7 @@
                 <form
                     (ngSubmit)="onPasswordChangeSubmit(passwordChangeForm.value)"
                     [formGroup]="passwordChangeForm"
-                   ***REMOVED***ngIf="isCurrentPasswordRight"
+                    *ngIf="isCurrentPasswordRight"
                     fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
 
                     <mat-form-field>
@@ -72,7 +72,7 @@
                             [ngStyle]="{ color: passwordControls.confirmPassword.errors && passwordControls.confirmPassword.dirty ? 'red' : 'green' }"
                             (input)="onPasswordInput()"
                             formControlName="confirmPassword">
-                        <mat-error***REMOVED***ngIf="passwordControls.confirmPassword.errors && passwordControls.confirmPassword.dirty">
+                        <mat-error *ngIf="passwordControls.confirmPassword.errors && passwordControls.confirmPassword.dirty">
                             Passwords <strong>mismatch</strong>
                         </mat-error> 
                     </mat-form-field>

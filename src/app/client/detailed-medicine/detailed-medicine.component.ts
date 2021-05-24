@@ -12,9 +12,9 @@ import { switchMap } from 'rxjs/operators';
 })
 export class DetailedMedicineComponent {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** detailed info about medicine from db.
-  ***REMOVED***/
+  /**
+   * detailed info about medicine from db.
+   */
   medicineInfo$: Observable<any>;
 
   constructor(
@@ -31,11 +31,11 @@ export class DetailedMedicineComponent {
             const headerDict = {
               'Access-Control-Allow-Origin': '*',
               'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Accept',
-           ***REMOVED*****REMOVED***
+            };
 
             const requestOptions = {
               headers: new HttpHeaders(headerDict),
-           ***REMOVED*****REMOVED***
+            };
             return http.get(`https://www.nhs.uk/search/?q=${item.term}`, requestOptions);
           })
         )

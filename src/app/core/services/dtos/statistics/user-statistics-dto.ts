@@ -2,19 +2,19 @@ import { PeopleStatisticsDto } from './people-statistics-dto';
 
 export interface UserStatisticsDto extends PeopleStatisticsDto {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** How many times user cancelled bookings.
-  ***REMOVED***/
+  /**
+   * How many times user cancelled bookings.
+   */
   cancelledBookings: number;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** How many times user failed to pay transaction of the prepared booking
-  ***REMOVED***/
+  /**
+   * How many times user failed to pay transaction of the prepared booking
+   */
   failures: number;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Unique key for getting record from db.
-  ***REMOVED***/
+  /**
+   * Unique key for getting record from db.
+   */
   key?: string;
 
 }

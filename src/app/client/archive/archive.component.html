@@ -1,8 +1,8 @@
-<ng-container***REMOVED***ngIf="allTransactions$ | async as transactions; else loading">
+<ng-container *ngIf="allTransactions$ | async as transactions; else loading">
     <mat-list>
-        <mat-list-item***REMOVED***ngFor="let transaction of transactions">
+        <mat-list-item *ngFor="let transaction of transactions">
             <h2 matLine style="font-size: 1.25em; color: orangered"><strong>{{ transaction.date }}</strong></h2>
-            <p matLine***REMOVED***ngIf="transaction.status !== 'cancelled'">Staff email: <strong>{{ transaction.staffEmail }}</strong></p>
+            <p matLine *ngIf="transaction.status !== 'cancelled'">Staff email: <strong>{{ transaction.staffEmail }}</strong></p>
             <p matLine>User email: <strong>{{ transaction.userEmail }}</strong></p>
             <p matLine>Status: <strong style="font-size: 1.15em;" [style.color]="transaction.status === 'success' ? 'green' : transaction.status === 'failure' ? 'red' : 'goldenrod'">{{ transaction.status }}</strong></p>
             <p matLine>Booked purchases: <strong>{{ transaction.purchasesAmount }}</strong></p>

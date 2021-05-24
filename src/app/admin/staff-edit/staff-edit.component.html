@@ -1,12 +1,12 @@
-<ng-container***REMOVED***ngIf="staffList$ | async as staff">
-    <mat-card***REMOVED***ngFor="let employee of staff">
+<ng-container *ngIf="staffList$ | async as staff">
+    <mat-card *ngFor="let employee of staff">
         <mat-card-header>
             <h3> {{ employee.email }} </h3>
         </mat-card-header>
         <mat-card-content fxFlex fxLayout="row" fxLayoutWrap fxLayoutAlign="center center" fxLayoutGap="10px">
             <!-- <article [style.border]="doEmailChange ? '2px solid hotpink' : ''">
                 <button mat-stroked-button (click)="doEmailChange = !doEmailChange">CHANGE EMAIL</button>
-                <ng-container***REMOVED***ngIf="doEmailChange">
+                <ng-container *ngIf="doEmailChange">
                     <form
                     [formGroup]="changeEmailForm"
                     (ngSubmit)="changeEmail(changeEmailForm.value)">
@@ -17,7 +17,7 @@
                                 placeholder="New email"
                                 [ngStyle]="{ color: changeEmailForm.controls.email.errors && changeEmailForm.controls.email.dirty ? 'red' : 'green' }"
                                 formControlName="email">
-                            <mat-error***REMOVED***ngIf="changeEmailForm.controls.email.hasError('pattern')">
+                            <mat-error *ngIf="changeEmailForm.controls.email.hasError('pattern')">
                                 Please enter a valid email address
                             </mat-error>
                         </mat-form-field>
@@ -28,7 +28,7 @@
             </article>
             <article [style.border]="doPasswordChange ? '2px solid hotpink' : ''">
                 <button mat-stroked-button (click)="doPasswordChange = !doPasswordChange">CHANGE PASSWORD</button>
-                <ng-container***REMOVED***ngIf="doPasswordChange">
+                <ng-container *ngIf="doPasswordChange">
                     <form
                     [formGroup]="changePasswordForm"
                     (ngSubmit)="changePassword(changePasswordForm.value)">
@@ -60,7 +60,7 @@
             placeholder="Email"
             [ngStyle]="{ color: addStaffForm.controls.email.errors && addStaffForm.controls.email.dirty ? 'red' : 'green' }"
             formControlName="email">
-        <mat-error***REMOVED***ngIf="addStaffForm.controls.email.hasError('pattern')">
+        <mat-error *ngIf="addStaffForm.controls.email.hasError('pattern')">
             Please enter a valid email address
         </mat-error>
     </mat-form-field>
@@ -71,7 +71,7 @@
             placeholder="Password"
             [ngStyle]="{ color: addStaffForm.controls.password.errors && addStaffForm.controls.password.dirty ? 'red' : 'green' }"
             formControlName="password">
-        <mat-error***REMOVED***ngIf="addStaffForm.controls.password.hasError('pattern')">
+        <mat-error *ngIf="addStaffForm.controls.password.hasError('pattern')">
             Please enter a valid password
         </mat-error>
     </mat-form-field>

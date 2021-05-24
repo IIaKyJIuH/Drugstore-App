@@ -1,4 +1,4 @@
-***REMOVED*** You can add global styles to this file, and also import other style files***REMOVED***/
+/* You can add global styles to this file, and also import other style files */
 
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
@@ -10,7 +10,7 @@ html, body {
     font-family: 'Roboto', sans-serif;
 }
 
-***REMOVED*** html {
+/* html {
     color: #f2f2f2;
     font-size: 18px;
 }
@@ -21,4 +21,4 @@ a {
 
 body {
     background: rgb(212, 123, 91);
-}***REMOVED***/
+} */

@@ -19,19 +19,19 @@ import { NotificationService } from '../../core/services/notification/notificati
 })
 export class StaffEditComponent {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** List with all staff registered in db.
-  ***REMOVED***/
+  /**
+   * List with all staff registered in db.
+   */
   staffList$: Observable<any>;
 
   addStaffForm: FormGroup; // For adding new staff.
   changeEmailForm: FormGroup; // For changing staff email.
   changePasswordForm: FormGroup; // For changing staff password.
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For easier actualization of db changes.
-  ***REMOVED*** @param dtoArr - to be converted to corresponding model.
-  ***REMOVED***/
+  /**
+   * For easier actualization of db changes.
+   * @param dtoArr - to be converted to corresponding model.
+   */
   private static mapDtoArrayToModelArray(dtoArr: StaffDto[]): StaffModel[] {
     const result = [];
     for (const dto of dtoArr) {
@@ -43,14 +43,14 @@ export class StaffEditComponent {
     return result;
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param afAuth - for interacting with firebase auth api.
-  ***REMOVED*** @param formBuilder - for easier buildings of forms.
-  ***REMOVED*** @param database - for interacting with firebase db.
-  ***REMOVED*** @param authService - for getting current auth data.
-  ***REMOVED*** @param notifications - for getting result of operations.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param afAuth - for interacting with firebase auth api.
+   * @param formBuilder - for easier buildings of forms.
+   * @param database - for interacting with firebase db.
+   * @param authService - for getting current auth data.
+   * @param notifications - for getting result of operations.
+   */
   constructor(
     private afAuth: AngularFireAuth,
     private formBuilder: FormBuilder,
@@ -79,9 +79,9 @@ export class StaffEditComponent {
     });
    }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Gets all staff profiles.
-  ***REMOVED***/
+  /**
+   * Gets all staff profiles.
+   */
   getAllStaff(): Observable<StaffModel[]> {
     return this.database.list('/staff/emails/').valueChanges()
       .pipe(
@@ -92,16 +92,16 @@ export class StaffEditComponent {
       )
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Registers new staff in firebase project.
-  ***REMOVED*** @param formValues - credentials of the new staff.
-  ***REMOVED***/
+  /**
+   * Registers new staff in firebase project.
+   * @param formValues - credentials of the new staff.
+   */
   addStaff(formValues: CredentialsModel): void {
     this.authService.addNewStaff(formValues)
       .subscribe(
         (newStaffData: UserCredential) => {
           newStaffData.user.sendEmailVerification();
-     ***REMOVED*****REMOVED*** (error) => {
+        }, (error) => {
           this.notifications.showWarning('oops', error);
         }
       );
@@ -116,18 +116,18 @@ export class StaffEditComponent {
 
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For resetting password of the staff.
-  ***REMOVED*** @param staffEmail - where to send reset link.
-  ***REMOVED***/
+  /**
+   * For resetting password of the staff.
+   * @param staffEmail - where to send reset link.
+   */
   resetPassword(staffEmail: string): void {
     this.afAuth.auth.sendPasswordResetEmail(staffEmail);
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Deletes staff from firebase project.
-  ***REMOVED*** @param staffEmail - to be deleted.
-  ***REMOVED***/
+  /**
+   * Deletes staff from firebase project.
+   * @param staffEmail - to be deleted.
+   */
   deleteStaff(staffEmail: string): void {
     this.database.object('/staff/emails/').valueChanges()
       .pipe(

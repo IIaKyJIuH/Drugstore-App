@@ -18,11 +18,11 @@ import { ProjectFunctions } from './project-functions';
 })
 export class StatisticsService {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Converts dto<t>[] to model<t>[]
-  ***REMOVED*** @param dtoArr - to be converted.
-  ***REMOVED*** @return model related to dto.
-  ***REMOVED***/
+  /**
+   * Converts dto<t>[] to model<t>[]
+   * @param dtoArr - to be converted.
+   * @return model related to dto.
+   */
   private static mapDtoArrayToModelArray(dtoArr: MedicineStatisticsDto[] | PeopleStatisticsDto[] | UserStatisticsDto[])
     : MedicineStatisticsModel[] | PeopleStatisticsModel[] | UserStatisticsModel[] {
     const resultArr = [];
@@ -56,38 +56,38 @@ export class StatisticsService {
     return resultArr;
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Checks if the given array is of specific type.
-  ***REMOVED*** @param array - to be checked.
-  ***REMOVED*** @return array type = MedicineStatisticsDto - true, else - false.
-  ***REMOVED***/
+  /**
+   * Checks if the given array is of specific type.
+   * @param array - to be checked.
+   * @return array type = MedicineStatisticsDto - true, else - false.
+   */
   private static isMedicineStatistics(array: MedicineStatisticsDto[] | object): array is MedicineStatisticsDto {
     return (array as MedicineStatisticsDto[])[0].term !== undefined; // 'term' is MedicineDto field.
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Checks if the given array is of specific type.
-  ***REMOVED*** @param array - to be checked.
-  ***REMOVED*** @return array type = UserStatisticsDto - true, else - false.
-  ***REMOVED***/
+  /**
+   * Checks if the given array is of specific type.
+   * @param array - to be checked.
+   * @return array type = UserStatisticsDto - true, else - false.
+   */
   private static isUserStatistics(array: UserStatisticsDto[] | object): array is UserStatisticsDto[] {
     return (array as UserStatisticsDto[])[0].failures !== undefined; // 'failures' is UserStatisticsDto field.
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param database - for interacting with db.
-  ***REMOVED*** @param authService - for getting user auth info.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param database - for interacting with db.
+   * @param authService - for getting user auth info.
+   */
   constructor(
     private database: AngularFireDatabase,
     private authService: AuthenticationService
   ) {}
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Send get request to db fro medicine statistics.
-  ***REMOVED*** @return db medicines statistics model.
-  ***REMOVED***/
+  /**
+   * Send get request to db fro medicine statistics.
+   * @return db medicines statistics model.
+   */
   getMedicinesStatistics(): Observable<MedicineStatisticsModel[]> {
     return this.database.list('/statistics/medicines/').valueChanges()
       .pipe(
@@ -98,10 +98,10 @@ export class StatisticsService {
       );
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Send get request to db for staff statistics.
-  ***REMOVED*** @return db staff statistics model.
-  ***REMOVED***/
+  /**
+   * Send get request to db for staff statistics.
+   * @return db staff statistics model.
+   */
   getStaffStatistics(): Observable<PeopleStatisticsModel[]> {
     return this.database.list('/statistics/staff/').valueChanges()
       .pipe(
@@ -112,10 +112,10 @@ export class StatisticsService {
       );
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Send get request to db for users statistics.
-  ***REMOVED*** @return db users statistics model.
-  ***REMOVED***/
+  /**
+   * Send get request to db for users statistics.
+   * @return db users statistics model.
+   */
   getUsersStatistics(): Observable<UserStatisticsModel[]> {
     return this.database.list('/statistics/users/').valueChanges()
       .pipe(
@@ -126,10 +126,10 @@ export class StatisticsService {
       );
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records successful transaction.
-  ***REMOVED*** @param transaction - to be recorded.
-  ***REMOVED***/
+  /**
+   * Records successful transaction.
+   * @param transaction - to be recorded.
+   */
   writeSuccessfulTransaction(transaction: BookingModel): void {
     const basePath = '/statistics/';
     const statisticsPlaces = ['medicines/', 'users/', 'staff/'];
@@ -141,27 +141,27 @@ export class StatisticsService {
     }
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records cancelled booking.
-  ***REMOVED*** @param booking - to be recorded.
-  ***REMOVED***/
+  /**
+   * Records cancelled booking.
+   * @param booking - to be recorded.
+   */
   writeCancelledBooking(booking: BookingModel): void {
     this.processTransactionRequestOnPath('/statistics/users/', booking, UserStatus.Cancel);
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records failed transaction.
-  ***REMOVED*** @param transaction - to be recorded.
-  ***REMOVED***/
+  /**
+   * Records failed transaction.
+   * @param transaction - to be recorded.
+   */
   writeFailedTransaction(transaction: BookingModel): void {
     this.processTransactionRequestOnPath('/statistics/users/', transaction, UserStatus.Fail);
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records medicines items from transaction.
-  ***REMOVED*** @param medicinesDto - medicine statistics items from db.
-  ***REMOVED*** @param medicines - to be recorded.
-  ***REMOVED***/
+  /**
+   * Records medicines items from transaction.
+   * @param medicinesDto - medicine statistics items from db.
+   * @param medicines - to be recorded.
+   */
   private writeMedicines(medicinesDto: MedicineStatisticsDto[], medicines: MedicineModel[]): void {
     // this.database.object('/statistics/medicines/').valueChanges()
     // .pipe(
@@ -186,11 +186,11 @@ export class StatisticsService {
     }
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records staff who processed transaction.
-  ***REMOVED*** @param staffDto - specific staff record from db who processed transaction or undefined if there isn`t.
-  ***REMOVED*** @param transaction - to be registered on staff db record.
-  ***REMOVED***/
+  /**
+   * Records staff who processed transaction.
+   * @param staffDto - specific staff record from db who processed transaction or undefined if there isn`t.
+   * @param transaction - to be registered on staff db record.
+   */
   private writeStaff(staffDto: PeopleStatisticsDto | undefined, transaction: BookingModel): void {
     const staffEmail = this.authService.getUserData().email; // Because only staff can set transaction status.
     const itemsCount = transaction.medicines.reduce((accumulated, {amount}) => accumulated + amount, 0);
@@ -214,11 +214,11 @@ export class StatisticsService {
     }
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records user who registered transaction.
-  ***REMOVED*** @param userDto - specific user statistics from db who payed transaction or undefined if there isn`t.
-  ***REMOVED*** @param transaction - to be registered as successful on transaction user.
-  ***REMOVED***/
+  /**
+   * Records user who registered transaction.
+   * @param userDto - specific user statistics from db who payed transaction or undefined if there isn`t.
+   * @param transaction - to be registered as successful on transaction user.
+   */
   private writeSuccessfulUser(userDto: UserStatisticsDto | undefined, transaction: BookingModel): void {
     const itemsCount = transaction.medicines.reduce((accumulated, {amount}) => accumulated + amount, 0);
     // this.database.object('/statistics/users/').valueChanges()
@@ -243,11 +243,11 @@ export class StatisticsService {
     }
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records user who cancelled booking.
-  ***REMOVED*** @param userDto - specific user statistics who cancelled transaction from db or undefined if there isn`t.
-  ***REMOVED*** @param transaction - to be registered as cancelled on transaction user.
-  ***REMOVED***/
+  /**
+   * Records user who cancelled booking.
+   * @param userDto - specific user statistics who cancelled transaction from db or undefined if there isn`t.
+   * @param transaction - to be registered as cancelled on transaction user.
+   */
   private writeCancelledUser(userDto: UserStatisticsDto | undefined, transaction: BookingModel): void {
     // this.database.object('/statistics/users/').valueChanges()
     //   .pipe(
@@ -271,11 +271,11 @@ export class StatisticsService {
     }
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Records user that failed transaction.
-  ***REMOVED*** @param userDto - specific user statistics who failed to pay transaction from db or undefined if there isn`t.
-  ***REMOVED*** @param transaction - that was failed.
-  ***REMOVED***/
+  /**
+   * Records user that failed transaction.
+   * @param userDto - specific user statistics who failed to pay transaction from db or undefined if there isn`t.
+   * @param transaction - that was failed.
+   */
   private writeFailedUser(userDto: UserStatisticsDto | undefined, transaction: BookingModel): void {
     // this.database.object('/statistics/users/').valueChanges()
     //   .pipe(

@@ -1,24 +1,24 @@
 export class MedicineStatisticsModel {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Medicine official name;
-  ***REMOVED***/
+  /**
+   * Medicine official name;
+   */
   name: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** How many times was purchased this medicine.
-  ***REMOVED***/
+  /**
+   * How many times was purchased this medicine.
+   */
   purchasesAmount: number;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Unique key for getting record about this booking.
-  ***REMOVED***/
+  /**
+   * Unique key for getting record about this booking.
+   */
   key: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param data - object, not necessarily containing all MedicineStatisticsModel fields
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param data - object, not necessarily containing all MedicineStatisticsModel fields
+   */
   constructor(data: Partial<MedicineStatisticsModel>) {
     this.name = data.name;
     this.purchasesAmount = data.purchasesAmount;

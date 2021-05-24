@@ -3,9 +3,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { AuthenticationService } from './core/services/authentication/authentication.service';
 
-***REMOVED****
-***REMOVED*** Main Angular component.
-***REMOVED***/
+/**
+ * Main Angular component.
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

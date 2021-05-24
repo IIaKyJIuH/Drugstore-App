@@ -1,24 +1,24 @@
 export class PeopleStatisticsModel {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Email corresponding to model owner.
-  ***REMOVED***/
+  /**
+   * Email corresponding to model owner.
+   */
   email: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** How many items were purchased to model owner.
-  ***REMOVED***/
+  /**
+   * How many items were purchased to model owner.
+   */
   purchasesAmount: number;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Unique key for getting record about this booking.
-  ***REMOVED***/
+  /**
+   * Unique key for getting record about this booking.
+   */
   key: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param data - object, not necessarily containing all PeopleStatisticsModel fields.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param data - object, not necessarily containing all PeopleStatisticsModel fields.
+   */
   constructor(data: Partial<PeopleStatisticsModel>) {
     this.email = data.email;
     this.purchasesAmount = data.purchasesAmount;

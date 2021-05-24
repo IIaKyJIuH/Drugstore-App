@@ -9,9 +9,9 @@ import { CredentialsModel } from 'src/app/core/services/models/authentication/cr
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { PasswordValidator } from 'src/app/core/services/registration/password-validator';
 
-***REMOVED****
-***REMOVED*** Signing-in page for user to get access for other app abilities.
-***REMOVED***/
+/**
+ * Signing-in page for user to get access for other app abilities.
+ */
 @Component({
   selector: 'app-user-form',
   templateUrl: 'data-form.component.html',
@@ -19,23 +19,23 @@ import { PasswordValidator } from 'src/app/core/services/registration/password-v
 })
 export class DataFormComponent {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Form data: email + password.
-  ***REMOVED***/
+  /**
+   * Form data: email + password.
+   */
   public formData: FormGroup;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For checking if the user wants to sign-up instead of sign-in.
-  ***REMOVED***/
+  /**
+   * For checking if the user wants to sign-up instead of sign-in.
+   */
   isSigningUp = false;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param router - responsible for redirecting user.
-  ***REMOVED*** @param formBuilder - for easier form creation.
-  ***REMOVED*** @param authService - my authorization service.
-  ***REMOVED*** @param notifications - for getting result of operations.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param router - responsible for redirecting user.
+   * @param formBuilder - for easier form creation.
+   * @param authService - my authorization service.
+   * @param notifications - for getting result of operations.
+   */
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -53,13 +53,13 @@ export class DataFormComponent {
           Validators.maxLength(12),
         ])],
         confirmPassword: [''],
-   ***REMOVED*****REMOVED*** { validator: PasswordValidator.areEqual });
+      }, { validator: PasswordValidator.areEqual });
     }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Async user sign-in/sign-up + if successful then redirect to store.
-  ***REMOVED*** @param formValues - user email + password.
-  ***REMOVED***/
+  /**
+   * Async user sign-in/sign-up + if successful then redirect to store.
+   * @param formValues - user email + password.
+   */
   public onSubmit(formValues: CredentialsModel): void {
     if (this.isSigningUp) {
       this.authService
@@ -69,7 +69,7 @@ export class DataFormComponent {
             userData.user.sendEmailVerification();
             this.notifications.showSuccess('You`ve registered your account', 'Success');
             this.router.navigate(['/store']);
-       ***REMOVED*****REMOVED***
+          },
           (error: FirebaseError) => {
             switch(error.code){
               case 'auth/email-already-in-use':
@@ -89,7 +89,7 @@ export class DataFormComponent {
           () => {
             this.notifications.showSuccess('You`ve signed-in', 'Success');
             this.router.navigate(['/store']);
-       ***REMOVED*****REMOVED***
+          },
           (error: FirebaseError) => {
             switch(error.code) {
               case 'auth/wrong-password':
@@ -107,9 +107,9 @@ export class DataFormComponent {
     }
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Removes confirmation password field and getting the behaviour back to sign-in.
-  ***REMOVED***/
+  /**
+   * Removes confirmation password field and getting the behaviour back to sign-in.
+   */
   switchToSignIn(): void {
     this.formControls.confirmPassword.setValue('');
     this.formControls.confirmPassword.clearValidators();
@@ -117,17 +117,17 @@ export class DataFormComponent {
     this.isSigningUp = !this.isSigningUp;
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Adds confirmation password field and sign-up behaviour to page.
-  ***REMOVED***/
+  /**
+   * Adds confirmation password field and sign-up behaviour to page.
+   */
   switchToSignUp(): void {
     this.formControls.confirmPassword.setValidators(Validators.required);
     this.isSigningUp = !this.isSigningUp;
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For checking if the confirm password === password.
-  ***REMOVED***/
+  /**
+   * For checking if the confirm password === password.
+   */
   onPasswordInput(): void {
       if (this.isSigningUp && this.formData.hasError('nomatch')) {
         this.formControls.confirmPassword.setErrors([{'nomatch': true}]);
@@ -137,10 +137,10 @@ export class DataFormComponent {
       }
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** All controls that have a formControlName in html file.
-  ***REMOVED*** @returns FormGroup.controls.
-  ***REMOVED***/
+  /**
+   * All controls that have a formControlName in html file.
+   * @returns FormGroup.controls.
+   */
   get formControls(): { [key: string]: AbstractControl; } { return this.formData.controls; }
 
 }

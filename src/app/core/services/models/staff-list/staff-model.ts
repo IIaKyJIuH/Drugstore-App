@@ -1,19 +1,19 @@
 export class StaffModel {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Staff email.
-  ***REMOVED***/
+  /**
+   * Staff email.
+   */
   email: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Unique key for getting record about this booking.
-  ***REMOVED***/
+  /**
+   * Unique key for getting record about this booking.
+   */
   key: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param data - object, not necessarily containing all StaffModel fields.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param data - object, not necessarily containing all StaffModel fields.
+   */
   constructor(data: Partial<StaffModel>) {
     this.email = data.email;
     this.key = data.key;

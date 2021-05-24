@@ -1,11 +1,11 @@
-<ng-container***REMOVED***ngIf="usersStatistics$ | async as users; else loading">
-    <ng-container***REMOVED***ngIf="users.length !== 0; else emptyCase">
+<ng-container *ngIf="usersStatistics$ | async as users; else loading">
+    <ng-container *ngIf="users.length !== 0; else emptyCase">
         <main fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px">
             <h2>TOP 5 users</h2>
             <section
                 fxFlex fxLayoutAlign="start center" fxLayoutGap="15px">
                 <mat-card
-                   ***REMOVED***ngFor="let user of users">
+                    *ngFor="let user of users">
                     <mat-card-header>
                         <h3> {{ user.email }} </h3>
                     </mat-card-header>

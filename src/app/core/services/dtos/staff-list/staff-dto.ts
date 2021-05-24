@@ -1,16 +1,16 @@
-***REMOVED****
-***REMOVED*** Staff info from db.
-***REMOVED***/
+/**
+ * Staff info from db.
+ */
 export interface StaffDto {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Staff email.
-  ***REMOVED***/
+  /**
+   * Staff email.
+   */
   email: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Unique key for getting record from db.
-  ***REMOVED***/
+  /**
+   * Unique key for getting record from db.
+   */
   key?: string;
 
 }

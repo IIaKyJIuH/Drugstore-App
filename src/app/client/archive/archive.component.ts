@@ -11,15 +11,15 @@ import { ArchiveModel } from '../../core/services/models/archive/archive-model';
 })
 export class ArchiveComponent {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Detailed info about each cancelled, failed or succeeded transaction.
-  ***REMOVED***/
+  /**
+   * Detailed info about each cancelled, failed or succeeded transaction.
+   */
   allTransactions$: Observable<ArchiveModel[]>;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param archiveService - for getting archive data from db.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param archiveService - for getting archive data from db.
+   */
   constructor(
     private archiveService: ArchiveService
   ) {

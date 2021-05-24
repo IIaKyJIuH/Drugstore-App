@@ -11,15 +11,15 @@ import { MedicineStatisticsModel } from '../../core/services/models/statistics/m
 })
 export class MedicinesStatisticsComponent {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Statistics about top 'n' bought medicines.
-  ***REMOVED***/
+  /**
+   * Statistics about top 'n' bought medicines.
+   */
   medicinesStatistics$: Observable<MedicineStatisticsModel[]>;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param statisticsService - for getting statistics data.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param statisticsService - for getting statistics data.
+   */
   constructor(
     private statisticsService: StatisticsService
   ) {

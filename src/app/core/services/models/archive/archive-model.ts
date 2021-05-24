@@ -1,39 +1,39 @@
 export class ArchiveModel {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Format - YYYY-MM-DD HH:MM
-  ***REMOVED***/
+  /**
+   * Format - YYYY-MM-DD HH:MM
+   */
   date: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Staff who performed transaction.
-  ***REMOVED***/
+  /**
+   * Staff who performed transaction.
+   */
   staffEmail: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** User who payed transaction.
-  ***REMOVED***/
+  /**
+   * User who payed transaction.
+   */
   userEmail: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** 'warning', 'success' or 'cancelled'
-  ***REMOVED***/
+  /**
+   * 'warning', 'success' or 'cancelled'
+   */
   status: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** How many items were purchased.
-  ***REMOVED***/
+  /**
+   * How many items were purchased.
+   */
   purchasesAmount: number;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Unique key for getting record about this booking.
-  ***REMOVED***/
+  /**
+   * Unique key for getting record about this booking.
+   */
   key: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param data - object, not necessarily containing all ArchiveModel fields.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param data - object, not necessarily containing all ArchiveModel fields.
+   */
   constructor(data: Partial<ArchiveModel>) {
     this.date = data.date;
     this.staffEmail = data.staffEmail;

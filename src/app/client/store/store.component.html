@@ -3,32 +3,32 @@
         <input matInput type="text" placeholder="Filter" #filter>
     </mat-form-field>
 </div>
-<ng-container***REMOVED***ngIf="medicines$ | async as medicines; else loading">
+<ng-container *ngIf="medicines$ | async as medicines; else loading">
     <ng-template [ngxPermissionsOnly]="['USER']" [ngxPermissionsOnlyElse]="adminTable"> <!-- code duplicate for killing error bubbling in console  -->
       <div class="table-container">
         <table mat-table [dataSource]="medicines" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="pharmacy">
-                <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Pharmacy </th>
-                <td mat-cell***REMOVED***matCellDef="let element"> {{ element.pharmacy }} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Pharmacy </th>
+                <td mat-cell *matCellDef="let element"> {{ element.pharmacy }} </td>
             </ng-container>
 
             <ng-container matColumnDef="name">
-                <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Medicine name </th>
-                <td mat-cell***REMOVED***matCellDef="let element"> {{ element.name }} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Medicine name </th>
+                <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
             </ng-container>
 
             <ng-container matColumnDef="amount">
-                <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Whole amount </th>
-                <td mat-cell***REMOVED***matCellDef="let element"> {{ element.amount }} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Whole amount </th>
+                <td mat-cell *matCellDef="let element"> {{ element.amount }} </td>
             </ng-container>
 
             <ng-container matColumnDef="controls"> <!-- THE ONLY THING THAT DIFFERS FROM BELOW BECAUSE OF THE NgxPermissions -->
-                <th mat-header-cell***REMOVED***matHeaderCellDef> Controls </th>
-                <td mat-cell***REMOVED***matCellDef="let element">
-                    <button mat-mini-fab color="warn" (click)="subFromCart(element)"***REMOVED***ngIf="isInCart(element)">
+                <th mat-header-cell *matHeaderCellDef> Controls </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-mini-fab color="warn" (click)="subFromCart(element)" *ngIf="isInCart(element)">
                         <mat-icon>exposure_neg_1</mat-icon>
                     </button>
-                    <button mat-mini-fab color="warn" (click)="addToCart(element)"***REMOVED***ngIf="isEnough(element)">
+                    <button mat-mini-fab color="warn" (click)="addToCart(element)" *ngIf="isEnough(element)">
                         <mat-icon>exposure_plus_1</mat-icon>
                     </button>
                     <a
@@ -38,32 +38,32 @@
                 </td>
             </ng-container>
 
-            <tr mat-header-row***REMOVED***matHeaderRowDef="displayedColumns; sticky: true"></tr>
-            <tr mat-row***REMOVED***matRowDef="let row; columns: displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
       </div>
     </ng-template>
     <ng-template #adminTable>
       <div class="table-container">
-        <table mat-table***REMOVED***ngIf="medicines$ | async as medicines" [dataSource]="medicines" matSort class="mat-elevation-z8">
+        <table mat-table *ngIf="medicines$ | async as medicines" [dataSource]="medicines" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="pharmacy">
-                <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Pharmacy </th>
-                <td mat-cell***REMOVED***matCellDef="let element"> {{ element.pharmacy }} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Pharmacy </th>
+                <td mat-cell *matCellDef="let element"> {{ element.pharmacy }} </td>
             </ng-container>
 
             <ng-container matColumnDef="name">
-                <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Medicine name </th>
-                <td mat-cell***REMOVED***matCellDef="let element"> {{ element.name }} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Medicine name </th>
+                <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
             </ng-container>
 
             <ng-container matColumnDef="amount">
-                <th mat-header-cell***REMOVED***matHeaderCellDef mat-sort-header> Whole amount </th>
-                <td mat-cell***REMOVED***matCellDef="let element"> {{ element.amount }} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Whole amount </th>
+                <td mat-cell *matCellDef="let element"> {{ element.amount }} </td>
             </ng-container>
 
             <ng-container matColumnDef="controls">  <!-- THE ONLY THING THAT DIFFERS FROM ABOVE BECAUSE OF THE NgxPermissions -->
-                <th mat-header-cell***REMOVED***matHeaderCellDef>ADMIN controls</th>
-                <td mat-cell***REMOVED***matCellDef="let element">
+                <th mat-header-cell *matHeaderCellDef>ADMIN controls</th>
+                <td mat-cell *matCellDef="let element">
                     <button
                         mat-flat-button
                         color="warn"
@@ -72,14 +72,14 @@
                         <mat-label>move to another pharmacy</mat-label>
                         <mat-select (selectionChange)="moveToPharmacy(element, $event.value)">
                             <mat-option>---------------</mat-option>
-                            <mat-option***REMOVED***ngFor="let pharmacy of pharmaciesList" [value]="pharmacy">{{ pharmacy }}</mat-option>
+                            <mat-option *ngFor="let pharmacy of pharmaciesList" [value]="pharmacy">{{ pharmacy }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </td>
             </ng-container>
 
-            <tr mat-header-row***REMOVED***matHeaderRowDef="displayedColumns; sticky: true"></tr>
-            <tr mat-row***REMOVED***matRowDef="let row; columns: displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
       </div>
     </ng-template>

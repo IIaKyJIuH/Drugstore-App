@@ -2,25 +2,25 @@ import { PeopleStatisticsModel } from './people-statistics-model';
 
 export class UserStatisticsModel extends PeopleStatisticsModel {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** How many times user cancelled bookings.
-  ***REMOVED***/
+  /**
+   * How many times user cancelled bookings.
+   */
   cancellationsAmount: number;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** How many times user failed to pay transaction of the prepared booking
-  ***REMOVED***/
+  /**
+   * How many times user failed to pay transaction of the prepared booking
+   */
   failuresAmount: number;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Unique key for getting record about this booking.
-  ***REMOVED***/
+  /**
+   * Unique key for getting record about this booking.
+   */
   key: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param data - object, not necessarily containing all UserStatisticsModel fields.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param data - object, not necessarily containing all UserStatisticsModel fields.
+   */
   constructor(data: Partial<UserStatisticsModel>) {
     super(
       new PeopleStatisticsModel({

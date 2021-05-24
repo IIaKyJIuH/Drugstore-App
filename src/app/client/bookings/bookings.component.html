@@ -1,10 +1,10 @@
-<ng-container***REMOVED***ngIf="allBookings$ | async as bookings">
-    <div***REMOVED***ngIf="bookings.length === 0; else nonEmpty">
+<ng-container *ngIf="allBookings$ | async as bookings">
+    <div *ngIf="bookings.length === 0; else nonEmpty">
         There aren`t any booked items
     </div>
     <ng-template #nonEmpty>
         <mat-list>
-            <mat-list-item***REMOVED***ngFor="let booking of bookings" style="margin-bottom: 20px">
+            <mat-list-item *ngFor="let booking of bookings" style="margin-bottom: 20px">
                 <ng-template
                     [ngxPermissionsOnly]="['STAFF']"
                     [ngxPermissionsOnlyElse]="userBlock">
@@ -12,7 +12,7 @@
                     <main
                         fxFlex fxLayoutWrap fxLayout="column" fxLayoutAlign="start center"
                         matLine
-                       ***REMOVED***ngFor="let medicine of booking.medicines"
+                        *ngFor="let medicine of booking.medicines"
                         style="text-align: justify; font-size: 1.15em">
                         <span>Medicine: <i><strong>{{ medicine.name }}</strong></i></span>
                         <span>Amount: <u>{{ medicine.amount }}</u></span>
@@ -20,7 +20,7 @@
                     <button
                         mat-flat-button
                         color="primary"
-                       ***REMOVED***ngIf="!booking.isReady; else checkIfBought"
+                        *ngIf="!booking.isReady; else checkIfBought"
                         (click)="setToPrepared(booking)">
                         SET TO PREPARED
                     </button>
@@ -44,7 +44,7 @@
                     <main
                         fxFlex fxLayout="column" fxLayoutAlign="start center"
                         matLine
-                       ***REMOVED***ngFor="let item of booking.medicines"
+                        *ngFor="let item of booking.medicines"
                         style="text-align: justify; font-size: 1.15em">
                         <span>Medicine: <i><strong>{{ item.name }}</strong></i></span>
                         <span>Amount: <u>{{ item.amount }}</u></span>

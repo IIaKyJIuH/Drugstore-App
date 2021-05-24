@@ -1,18 +1,18 @@
 export interface PeopleStatisticsDto {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Email corresponding to model owner.
-  ***REMOVED***/
+  /**
+   * Email corresponding to model owner.
+   */
   email: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** How many items were purchased to model owner.
-  ***REMOVED***/
+  /**
+   * How many items were purchased to model owner.
+   */
   purchasedItems: number;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Unique key for getting record from db.
-  ***REMOVED***/
+  /**
+   * Unique key for getting record from db.
+   */
   key?: string;
 
 }

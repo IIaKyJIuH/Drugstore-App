@@ -12,9 +12,9 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { WrongPathComponent } from './wrong-path/wrong-path.component';
 
 
-***REMOVED****
-***REMOVED*** @inheritdoc
-***REMOVED***/
+/**
+ * @inheritdoc
+ */
 @NgModule({
   declarations: [
     HomeComponent,

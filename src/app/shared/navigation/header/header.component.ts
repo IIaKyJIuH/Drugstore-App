@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 
-***REMOVED****
-***REMOVED*** Header for tablets and desktops.
-***REMOVED***/
+/**
+ * Header for tablets and desktops.
+ */
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,18 +14,18 @@ import { AuthenticationService } from 'src/app/core/services/authentication/auth
 })
 export class HeaderComponent {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For opening sidenav-list component according to the window list.
-  ***REMOVED***/
+  /**
+   * For opening sidenav-list component according to the window list.
+   */
   @Output() public sidenavOpen = new EventEmitter();
 
   isAuthenticated$: Observable<boolean>;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param authService - for authentication purposes. 
-  ***REMOVED*** @param router - responsible for redirecting user.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param authService - for authentication purposes. 
+   * @param router - responsible for redirecting user.
+   */
   constructor(
     public authService: AuthenticationService,
     private router: Router,
@@ -33,24 +33,24 @@ export class HeaderComponent {
     this.isAuthenticated$ = this.authService.getAuthStatus();
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Emits sidenav component opener.
-  ***REMOVED***/
+  /**
+   * Emits sidenav component opener.
+   */
   public onSidenavOpen(): void {
     this.sidenavOpen.emit();
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For reactive sign out of the user.
-  ***REMOVED***/
+  /**
+   * For reactive sign out of the user.
+   */
   public signOut(): void {
     this.authService.signOut().pipe(take(1)).subscribe();
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For getting current user profile data.
-  ***REMOVED*** @return authorized user email and his role.
-  ***REMOVED***/
+  /**
+   * For getting current user profile data.
+   * @return authorized user email and his role.
+   */
   currentUserData(): any {
     return this.authService.getUserData();
   }

@@ -1,9 +1,9 @@
-<ng-container***REMOVED***ngIf="medicinesStatistics$ | async as medicines; else loading">
-    <ng-container***REMOVED***ngIf="medicines.length !== 0; else emptyCase">
+<ng-container *ngIf="medicinesStatistics$ | async as medicines; else loading">
+    <ng-container *ngIf="medicines.length !== 0; else emptyCase">
         <main fxFlex fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="30px">
             <h2>TOP 3 items</h2>
             <mat-card
-               ***REMOVED***ngFor="let medicine of medicines">
+                *ngFor="let medicine of medicines">
                 <mat-card-header>
                     <h3> {{ medicine.name }} </h3>
                 </mat-card-header>

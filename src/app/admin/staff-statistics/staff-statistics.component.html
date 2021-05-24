@@ -1,15 +1,15 @@
-<ng-container***REMOVED***ngIf="staffStatistics$ | async as employees; else loading">
+<ng-container *ngIf="staffStatistics$ | async as employees; else loading">
     <main fxFlex fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
         <h2>Best employee ever</h2>
         <section
             fxFlex fxLayoutAlign="center center">
             <mat-card
                 fxFlex fxLayout="column" fxLayoutAlign="space-between center"
-               ***REMOVED***ngFor="let employee of employees">
+                *ngFor="let employee of employees">
                 <mat-card-header>
                     <h3> {{ employee.email }} </h3>
                 </mat-card-header>
-                <ng-container***REMOVED***ngIf="employee.avatarUrl">
+                <ng-container *ngIf="employee.avatarUrl">
                     <img src="{{ employee.avatarUrl }}" alt="Фотография сотрудника" />
                 </ng-container>
                 <mat-card-content>

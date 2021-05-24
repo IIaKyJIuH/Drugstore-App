@@ -1,16 +1,16 @@
-***REMOVED****
-***REMOVED*** Includes values inputted in the sign-in form.
-***REMOVED***/
+/**
+ * Includes values inputted in the sign-in form.
+ */
 export  interface  CredentialsModel {
 
-   ***REMOVED*****REMOVED****
-    ***REMOVED*** User email.
-    ***REMOVED***/
+    /**
+     * User email.
+     */
     email: string;
 
-   ***REMOVED*****REMOVED****
-    ***REMOVED*** User password.
-    ***REMOVED***/
+    /**
+     * User password.
+     */
     password: string;
 
 }

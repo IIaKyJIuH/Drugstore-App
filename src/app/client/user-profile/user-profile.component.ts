@@ -13,27 +13,27 @@ import { PasswordValidator } from 'src/app/core/services/registration/password-v
 })
 export class UserProfileComponent {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Form for email changing
-  ***REMOVED***/
+  /**
+   * Form for email changing
+   */
   emailChangeForm: FormGroup;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Form for changing user password.
-  ***REMOVED***/
+  /**
+   * Form for changing user password.
+   */
   passwordChangeForm: FormGroup;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** State for checking if the password inputted by user(for changing password) is right.
-  ***REMOVED***/
+  /**
+   * State for checking if the password inputted by user(for changing password) is right.
+   */
   isCurrentPasswordRight: boolean;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param formBuilder - for easier form creation.
-  ***REMOVED*** @param authService - for everything about authentication from firebase project.
-  ***REMOVED*** @param notifications - for getting operations status.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param formBuilder - for easier form creation.
+   * @param authService - for everything about authentication from firebase project.
+   * @param notifications - for getting operations status.
+   */
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
@@ -49,14 +49,14 @@ export class UserProfileComponent {
         Validators.maxLength(12),
       ])],
       confirmPassword: ['', Validators.required],
- ***REMOVED*****REMOVED***
+    },
     { validator: PasswordValidator.areEqual });
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Changes user email.
-  ***REMOVED*** @param emailFormValues - new email.
-  ***REMOVED***/
+  /**
+   * Changes user email.
+   * @param emailFormValues - new email.
+   */
   onEmailChangeSubmit(emailFormValues: Partial<CredentialsModel>): void {
     const newEmail = emailFormValues.email;
     if (newEmail === this.currentUserEmail) {
@@ -66,59 +66,59 @@ export class UserProfileComponent {
     this.authService.changeUserEmail(emailFormValues.email).pipe(take(1)).subscribe(
       () => {
         this.notifications.showSuccess('Your email was successfully changed', 'Success');
-   ***REMOVED*****REMOVED***
+      },
       (err: Error) => {
         this.notifications.showError('Something went wrong', err.message);
       }
     );
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Changes user password.
-  ***REMOVED*** @param passwordFormValues - new password.
-  ***REMOVED***/
+  /**
+   * Changes user password.
+   * @param passwordFormValues - new password.
+   */
   onPasswordChangeSubmit(passwordFormValues: Partial<CredentialsModel>): void {
     const newPassword = passwordFormValues.password;
     this.authService.changeUserPassword(newPassword).pipe(take(1)).subscribe(
       () => {
         this.notifications.showSuccess('Your password was successfully changed', 'Success');
-   ***REMOVED*****REMOVED***
+      },
       (err: Error) => {
         this.notifications.showError('Something went wrong', err.message);
-   ***REMOVED*****REMOVED***
+      },
       () => {
         this.passwordChangeForm.reset();
       }
     )
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For getting signed-in user email.
-  ***REMOVED***/
+  /**
+   * For getting signed-in user email.
+   */
   get currentUserEmail(): string {
     return this.authService.getUserData().email;
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For checking if the password inputted by user(for changing password) is right.
-  ***REMOVED*** @param password - to be checked.
-  ***REMOVED***/
+  /**
+   * For checking if the password inputted by user(for changing password) is right.
+   * @param password - to be checked.
+   */
   checkIfItIsCurrentPassword(password: string): void {
     this.authService.isCurrentPassword(password).pipe(
       take(1)
     ).subscribe(
       () => {
         this.isCurrentPasswordRight = true;
-   ***REMOVED*****REMOVED***
+      },
       (err) => {
         this.notifications.showError('Ooops', 'Wrong password');
         this.isCurrentPasswordRight = false;
       });
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** For password confirmation.
-  ***REMOVED***/
+  /**
+   * For password confirmation.
+   */
   onPasswordInput(): void {
     if (this.passwordChangeForm.hasError('nomatch')) {
       this.passwordControls.confirmPassword.setErrors([{'nomatch': true}]);
@@ -128,10 +128,10 @@ export class UserProfileComponent {
     }
 }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** All password controls.
-  ***REMOVED*** @returns FormGroup.controls.
-  ***REMOVED***/
+  /**
+   * All password controls.
+   * @returns FormGroup.controls.
+   */
   get passwordControls(): { [key: string]: AbstractControl; } { return this.passwordChangeForm.controls; }
 
 }

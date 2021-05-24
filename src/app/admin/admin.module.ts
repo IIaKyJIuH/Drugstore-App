@@ -12,9 +12,9 @@ import { StaffStatisticsComponent } from './staff-statistics/staff-statistics.co
 import { UsersStatisticsComponent } from './users-statistics/users-statistics.component';
 
 
-***REMOVED****
-***REMOVED*** Admin main module.
-***REMOVED***/
+/**
+ * Admin main module.
+ */
 @NgModule({
   declarations: [AdminComponent, UsersStatisticsComponent, StaffStatisticsComponent, MedicinesStatisticsComponent, StaffEditComponent],
   imports: [

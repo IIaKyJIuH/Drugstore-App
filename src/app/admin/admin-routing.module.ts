@@ -10,9 +10,9 @@ const routes: Routes = [
   }
 ];
 
-***REMOVED****
-***REMOVED*** Routings for admin module.
-***REMOVED***/
+/**
+ * Routings for admin module.
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

@@ -1,24 +1,24 @@
 import { UserTokensModel } from './user-tokens-model';
 
-***REMOVED****
-***REMOVED*** Holds user data when he is signed-in.
-***REMOVED***/
+/**
+ * Holds user data when he is signed-in.
+ */
 export class UserModel extends UserTokensModel {
 
-   ***REMOVED*****REMOVED****
-    ***REMOVED*** user email.
-    ***REMOVED***/
+    /**
+     * user email.
+     */
     public email: string;
 
-   ***REMOVED*****REMOVED****
-    ***REMOVED*** user role in app.
-    ***REMOVED***/
+    /**
+     * user role in app.
+     */
     public role: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param data - object, not necessarily containing all UserModel fields.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param data - object, not necessarily containing all UserModel fields.
+   */
   constructor(data: Partial<UserModel>) {
         super(
           new UserTokensModel({

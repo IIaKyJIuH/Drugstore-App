@@ -1,22 +1,22 @@
-***REMOVED****
-***REMOVED*** User token model for maintaining access and secure tokens.
-***REMOVED***/
+/**
+ * User token model for maintaining access and secure tokens.
+ */
 export class UserTokensModel {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** user token from firebase response on sign-in/sign-up.
-  ***REMOVED***/
+  /**
+   * user token from firebase response on sign-in/sign-up.
+   */
   public idToken: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** user secure token for refreshing idToken.
-  ***REMOVED***/
+  /**
+   * user secure token for refreshing idToken.
+   */
   public secureToken: string;
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param data - object, not necessarily containing all UserTokensModel fields.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param data - object, not necessarily containing all UserTokensModel fields.
+   */
   constructor(data: Partial<UserTokensModel>) {
       this.idToken = data.idToken;
       this.secureToken = data.secureToken;

@@ -11,10 +11,10 @@ import { MedicineModel } from '../models/medicines/medicine-model';
 })
 export class DataService {
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Concatenates key fields and pharmacy name from db to each item.
-  ***REMOVED*** @param pharmacies - object where key - next pharmacy.
-  ***REMOVED***/
+  /**
+   * Concatenates key fields and pharmacy name from db to each item.
+   * @param pharmacies - object where key - next pharmacy.
+   */
   private static mapObjectToArray(pharmacies: object): MedicineDto[] {
     const resultArr: MedicineDto[] = [];
     for (const pharmacyName of Object.keys(pharmacies)) {
@@ -32,10 +32,10 @@ export class DataService {
     return resultArr;
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Concatenates key fields and pharmacy name from db to each item.
-  ***REMOVED*** @param dtoArr - to be converted.
-  ***REMOVED***/
+  /**
+   * Concatenates key fields and pharmacy name from db to each item.
+   * @param dtoArr - to be converted.
+   */
   private static mapDtoArrayToModelArray(dtoArr: MedicineDto[]): MedicineModel[] {
     const resultArr: MedicineModel[] = [];
     for (const dto of dtoArr) {
@@ -49,20 +49,20 @@ export class DataService {
     return resultArr;
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** .ctor
-  ***REMOVED*** @param database - for interacting with db.
-  ***REMOVED*** @param authService - for getting user auth info.
-  ***REMOVED***/
+  /**
+   * .ctor
+   * @param database - for interacting with db.
+   * @param authService - for getting user auth info.
+   */
   constructor(
     private database: AngularFireDatabase,
     private authService: AuthenticationService,
   ) { }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Gets all medicines from all pharmacies.
-  ***REMOVED*** @return concatenated pharmacies array flow.
-  ***REMOVED***/
+  /**
+   * Gets all medicines from all pharmacies.
+   * @return concatenated pharmacies array flow.
+   */
   getAllMedicines(): Observable<MedicineModel[]> {
     return this.database.object('/medicines/pharmacies').valueChanges()
       .pipe(
@@ -77,21 +77,21 @@ export class DataService {
       );
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Moves specific medicine to another pharmacy.
-  ***REMOVED*** @param pharmacyName - new point for medicine
-  ***REMOVED*** @param medicine - to be moved.
-  ***REMOVED***/
+  /**
+   * Moves specific medicine to another pharmacy.
+   * @param pharmacyName - new point for medicine
+   * @param medicine - to be moved.
+   */
   moveToAnotherPharmacy(pharmacyName: string, medicine: MedicineModel): void {
     this.addMedicineToDb(pharmacyName, medicine);
     this.deleteMedicineFromDb(medicine);
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Adds medicine to specific pharmacy in db.
-  ***REMOVED*** @param to - where to add.
-  ***REMOVED*** @param medicine - what medicine to add.
-  ***REMOVED***/
+  /**
+   * Adds medicine to specific pharmacy in db.
+   * @param to - where to add.
+   * @param medicine - what medicine to add.
+   */
   private addMedicineToDb(to: string, medicine: MedicineModel): void {
     const newObj: any = Object.assign({}, {
       count: medicine.amount,
@@ -105,10 +105,10 @@ export class DataService {
     const item = this.database.list(`/medicines/pharmacies/${pharmacy}/${medicine}`);
   }
 
- ***REMOVED*****REMOVED****
-  ***REMOVED*** Removes medicine from db.
-  ***REMOVED*** @param medicine - to be removed.
-  ***REMOVED***/
+  /**
+   * Removes medicine from db.
+   * @param medicine - to be removed.
+   */
   deleteMedicineFromDb(medicine: MedicineModel): void {
     this.database.list(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}`).remove();
   }
