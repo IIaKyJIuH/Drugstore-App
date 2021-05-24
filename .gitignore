@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+*firebase*
 /tmp
 /out-tsc
 # Only exists if Bazel was run
@@ -41,7 +42,7 @@ yarn-error.log
 testem.log
 /typings
 
-#env vars
+# env vars
 /src/environments
 
 # System Files
