@@ -302,7 +302,7 @@ export class StatisticsService {
     this.database.object(path).valueChanges()
       .pipe(
         take(1),
-        map(records => ProjectFunctions.mapObjectToArray(records)),
+        map((records: object) => ProjectFunctions.mapObjectToArray(records)),
         tap((records: MedicineStatisticsDto[] | PeopleStatisticsDto[] | UserStatisticsDto[]) => {
           if (path.includes('medicines')) {
             this.writeMedicines(records as MedicineStatisticsDto[], transaction.medicines);
