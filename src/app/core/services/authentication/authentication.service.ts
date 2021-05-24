@@ -57,10 +57,10 @@ export class AuthenticationService {
     });
     const uids = {
       admin: [
-        'jvJiZZZ8WnUizGfLyBr8AIQOU6Z2'
+        'aDQJFufm4XZpdvlDP0jBQh74y1G2'
       ],
       staff: [
-        '1UepQikTzlMzzXVvK6tX8jAEGHI3'
+        'j379Rog45sX33mQ4HqYH5LMBXb53'
       ]
     };
     localStorage.setItem('uids', JSON.stringify(uids));
@@ -125,7 +125,7 @@ export class AuthenticationService {
         }
         localStorage.setItem('uids', JSON.stringify(uids));
         this.database.list('/staff/emails/').push({ email: userData.user.email });
-        this.afAuth.auth.signInWithEmailAndPassword(adminEmail, 'admin123'); // Back to admin
+        this.afAuth.auth.signInWithEmailAndPassword(adminEmail, 'admin1'); // Back to admin
       })
     );
   }
