@@ -1,13 +1,11 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 /**
  * Page not-found component.
  */
 @Component({
-  selector: 'app-wrong-path',
-  templateUrl: './wrong-path.component.html',
-  styleUrls: ['./wrong-path.component.css'],
+  selector: "app-wrong-path",
+  templateUrl: "./wrong-path.component.html",
+  styleUrls: ["./wrong-path.component.css"],
 })
-export class WrongPathComponent {
-
-}
+export class WrongPathComponent {}

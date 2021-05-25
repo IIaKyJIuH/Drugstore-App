@@ -1,34 +1,33 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { Router } from '@angular/router';
-import { fromEvent, Observable } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
-import { DataService } from 'src/app/core/services/data/data.service';
-import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
-import { MedicineModel } from '../../core/services/models/medicines/medicine-model';
+import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
+import { Router } from "@angular/router";
+import { fromEvent, Observable } from "rxjs";
+import { map, startWith, switchMap } from "rxjs/operators";
+import { AuthenticationService } from "src/app/core/services/authentication/authentication.service";
+import { DataService } from "src/app/core/services/data/data.service";
+import { ShoppingCartService } from "src/app/core/services/data/shopping-cart.service";
+import { MedicineModel } from "../../core/services/models/medicines/medicine-model";
 
 /**
  * Main app page.
  */
 @Component({
-  selector: 'app-main',
-  templateUrl: './store.component.html',
-  styleUrls: ['./store.component.css']
+  selector: "app-main",
+  templateUrl: "./store.component.html",
+  styleUrls: ["./store.component.css"],
 })
 export class StoreComponent implements AfterViewInit {
-
   /**
    * All medicines from db.
    */
   medicines$: Observable<MatTableDataSource<any>>;
 
-  displayedColumns: string[] = ['pharmacy', 'name', 'amount', 'controls']; // For mat-table.
+  displayedColumns: string[] = ["pharmacy", "name", "amount", "controls"]; // For mat-table.
   pharmaciesList: string[] = []; // for admin table.
 
   @ViewChild(MatPaginator) paginator: MatPaginator; // For pagination of the table.
   @ViewChild(MatSort) sort: MatSort; // For sorting specific columns of the table.
-  @ViewChild('filter') filter: ElementRef; // For filtering data by given key.
+  @ViewChild("filter") filter: ElementRef; // For filtering data by given key.
 
   /**
    * .ctor
@@ -41,7 +40,7 @@ export class StoreComponent implements AfterViewInit {
     private router: Router,
     private dataService: DataService,
     private shoppingCart: ShoppingCartService,
-    private authService: AuthenticationService,
+    private authService: AuthenticationService
   ) {}
 
   /**
@@ -51,7 +50,8 @@ export class StoreComponent implements AfterViewInit {
     return this.dataService.getAllMedicines().pipe(
       map((medicines: MedicineModel[]) => {
         const dataArr = new MatTableDataSource<any>();
-        for (const medicine of medicines) { // Прибавляем новые поля к каждому элементу из аптек
+        for (const medicine of medicines) {
+          // Прибавляем новые поля к каждому элементу из аптек
           if (!this.pharmaciesList.includes(medicine.pharmacy)) {
             this.pharmaciesList.push(medicine.pharmacy);
           }
@@ -97,7 +97,7 @@ export class StoreComponent implements AfterViewInit {
   }
 
   goToDetailedInfo(row): void {
-    this.router.navigate(['/store', row.pharmacy, row.id]);
+    this.router.navigate(["/store", row.pharmacy, row.id]);
   }
 
   /**
@@ -107,7 +107,7 @@ export class StoreComponent implements AfterViewInit {
    */
   moveToPharmacy(medicine: MedicineModel, option: string): void {
     if (medicine.pharmacy === option) {
-      alert('select appropriate option');
+      alert("select appropriate option");
       return;
     }
     if (option === undefined) {
@@ -126,29 +126,33 @@ export class StoreComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const startingKeyboardEvent = new KeyboardEvent("keyup", {
-      bubbles : true,
-      cancelable : true,
-      key : "just for activating fromEvent",
-      shiftKey : true,
+      bubbles: true,
+      cancelable: true,
+      key: "just for activating fromEvent",
+      shiftKey: true,
     });
     this.filter.nativeElement.dispatchEvent(startingKeyboardEvent); // For setting target to this event
-    this.medicines$ = fromEvent(this.filter.nativeElement, 'keyup').pipe(
+    this.medicines$ = fromEvent(this.filter.nativeElement, "keyup").pipe(
       startWith(startingKeyboardEvent),
       switchMap((event: any) => {
         return this.getAllMedicines().pipe(
           map((data: any) => {
             data.filter = event.target.value;
             data.paginator = this.paginator;
-            setTimeout(() => {data.sort = this.sort;}, 0); // For dealing with ngIf problem
-            data.filterPredicate = (element: MedicineModel, filter: string) => element.name.startsWith(filter);
-            if (this.authService.getUserData().role === 'ADMIN') {
-              (this.filter.nativeElement as HTMLInputElement).parentElement.parentElement.remove();
+            setTimeout(() => {
+              data.sort = this.sort;
+            }, 0); // For dealing with ngIf problem
+            data.filterPredicate = (element: MedicineModel, filter: string) =>
+              element.name.startsWith(filter);
+            if (this.authService.getUserData().role === "ADMIN") {
+              (
+                this.filter.nativeElement as HTMLInputElement
+              ).parentElement.parentElement.remove();
             }
             return data;
           })
         );
       })
-    )
+    );
   }
-
 }

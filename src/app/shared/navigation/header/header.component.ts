@@ -1,19 +1,18 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
+import { Component, EventEmitter, Output } from "@angular/core";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { take } from "rxjs/operators";
+import { AuthenticationService } from "src/app/core/services/authentication/authentication.service";
 
 /**
  * Header for tablets and desktops.
  */
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.less']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.less"],
 })
 export class HeaderComponent {
-
   /**
    * For opening sidenav-list component according to the window list.
    */
@@ -23,12 +22,12 @@ export class HeaderComponent {
 
   /**
    * .ctor
-   * @param authService - for authentication purposes. 
+   * @param authService - for authentication purposes.
    * @param router - responsible for redirecting user.
    */
   constructor(
     public authService: AuthenticationService,
-    private router: Router,
+    private router: Router
   ) {
     this.isAuthenticated$ = this.authService.getAuthStatus();
   }
@@ -54,5 +53,4 @@ export class HeaderComponent {
   currentUserData(): any {
     return this.authService.getUserData();
   }
-
 }

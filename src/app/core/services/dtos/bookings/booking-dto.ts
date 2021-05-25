@@ -1,10 +1,9 @@
-import { MedicineDto } from '../medicines/medicine-dto';
+import { MedicineDto } from "../medicines/medicine-dto";
 
 /**
  * For getting data about bookings from db.
  */
 export interface BookingDto {
-
   /**
    * User who booked medicines.
    */
@@ -19,5 +18,4 @@ export interface BookingDto {
    * Unique key for getting record from db.
    */
   key?: string;
-
 }

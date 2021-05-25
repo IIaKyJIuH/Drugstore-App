@@ -1,7 +1,6 @@
-import { PeopleStatisticsDto } from './people-statistics-dto';
+import { PeopleStatisticsDto } from "./people-statistics-dto";
 
 export interface UserStatisticsDto extends PeopleStatisticsDto {
-
   /**
    * How many times user cancelled bookings.
    */
@@ -16,5 +15,4 @@ export interface UserStatisticsDto extends PeopleStatisticsDto {
    * Unique key for getting record from db.
    */
   key?: string;
-
 }

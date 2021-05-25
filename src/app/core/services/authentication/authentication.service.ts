@@ -1,31 +1,30 @@
-import { Injectable, NgZone } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { User, UserCredential } from '@firebase/auth-types';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { auth } from 'firebase';
-import { NgxRolesService } from 'ngx-permissions';
-import { from, Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
-import { CredentialsModel } from '../models/authentication/credentials-model';
-import { UserModel } from '../models/authentication/user-model';
+import { Injectable, NgZone } from "@angular/core";
+import { AngularFireAuth } from "@angular/fire/auth";
+import { User, UserCredential } from "@firebase/auth-types";
+import { AngularFireDatabase } from "angularfire2/database";
+import { auth } from "firebase";
+import { NgxRolesService } from "ngx-permissions";
+import { from, Observable } from "rxjs";
+import { take, tap } from "rxjs/operators";
+import { CredentialsModel } from "../models/authentication/credentials-model";
+import { UserModel } from "../models/authentication/user-model";
 
 /**
  * Service that authorizes user at FireBase.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthenticationService {
-
   /**
    * For getting the local storage state of authorized user email.
    */
-  public readonly USER_EMAIL = 'USER_EMAIL';
+  public readonly USER_EMAIL = "USER_EMAIL";
 
   /**
    * For getting the local storage state of authorized user role.
    */
-  public readonly USER_ROLE = 'USER_ROLE';
+  public readonly USER_ROLE = "USER_ROLE";
 
   private readonly authStatus$: Observable<boolean>;
 
@@ -40,10 +39,10 @@ export class AuthenticationService {
     private ngZone: NgZone,
     private afAuth: AngularFireAuth,
     private ngxRoles: NgxRolesService,
-    private database: AngularFireDatabase,
+    private database: AngularFireDatabase
   ) {
     this.authStatus$ = new Observable(observer => {
-      return this.afAuth.auth.onAuthStateChanged((user) => {
+      return this.afAuth.auth.onAuthStateChanged(user => {
         this.ngZone.run(() => {
           if (user) {
             observer.next(true);
@@ -56,14 +55,10 @@ export class AuthenticationService {
       });
     });
     const uids = {
-      admin: [
-        'aDQJFufm4XZpdvlDP0jBQh74y1G2'
-      ],
-      staff: [
-        'j379Rog45sX33mQ4HqYH5LMBXb53'
-      ]
+      admin: ["aDQJFufm4XZpdvlDP0jBQh74y1G2"],
+      staff: ["j379Rog45sX33mQ4HqYH5LMBXb53"],
     };
-    localStorage.setItem('uids', JSON.stringify(uids));
+    localStorage.setItem("uids", JSON.stringify(uids));
   }
 
   /**
@@ -72,7 +67,9 @@ export class AuthenticationService {
    * @returns firebase response user data flow.
    */
   public signIn(user: CredentialsModel): Observable<UserCredential> {
-    return from(this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password));
+    return from(
+      this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
+    );
   }
 
   /**
@@ -81,7 +78,9 @@ export class AuthenticationService {
    * @return firebase response user data flow.
    */
   public signUp(user: CredentialsModel): Observable<UserCredential> {
-    return from(this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password));
+    return from(
+      this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
+    );
   }
 
   /**
@@ -91,20 +90,20 @@ export class AuthenticationService {
   private setUserData(user: User): void {
     const UID = user.uid;
     localStorage.setItem(this.USER_EMAIL, user.email);
-    const uids = JSON.parse(localStorage.getItem('uids'));
+    const uids = JSON.parse(localStorage.getItem("uids"));
     if (uids.admin.includes(UID)) {
-      localStorage.setItem(this.USER_ROLE, 'ADMIN');
-      this.ngxRoles.addRole('ADMIN', () => {
+      localStorage.setItem(this.USER_ROLE, "ADMIN");
+      this.ngxRoles.addRole("ADMIN", () => {
         return true;
       });
     } else if (uids.staff.includes(UID)) {
-      localStorage.setItem(this.USER_ROLE, 'STAFF');
-      this.ngxRoles.addRole('STAFF', () => {
+      localStorage.setItem(this.USER_ROLE, "STAFF");
+      this.ngxRoles.addRole("STAFF", () => {
         return true;
       });
     } else {
-      localStorage.setItem(this.USER_ROLE, 'USER');
-      this.ngxRoles.addRole('USER', () => {
+      localStorage.setItem(this.USER_ROLE, "USER");
+      this.ngxRoles.addRole("USER", () => {
         return true;
       });
     }
@@ -116,16 +115,23 @@ export class AuthenticationService {
    */
   addNewStaff(staff: CredentialsModel): Observable<UserCredential> {
     const adminEmail = this.getUserData().email;
-    return from(this.afAuth.auth.createUserWithEmailAndPassword(staff.email, staff.password)).pipe(
+    return from(
+      this.afAuth.auth.createUserWithEmailAndPassword(
+        staff.email,
+        staff.password
+      )
+    ).pipe(
       take(1),
       tap((userData: UserCredential) => {
-        const uids = JSON.parse(localStorage.getItem('uids'));
+        const uids = JSON.parse(localStorage.getItem("uids"));
         if (!uids.staff.includes(userData.user.uid)) {
           uids.staff.push(userData.user.uid);
         }
-        localStorage.setItem('uids', JSON.stringify(uids));
-        this.database.list('/staff/emails/').push({ email: userData.user.email });
-        this.afAuth.auth.signInWithEmailAndPassword(adminEmail, 'admin1'); // Back to admin
+        localStorage.setItem("uids", JSON.stringify(uids));
+        this.database
+          .list("/staff/emails/")
+          .push({ email: userData.user.email });
+        this.afAuth.auth.signInWithEmailAndPassword(adminEmail, "admin1"); // Back to admin
       })
     );
   }
@@ -138,7 +144,7 @@ export class AuthenticationService {
       tap(() => {
         this.deleteUserData();
         this.ngxRoles.flushRoles();
-      }),
+      })
     );
   }
 
@@ -166,10 +172,7 @@ export class AuthenticationService {
    */
   isCurrentPassword(password: string): Observable<UserCredential> {
     const user: User | null = this.afAuth.auth.currentUser; // Probably not null, because only authenticated user can access settings.
-    const credential = auth.EmailAuthProvider.credential(
-      user.email,
-      password
-    );
+    const credential = auth.EmailAuthProvider.credential(user.email, password);
 
     return from(user.reauthenticateWithCredential(credential));
   }
@@ -180,7 +183,7 @@ export class AuthenticationService {
   private deleteUserData(): void {
     localStorage.removeItem(this.USER_EMAIL);
     localStorage.removeItem(this.USER_ROLE);
-    localStorage.removeItem('cart');
+    localStorage.removeItem("cart");
   }
 
   /**
@@ -189,7 +192,7 @@ export class AuthenticationService {
   getUserData(): UserModel {
     return new UserModel({
       email: localStorage.getItem(this.USER_EMAIL),
-      role: localStorage.getItem(this.USER_ROLE)
+      role: localStorage.getItem(this.USER_ROLE),
     });
   }
 
@@ -200,5 +203,4 @@ export class AuthenticationService {
   getAuthStatus(): Observable<boolean> {
     return this.authStatus$;
   }
-
 }

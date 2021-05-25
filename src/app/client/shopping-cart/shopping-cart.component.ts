@@ -1,20 +1,19 @@
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { BookingsService } from 'src/app/core/services/data/bookings.service';
-import { ShoppingCartService } from 'src/app/core/services/data/shopping-cart.service';
-import { NotificationService } from 'src/app/core/services/notification/notification.service';
-import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
-import { MedicineModel } from '../../core/services/models/medicines/medicine-model';
+import { Component } from "@angular/core";
+import { MatDialog } from "@angular/material";
+import { Observable } from "rxjs";
+import { take } from "rxjs/operators";
+import { BookingsService } from "src/app/core/services/data/bookings.service";
+import { ShoppingCartService } from "src/app/core/services/data/shopping-cart.service";
+import { NotificationService } from "src/app/core/services/notification/notification.service";
+import { ConfirmationDialogComponent } from "src/app/shared/confirmation-dialog/confirmation-dialog.component";
+import { MedicineModel } from "../../core/services/models/medicines/medicine-model";
 
 @Component({
-  selector: 'app-shopping-cart',
-  templateUrl: './shopping-cart.component.html',
-  styleUrls: ['./shopping-cart.component.css']
+  selector: "app-shopping-cart",
+  templateUrl: "./shopping-cart.component.html",
+  styleUrls: ["./shopping-cart.component.css"],
 })
 export class ShoppingCartComponent {
-
   /**
    * Items selected by user for booking.
    */
@@ -23,7 +22,7 @@ export class ShoppingCartComponent {
   /**
    * Columns for mat-table.
    */
-  displayedColumns = ['Name', 'Count', 'Pharmacy', 'Controls'];
+  displayedColumns = ["Name", "Count", "Pharmacy", "Controls"];
 
   /**
    * .ctor
@@ -36,7 +35,7 @@ export class ShoppingCartComponent {
     private dialog: MatDialog,
     private cartService: ShoppingCartService,
     private bookingsService: BookingsService,
-    private notifications: NotificationService,
+    private notifications: NotificationService
   ) {
     this.myItems$ = this.cartService.getCurrentCart();
   }
@@ -48,15 +47,16 @@ export class ShoppingCartComponent {
   bookItems(items: MedicineModel[]): void {
     this.openConfirmationDialog()
       .pipe(take(1))
-      .subscribe(
-        (isConfirmed) => {
-          if (isConfirmed) {
-            this.cartService.bookMedicines(items);
-            this.removeAll(items);
-            this.notifications.showSuccess('Alright, your medicine products will be prepared as soon as possible', 'Booked');
-          }
+      .subscribe(isConfirmed => {
+        if (isConfirmed) {
+          this.cartService.bookMedicines(items);
+          this.removeAll(items);
+          this.notifications.showSuccess(
+            "Alright, your medicine products will be prepared as soon as possible",
+            "Booked"
+          );
         }
-      );
+      });
   }
 
   /**
@@ -64,10 +64,10 @@ export class ShoppingCartComponent {
    */
   private openConfirmationDialog(): Observable<any> {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '400px',
+      width: "400px",
       data: {
-        message: 'Click "Yes" button if you want to book selected items'
-      }
+        message: 'Click "Yes" button if you want to book selected items',
+      },
     });
 
     return dialogRef.afterClosed();
@@ -104,5 +104,4 @@ export class ShoppingCartComponent {
   isInCart(element: MedicineModel): boolean {
     return this.cartService.isInCart(element);
   }
-
 }

@@ -1,21 +1,20 @@
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
-import { AuthenticationService } from '../authentication/authentication.service';
-import { BookingDto } from '../dtos/bookings/booking-dto';
-import { MedicineDto } from '../dtos/medicines/medicine-dto';
-import { BookingModel } from '../models/bookings/booking-model';
-import { MedicineModel } from '../models/medicines/medicine-model';
-import { ArchiveService } from './archive.service';
-import { ProjectFunctions } from './project-functions';
-import { StatisticsService } from './statistics.service';
+import { Injectable } from "@angular/core";
+import { AngularFireDatabase } from "angularfire2/database";
+import { Observable } from "rxjs";
+import { map, take, tap } from "rxjs/operators";
+import { AuthenticationService } from "../authentication/authentication.service";
+import { BookingDto } from "../dtos/bookings/booking-dto";
+import { MedicineDto } from "../dtos/medicines/medicine-dto";
+import { BookingModel } from "../models/bookings/booking-model";
+import { MedicineModel } from "../models/medicines/medicine-model";
+import { ArchiveService } from "./archive.service";
+import { ProjectFunctions } from "./project-functions";
+import { StatisticsService } from "./statistics.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class BookingsService {
-
   /**
    * Concatenates key fields from db to each item for bookings.
    * @param object - object to be converted.
@@ -24,10 +23,12 @@ export class BookingsService {
     const arr = [];
     for (const key of Object.keys(object)) {
       const current = object[key];
-      if (key !== 'default') {
-        arr.push(Object.assign(current, {
-          key
-        }));
+      if (key !== "default") {
+        arr.push(
+          Object.assign(current, {
+            key,
+          })
+        );
       }
     }
     return arr;
@@ -44,19 +45,23 @@ export class BookingsService {
     for (const dto of dtoArr) {
       const itemsModel = [];
       for (const item of dto.items) {
-        itemsModel.push(new MedicineModel({
-          amount: item.count,
-          name: item.term,
-          key: item.key,
-          pharmacy: item.pharmacy
-        }))
+        itemsModel.push(
+          new MedicineModel({
+            amount: item.count,
+            name: item.term,
+            key: item.key,
+            pharmacy: item.pharmacy,
+          })
+        );
       }
-      resultModelArr.push(new BookingModel({
-        email: dto.email,
-        medicines: itemsModel,
-        key: dto.key,
-        isReady: false,
-      }));
+      resultModelArr.push(
+        new BookingModel({
+          email: dto.email,
+          medicines: itemsModel,
+          key: dto.key,
+          isReady: false,
+        })
+      );
     }
     return resultModelArr;
   }
@@ -72,32 +77,41 @@ export class BookingsService {
     private database: AngularFireDatabase,
     private archiveService: ArchiveService,
     private authService: AuthenticationService,
-    private statisticsService: StatisticsService,
-  ) { }
+    private statisticsService: StatisticsService
+  ) {}
 
   /**
    * Gets all bookings from db.
    */
   getAllBookings(): Observable<BookingModel[]> {
-    return this.database.object('/bookings/users').valueChanges().pipe(
-      map((records: object) => {
-        const arr = BookingsService.mapObjectToArray(records);
-        return BookingsService.mapDtoArrayToModelArray(arr);
-      }),
-    );
+    return this.database
+      .object("/bookings/users")
+      .valueChanges()
+      .pipe(
+        map((records: object) => {
+          const arr = BookingsService.mapObjectToArray(records);
+          return BookingsService.mapDtoArrayToModelArray(arr);
+        })
+      );
   }
 
   /**
    * Gets all bookings corresponding to the current user.
    */
   getCurrentUserBookings(): Observable<BookingModel[]> {
-    return this.database.object('/bookings/users').valueChanges().pipe(
-      map((records: object) => {
-        const currentEmail = this.authService.getUserData().email;
-        const arr = ProjectFunctions.mapObjectToArrayForUser(records, currentEmail);
-        return BookingsService.mapDtoArrayToModelArray(arr);
-      })
-    );
+    return this.database
+      .object("/bookings/users")
+      .valueChanges()
+      .pipe(
+        map((records: object) => {
+          const currentEmail = this.authService.getUserData().email;
+          const arr = ProjectFunctions.mapObjectToArrayForUser(
+            records,
+            currentEmail
+          );
+          return BookingsService.mapDtoArrayToModelArray(arr);
+        })
+      );
   }
 
   /**
@@ -121,7 +135,7 @@ export class BookingsService {
    * @param booking - to be saved.
    */
   cancelBooking(booking: BookingModel): void {
-     this.recordTransactionByOperation(Operation.Cancel, booking);
+    this.recordTransactionByOperation(Operation.Cancel, booking);
   }
 
   /**
@@ -136,10 +150,12 @@ export class BookingsService {
         term: medicine.name,
         count: medicine.amount,
         key: medicine.key,
-        pharmacy: medicine.pharmacy
-      })
+        pharmacy: medicine.pharmacy,
+      });
     }
-    this.database.list('/bookings/users/').push({ email: currentEmail, items: medicinesDto } as BookingDto);
+    this.database
+      .list("/bookings/users/")
+      .push({ email: currentEmail, items: medicinesDto } as BookingDto);
     this.subMedicinesFromDb(medicines);
   }
 
@@ -148,7 +164,10 @@ export class BookingsService {
    * @param operation - alias to transaction status.
    * @param transaction - to be saved.
    */
-  private recordTransactionByOperation(operation: Operation, transaction: BookingModel): void {
+  private recordTransactionByOperation(
+    operation: Operation,
+    transaction: BookingModel
+  ): void {
     switch (operation) {
       case Operation.Success:
         this.archiveService.writeSuccessfulTransaction(transaction);
@@ -176,13 +195,20 @@ export class BookingsService {
    */
   private subMedicinesFromDb(medicines: MedicineModel[]): void {
     for (const medicine of medicines) {
-      this.database.object(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}`).valueChanges()
+      this.database
+        .object(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}`)
+        .valueChanges()
         .pipe(
           take(1),
           tap((tapMedicine: MedicineDto) => {
-            this.database.object(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}/count`).set(tapMedicine.count - medicine.amount);
+            this.database
+              .object(
+                `/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}/count`
+              )
+              .set(tapMedicine.count - medicine.amount);
           })
-        ).subscribe();
+        )
+        .subscribe();
     }
   }
 
@@ -192,16 +218,22 @@ export class BookingsService {
    */
   private restoreMedicinesToDb(medicines: MedicineModel[]): void {
     for (const medicine of medicines) {
-      this.database.object(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}`).valueChanges()
+      this.database
+        .object(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}`)
+        .valueChanges()
         .pipe(
           take(1),
           tap((tapMedicine: MedicineDto) => {
-            this.database.object(`/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}/count`).set(tapMedicine.count + medicine.amount);
+            this.database
+              .object(
+                `/medicines/pharmacies/${medicine.pharmacy}/${medicine.key}/count`
+              )
+              .set(tapMedicine.count + medicine.amount);
           })
-        ).subscribe();
+        )
+        .subscribe();
     }
   }
-
 }
 
 /**

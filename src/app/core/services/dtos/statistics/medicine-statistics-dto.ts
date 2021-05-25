@@ -1,5 +1,4 @@
 export interface MedicineStatisticsDto {
-
   /**
    * Medicine official name;
    */
@@ -14,5 +13,4 @@ export interface MedicineStatisticsDto {
    * Unique key for getting record from db.
    */
   key?: string;
-
 }

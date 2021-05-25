@@ -1,5 +1,4 @@
 export class PeopleStatisticsModel {
-
   /**
    * Email corresponding to model owner.
    */

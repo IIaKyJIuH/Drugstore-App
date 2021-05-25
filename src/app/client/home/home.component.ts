@@ -1,18 +1,16 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 /**
  * Home page.
  */
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"],
 })
 export class HomeComponent {
-
   /**
    * Project title.
    */
-  public title = 'MDS';
-
+  public title = "MDS";
 }

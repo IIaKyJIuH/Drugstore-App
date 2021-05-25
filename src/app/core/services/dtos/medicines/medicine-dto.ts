@@ -2,7 +2,6 @@
  * For getting medicines data from db.
  */
 export interface MedicineDto {
-
   /**
    * Medicine official name
    */
@@ -22,5 +21,4 @@ export interface MedicineDto {
    * Pharmacy, from where the medicine.
    */
   pharmacy?: string;
-
 }

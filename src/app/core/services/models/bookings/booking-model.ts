@@ -1,7 +1,6 @@
-import { MedicineModel } from '../medicines/medicine-model';
+import { MedicineModel } from "../medicines/medicine-model";
 
 export class BookingModel {
-
   /**
    * User who booked medicines.
    */

@@ -1,7 +1,6 @@
-import { PeopleStatisticsModel } from './people-statistics-model';
+import { PeopleStatisticsModel } from "./people-statistics-model";
 
 export class UserStatisticsModel extends PeopleStatisticsModel {
-
   /**
    * How many times user cancelled bookings.
    */
@@ -25,7 +24,7 @@ export class UserStatisticsModel extends PeopleStatisticsModel {
     super(
       new PeopleStatisticsModel({
         email: data.email,
-        purchasesAmount: data.purchasesAmount
+        purchasesAmount: data.purchasesAmount,
       })
     );
     this.cancellationsAmount = data.cancellationsAmount;

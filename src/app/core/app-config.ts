@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { Injectable } from "@angular/core";
+import { environment } from "src/environments/environment";
 
 /**
  * Application configurations.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AppConfig {
-
   /**
    * Web-API key of my FireBase Db.
    */
@@ -17,6 +16,5 @@ export class AppConfig {
   /**
    * Firebase url related to the data.
    */
-  public readonly FIREBASE_DATA_URL = environment.firebase.databaseURL + '/';
-
+  public readonly FIREBASE_DATA_URL = environment.firebase.databaseURL + "/";
 }

@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { AuthenticationService } from '../authentication/authentication.service';
-import { MedicineModel } from '../models/medicines/medicine-model';
-import { BookingsService } from './bookings.service';
+import { Injectable } from "@angular/core";
+import { AngularFireDatabase } from "angularfire2/database";
+import { BehaviorSubject, Observable } from "rxjs";
+import { AuthenticationService } from "../authentication/authentication.service";
+import { MedicineModel } from "../models/medicines/medicine-model";
+import { BookingsService } from "./bookings.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ShoppingCartService {
-
   /**
    * with medicines saved by user.
    */
@@ -44,11 +43,11 @@ export class ShoppingCartService {
     //     }),
     //     tap(console.log)
     //   );
-    const currentCart = localStorage.getItem('cart');
+    const currentCart = localStorage.getItem("cart");
     if (currentCart) {
-      this.currentCart$.next(JSON.parse(localStorage.getItem('cart')));
+      this.currentCart$.next(JSON.parse(localStorage.getItem("cart")));
     } else {
-      localStorage.setItem('cart', JSON.stringify([]));
+      localStorage.setItem("cart", JSON.stringify([]));
     }
   }
 
@@ -92,14 +91,16 @@ export class ShoppingCartService {
    */
   private plusItem(medicine: MedicineModel): void {
     const currentCart = this.currentCart$.getValue();
-    const existingObjIndex = currentCart.findIndex(x => x.name === medicine.name);
+    const existingObjIndex = currentCart.findIndex(
+      x => x.name === medicine.name
+    );
     if (existingObjIndex === -1) {
       currentCart.push(medicine);
-      localStorage.setItem('cart', JSON.stringify(currentCart));
+      localStorage.setItem("cart", JSON.stringify(currentCart));
       this.currentCart$.next(currentCart);
     } else {
       currentCart[existingObjIndex].amount++;
-      localStorage.setItem('cart', JSON.stringify(currentCart));
+      localStorage.setItem("cart", JSON.stringify(currentCart));
       this.currentCart$.next(currentCart);
     }
   }
@@ -112,12 +113,12 @@ export class ShoppingCartService {
     // this.database.list('/cart/users').push(obj);
     const copiedMedicine: MedicineModel = Object.assign({}, medicine);
     copiedMedicine.amount = 1;
-    const currentCart = localStorage.getItem('cart');
+    const currentCart = localStorage.getItem("cart");
     if (currentCart) {
       this.plusItem(copiedMedicine);
     } else {
       const newCart = [copiedMedicine];
-      localStorage.setItem('cart', JSON.stringify(newCart));
+      localStorage.setItem("cart", JSON.stringify(newCart));
       this.currentCart$.next(newCart);
     }
   }
@@ -130,17 +131,19 @@ export class ShoppingCartService {
     // this.database.list('/cart/users');
     const currentCart = this.currentCart$.getValue();
     if (currentCart) {
-      const existingObjIndex = currentCart.findIndex(x => x.name === medicine.name);
+      const existingObjIndex = currentCart.findIndex(
+        x => x.name === medicine.name
+      );
       if (existingObjIndex === -1) {
         return;
       }
       if (currentCart[existingObjIndex].amount === 1) {
         currentCart.splice(existingObjIndex, 1);
-        localStorage.setItem('cart', JSON.stringify(currentCart));
+        localStorage.setItem("cart", JSON.stringify(currentCart));
         this.currentCart$.next(currentCart);
       } else {
         currentCart[existingObjIndex].amount--;
-        localStorage.setItem('cart', JSON.stringify(currentCart));
+        localStorage.setItem("cart", JSON.stringify(currentCart));
         this.currentCart$.next(currentCart);
       }
     }
@@ -156,7 +159,7 @@ export class ShoppingCartService {
     for (const index of medicines.keys()) {
       newCart.splice(index, 1); // will be empty after the last iteration.
     }
-    localStorage.setItem('cart', JSON.stringify([]));
+    localStorage.setItem("cart", JSON.stringify([]));
     this.currentCart$.next([]);
   }
 
@@ -167,7 +170,9 @@ export class ShoppingCartService {
   isEnough(medicine: MedicineModel): boolean {
     const currentCart = this.currentCart$.getValue();
     if (currentCart) {
-      const currentBookedElement = currentCart.find(x => x.name === medicine.name);
+      const currentBookedElement = currentCart.find(
+        x => x.name === medicine.name
+      );
       if (currentBookedElement) {
         if (medicine.amount === currentBookedElement.amount) {
           return false;
@@ -195,5 +200,4 @@ export class ShoppingCartService {
   getCurrentCart(): Observable<MedicineModel[]> {
     return this.currentCart$.asObservable();
   }
-
 }

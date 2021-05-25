@@ -1,7 +1,23 @@
-import { NgModule } from '@angular/core';
-import { MatButtonModule, MatDialogModule, MatDividerModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule, MatProgressSpinnerModule, MatSelectModule, MatSidenavModule, MatSortModule, MatTableModule, MatToolbarModule, MatTooltipModule } from '@angular/material';
-
-
+import { NgModule } from "@angular/core";
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSortModule,
+  MatTableModule,
+  MatToolbarModule,
+  MatTooltipModule,
+} from "@angular/material";
 
 @NgModule({
   exports: [
@@ -21,7 +37,7 @@ import { MatButtonModule, MatDialogModule, MatDividerModule, MatExpansionModule,
     MatMenuModule,
     MatSelectModule,
     MatDialogModule,
-    MatTooltipModule
-  ]
+    MatTooltipModule,
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}

@@ -2,7 +2,6 @@
  * User token model for maintaining access and secure tokens.
  */
 export class UserTokensModel {
-
   /**
    * user token from firebase response on sign-in/sign-up.
    */
@@ -18,7 +17,7 @@ export class UserTokensModel {
    * @param data - object, not necessarily containing all UserTokensModel fields.
    */
   constructor(data: Partial<UserTokensModel>) {
-      this.idToken = data.idToken;
-      this.secureToken = data.secureToken;
+    this.idToken = data.idToken;
+    this.secureToken = data.secureToken;
   }
 }

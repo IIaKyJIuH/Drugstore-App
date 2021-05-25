@@ -2,7 +2,6 @@
  * For getting archive data from db.
  */
 export interface ArchiveDto {
-
   /**
    * Format - YYYY-MM-DD HH:MM
    */
@@ -32,5 +31,4 @@ export interface ArchiveDto {
    * Unique key for getting record from db.
    */
   key?: string;
-
 }

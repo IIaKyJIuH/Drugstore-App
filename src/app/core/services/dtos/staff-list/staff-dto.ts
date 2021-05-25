@@ -2,7 +2,6 @@
  * Staff info from db.
  */
 export interface StaffDto {
-
   /**
    * Staff email.
    */
@@ -12,5 +11,4 @@ export interface StaffDto {
    * Unique key for getting record from db.
    */
   key?: string;
-
 }

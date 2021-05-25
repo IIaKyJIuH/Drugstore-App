@@ -1,18 +1,22 @@
-import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { take } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
-import { CredentialsModel } from 'src/app/core/services/models/authentication/credentials-model';
-import { NotificationService } from 'src/app/core/services/notification/notification.service';
-import { PasswordValidator } from 'src/app/core/services/registration/password-validator';
+import { Component } from "@angular/core";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { take } from "rxjs/operators";
+import { AuthenticationService } from "src/app/core/services/authentication/authentication.service";
+import { CredentialsModel } from "src/app/core/services/models/authentication/credentials-model";
+import { NotificationService } from "src/app/core/services/notification/notification.service";
+import { PasswordValidator } from "src/app/core/services/registration/password-validator";
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css']
+  selector: "app-user-profile",
+  templateUrl: "./user-profile.component.html",
+  styleUrls: ["./user-profile.component.css"],
 })
 export class UserProfileComponent {
-
   /**
    * Form for email changing
    */
@@ -40,17 +44,25 @@ export class UserProfileComponent {
     private notifications: NotificationService
   ) {
     this.emailChangeForm = this.formBuilder.group({
-      email: ['', Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[.][a-zA-Z0-9-.]+$') ]
+      email: [
+        "",
+        Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[.][a-zA-Z0-9-.]+$"),
+      ],
     });
-    this.passwordChangeForm = this.formBuilder.group({
-      password: ['', Validators.compose([
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(12),
-      ])],
-      confirmPassword: ['', Validators.required],
-    },
-    { validator: PasswordValidator.areEqual });
+    this.passwordChangeForm = this.formBuilder.group(
+      {
+        password: [
+          "",
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(12),
+          ]),
+        ],
+        confirmPassword: ["", Validators.required],
+      },
+      { validator: PasswordValidator.areEqual }
+    );
   }
 
   /**
@@ -60,17 +72,26 @@ export class UserProfileComponent {
   onEmailChangeSubmit(emailFormValues: Partial<CredentialsModel>): void {
     const newEmail = emailFormValues.email;
     if (newEmail === this.currentUserEmail) {
-      this.notifications.showError('Actually, there is nothing to change', 'Logic error');
+      this.notifications.showError(
+        "Actually, there is nothing to change",
+        "Logic error"
+      );
       return;
     }
-    this.authService.changeUserEmail(emailFormValues.email).pipe(take(1)).subscribe(
-      () => {
-        this.notifications.showSuccess('Your email was successfully changed', 'Success');
-      },
-      (err: Error) => {
-        this.notifications.showError('Something went wrong', err.message);
-      }
-    );
+    this.authService
+      .changeUserEmail(emailFormValues.email)
+      .pipe(take(1))
+      .subscribe(
+        () => {
+          this.notifications.showSuccess(
+            "Your email was successfully changed",
+            "Success"
+          );
+        },
+        (err: Error) => {
+          this.notifications.showError("Something went wrong", err.message);
+        }
+      );
   }
 
   /**
@@ -79,17 +100,23 @@ export class UserProfileComponent {
    */
   onPasswordChangeSubmit(passwordFormValues: Partial<CredentialsModel>): void {
     const newPassword = passwordFormValues.password;
-    this.authService.changeUserPassword(newPassword).pipe(take(1)).subscribe(
-      () => {
-        this.notifications.showSuccess('Your password was successfully changed', 'Success');
-      },
-      (err: Error) => {
-        this.notifications.showError('Something went wrong', err.message);
-      },
-      () => {
-        this.passwordChangeForm.reset();
-      }
-    )
+    this.authService
+      .changeUserPassword(newPassword)
+      .pipe(take(1))
+      .subscribe(
+        () => {
+          this.notifications.showSuccess(
+            "Your password was successfully changed",
+            "Success"
+          );
+        },
+        (err: Error) => {
+          this.notifications.showError("Something went wrong", err.message);
+        },
+        () => {
+          this.passwordChangeForm.reset();
+        }
+      );
   }
 
   /**
@@ -104,34 +131,36 @@ export class UserProfileComponent {
    * @param password - to be checked.
    */
   checkIfItIsCurrentPassword(password: string): void {
-    this.authService.isCurrentPassword(password).pipe(
-      take(1)
-    ).subscribe(
-      () => {
-        this.isCurrentPasswordRight = true;
-      },
-      (err) => {
-        this.notifications.showError('Ooops', 'Wrong password');
-        this.isCurrentPasswordRight = false;
-      });
+    this.authService
+      .isCurrentPassword(password)
+      .pipe(take(1))
+      .subscribe(
+        () => {
+          this.isCurrentPasswordRight = true;
+        },
+        err => {
+          this.notifications.showError("Ooops", "Wrong password");
+          this.isCurrentPasswordRight = false;
+        }
+      );
   }
 
   /**
    * For password confirmation.
    */
   onPasswordInput(): void {
-    if (this.passwordChangeForm.hasError('nomatch')) {
-      this.passwordControls.confirmPassword.setErrors([{'nomatch': true}]);
-    }
-    else {
+    if (this.passwordChangeForm.hasError("nomatch")) {
+      this.passwordControls.confirmPassword.setErrors([{ nomatch: true }]);
+    } else {
       this.passwordControls.confirmPassword.setErrors(null);
     }
-}
+  }
 
   /**
    * All password controls.
    * @returns FormGroup.controls.
    */
-  get passwordControls(): { [key: string]: AbstractControl; } { return this.passwordChangeForm.controls; }
-
+  get passwordControls(): { [key: string]: AbstractControl } {
+    return this.passwordChangeForm.controls;
+  }
 }

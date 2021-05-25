@@ -1,18 +1,15 @@
-import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { Injectable } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class NotificationService {
-
   /**
    * .ctor
    * @param toaster - out module, that is used as toasting service.
    */
-  constructor(
-    private toaster: ToastrService
-  ) { }
+  constructor(private toaster: ToastrService) {}
 
   /**
    * With green background.
@@ -20,7 +17,7 @@ export class NotificationService {
    * @param title - will be displayed in bold at the top.
    */
   showSuccess(message, title): void {
-      this.toaster.success(message, title);
+    this.toaster.success(message, title);
   }
 
   /**

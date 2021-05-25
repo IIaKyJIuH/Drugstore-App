@@ -1,21 +1,24 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
-import { NgxPermissionsModule } from 'ngx-permissions';
-import { MaterialModule } from '../material.module';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { HeaderComponent } from './navigation/header/header.component';
-import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
-
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterModule } from "@angular/router";
+import { NgxPermissionsModule } from "ngx-permissions";
+import { MaterialModule } from "../material.module";
+import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
+import { HeaderComponent } from "./navigation/header/header.component";
+import { SidenavListComponent } from "./navigation/sidenav-list/sidenav-list.component";
 
 /**
  * @inheritdoc
  */
 @NgModule({
-  declarations: [SidenavListComponent, HeaderComponent, ConfirmationDialogComponent],
+  declarations: [
+    SidenavListComponent,
+    HeaderComponent,
+    ConfirmationDialogComponent,
+  ],
   imports: [
     CommonModule,
     MaterialModule,
@@ -34,6 +37,6 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     SidenavListComponent,
     HeaderComponent,
   ],
-  entryComponents: [ ConfirmationDialogComponent ]
+  entryComponents: [ConfirmationDialogComponent],
 })
-export class SharedModule { }
+export class SharedModule {}

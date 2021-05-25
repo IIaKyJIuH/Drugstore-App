@@ -1,5 +1,4 @@
 export class MedicineStatisticsModel {
-
   /**
    * Medicine official name;
    */
@@ -24,5 +23,4 @@ export class MedicineStatisticsModel {
     this.purchasesAmount = data.purchasesAmount;
     this.key = data.key;
   }
-
 }

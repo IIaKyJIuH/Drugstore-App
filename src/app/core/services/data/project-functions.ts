@@ -1,6 +1,5 @@
 // For mapping objects from firebase response.
 export class ProjectFunctions {
-
   /**
    * Concatenates key fields from db to each item.
    * @param object - object to be converted.
@@ -9,10 +8,12 @@ export class ProjectFunctions {
     const arr = [];
     for (const key of Object.keys(object)) {
       const current = object[key];
-      if (key !== 'default') {
-        arr.push(Object.assign(current, {
-          key
-        }));
+      if (key !== "default") {
+        arr.push(
+          Object.assign(current, {
+            key,
+          })
+        );
       }
     }
     return arr;
@@ -28,12 +29,13 @@ export class ProjectFunctions {
     for (const key of Object.keys(object)) {
       const current = object[key]; // TODO: type!
       if (current.email === email) {
-        arr.push(Object.assign(current, {
-          key
-        }));
+        arr.push(
+          Object.assign(current, {
+            key,
+          })
+        );
       }
     }
     return arr;
   }
-
 }

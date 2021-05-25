@@ -1,5 +1,4 @@
 export class ArchiveModel {
-
   /**
    * Format - YYYY-MM-DD HH:MM
    */

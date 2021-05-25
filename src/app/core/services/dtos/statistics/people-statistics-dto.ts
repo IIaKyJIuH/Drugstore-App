@@ -1,5 +1,4 @@
 export interface PeopleStatisticsDto {
-
   /**
    * Email corresponding to model owner.
    */
@@ -14,5 +13,4 @@ export interface PeopleStatisticsDto {
    * Unique key for getting record from db.
    */
   key?: string;
-
 }
